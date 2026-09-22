@@ -28,10 +28,12 @@ export const copy = {
     },
     bio: {
       title: 'Bio',
-      p1: 'Soy Andrés Arbit, director creativo y AI artist. Hago producción audiovisual y campañas con inteligencia artificial: concepto, casting, locaciones, cámara, música y edición, pensados como un solo sistema.',
-      p2: 'Me importa que las imágenes tengan alma. Que se sientan filmadas, vividas, reales. La IA me abre caminos que antes estaban cerrados; lo que decide cuál tomar sigue siendo la idea.',
+      p1: 'Soy Andrés Arbit, director creativo y productor audiovisual. Hace más de veinte años que dirijo, produzco y edito comerciales, videoclips y contenido de marca. Entre 2014 y 2019 fui director y socio de Neto Films, con campañas para Argentina, Latinoamérica y el mercado latino de Estados Unidos.',
+      p2: 'Ese oficio es el que aplico hoy a la inteligencia artificial: concepto, casting, locaciones, cámara, música y edición, pensados como un solo sistema. Trabajo escuchando y asesorando, con respeto por el camino que cada marca quiere construir, y con el ojo puesto en el control de calidad de cada pieza.',
       servicesTitle: 'Qué hago',
       services: ['Campañas y conceptos de marca', 'Films, spots y trailers', 'Contenido para redes', 'Personajes e influencers virtuales', 'Lookbooks y e-commerce'],
+      brandsTitle: 'Marcas con las que trabajé',
+      brands: ['DirecTV', 'Fox', 'Danone', 'Hellmann’s', 'Dog Chow', 'Samsung', 'Arcor', 'Nikon'],
       photoReal: 'Real',
       photoAi: 'IA',
       photoAltReal: 'Retrato de Andrés Arbit, foto real',
@@ -92,10 +94,12 @@ export const copy = {
     },
     bio: {
       title: 'Bio',
-      p1: 'I’m Andrés Arbit, a creative director and AI artist. I make film and campaigns with artificial intelligence: concept, casting, locations, camera, music and edit, designed as a single system.',
-      p2: 'I care about images with soul. Images that feel shot, lived in, real. AI opens paths that used to be closed; the idea is still what decides which one to take.',
+      p1: 'I’m Andrés Arbit, a creative director and film producer. For more than twenty years I have directed, produced and edited commercials, music videos and branded content. From 2014 to 2019 I was director and partner at Neto Films, running campaigns for Argentina, Latin America and the US Latino market.',
+      p2: 'That craft is what I now bring to artificial intelligence: concept, casting, locations, camera, music and edit, designed as a single system. I work by listening and advising, with respect for the path each brand wants to build, and with an eye on the quality control of every piece.',
       servicesTitle: 'What I do',
       services: ['Campaigns and brand concepts', 'Films, spots and trailers', 'Social content', 'Virtual characters and influencers', 'Lookbooks and e-commerce'],
+      brandsTitle: 'Brands I have worked with',
+      brands: ['DirecTV', 'Fox', 'Danone', 'Hellmann’s', 'Dog Chow', 'Samsung', 'Arcor', 'Nikon'],
       photoReal: 'Real',
       photoAi: 'AI',
       photoAltReal: 'Portrait of Andrés Arbit, real photo',
@@ -132,8 +136,8 @@ export const copy = {
 
 export const contact = {
   email: 'andresarbit@gmail.com',
-  whatsappLabel: '+54 9 11 5112-1250',
-  whatsappUrl: 'https://wa.me/5491151121250',
+  whatsappLabel: '+54 9 11 6112-1250',
+  whatsappUrl: 'https://wa.me/5491161121250',
   instagramLabel: '@andresarbit',
   instagramUrl: 'https://www.instagram.com/andresarbit/',
 };

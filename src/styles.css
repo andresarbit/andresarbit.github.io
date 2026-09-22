@@ -395,7 +395,7 @@ ul, ol { padding: 0; list-style: none; }
   background: linear-gradient(var(--lacquer), var(--warm) 24vh);
   padding: 16vh var(--gutter) 18vh;
   display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(14px, 2vw, 32px);
-  align-items: end;
+  align-items: start;
 }
 .bio__photo { grid-column: 1 / span 5; }
 .bio__frame { position: relative; aspect-ratio: 1 / 1; overflow: hidden; background: var(--raise); }
@@ -409,6 +409,10 @@ ul, ol { padding: 0; list-style: none; }
 .bio__p { max-width: 40ch; font-size: clamp(17px, 1.3vw, 22px); line-height: 1.5; color: var(--paper-2); text-wrap: pretty; }
 .bio__p--lead { font-size: clamp(20px, 1.75vw, 30px); line-height: 1.32; color: var(--paper); font-weight: 450; margin-bottom: 2.6vh; }
 .bio__sub { margin-top: 5.5vh; font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--mute); }
+.bio__brands {
+  margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px 22px;
+  font-size: clamp(15px, 1vw, 17px); color: var(--paper-2);
+}
 .bio__services { margin-top: 12px; display: grid; grid-template-columns: repeat(2, minmax(0, max-content)); column-gap: 40px; row-gap: 6px; font-size: clamp(16px, 1.1vw, 19px); }
 @media (max-width: 1099px) {
   .bio__photo { grid-column: 1 / span 6; }

@@ -53,6 +53,7 @@ function renderText() {
     .join('');
 
   $('#services').innerHTML = t('bio.services').map((s) => `<li>${s}</li>`).join('');
+  $('#brands').innerHTML = t('bio.brands').map((s) => `<li>${s}</li>`).join('');
 
   $('.bio__img').alt = t('bio.photoAltAi');
 
