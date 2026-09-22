@@ -296,15 +296,15 @@ ul, ol { padding: 0; list-style: none; }
   font-size: clamp(76px, 15vw, 280px); line-height: 0.8; letter-spacing: -0.01em;
 }
 .work__intro {
-  margin-top: 3.4vh; max-width: 46ch;
+  margin-top: 3.4vh; max-width: 72ch;
   font-size: clamp(17px, 1.25vw, 21px); line-height: 1.45; color: var(--paper);
-  text-wrap: balance;
+  white-space: pre-line;   /* breaks only where the copy does */
 }
-.grid { margin-top: 10vh; display: grid; gap: clamp(60px, 9vh, 120px); }
+.grid { margin-top: 8vh; display: grid; gap: clamp(44px, 7vh, 84px); }
 .grid__row { display: block; }
 .grid__inner {
   display: flex; align-items: flex-start;
-  gap: clamp(14px, 1.6vw, 28px);
+  gap: clamp(12px, 1.4vw, 24px);
 }
 /* width follows the piece's own ratio, so heights match across the row */
 .tile { flex: var(--aspect, 0.8) 1 0; min-width: 0; }
@@ -326,14 +326,14 @@ ul, ol { padding: 0; list-style: none; }
 .tile__slides img { opacity: 0; transition: opacity 900ms ease, transform 1100ms var(--ease-out); }
 .tile__slides img.is-on { opacity: 1; }
 
-.tile__cap { padding-top: 18px; display: grid; gap: 5px; }
+.tile__cap { padding-top: 14px; display: grid; gap: 4px; }
 .tile__title {
   font-family: var(--font); font-weight: 800; font-stretch: 70%; text-transform: uppercase;
-  font-size: clamp(20px, 1.75vw, 30px); line-height: 0.95; letter-spacing: -0.005em;
+  font-size: clamp(16px, 1.35vw, 22px); line-height: 0.95; letter-spacing: -0.005em;
   transition: color 250ms ease;
   text-wrap: balance;
 }
-.tile__type { font-size: 12.5px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--mute); }
+.tile__type { font-size: 11.5px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--mute); }
 .tile__draft { font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--red); }
 
 @media (hover: hover) and (pointer: fine) {

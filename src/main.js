@@ -107,20 +107,13 @@ function renderGrid() {
   });
 
   const rows = [];
-  source.filter(Boolean).forEach((row) => {
-    if (!phone) return rows.push(row);
-    let pair = [];
-    row.forEach((p) => {
-      const [w, h] = p.ratio.split('/').map(Number);
-      if (w / h >= 1.4) {
-        if (pair.length) { rows.push(pair); pair = []; }
-        return rows.push([p]);
-      }
-      pair.push(p);
-      if (pair.length === 2) { rows.push(pair); pair = []; }
-    });
-    if (pair.length) rows.push(pair);
-  });
+  if (!phone) {
+    source.filter(Boolean).forEach((row) => rows.push(row));
+  } else {
+    // phones pair the pieces in order, across the desktop rows, so none is left alone
+    const all = source.filter(Boolean).flat();
+    for (let i = 0; i < all.length; i += 2) rows.push(all.slice(i, i + 2));
+  }
 
   $('#grid').innerHTML = rows
     .map((row) => {

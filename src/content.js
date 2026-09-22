@@ -16,7 +16,7 @@ export const copy = {
     },
     work: {
       title: 'Trabajo',
-      intro: 'Campañas, films, series e imagen fija. Abrí cualquier proyecto para verlo completo.',
+      intro: 'Campañas, films, series e imagen fija.\nAbrí cualquier proyecto para verlo completo.',
     },
     approach: {
       title: 'Enfoque',
@@ -30,9 +30,9 @@ export const copy = {
     bio: {
       title: 'Bio',
       p1: 'Soy Andrés Arbit, director creativo y productor audiovisual. Hace más de veinte años que dirijo, produzco y edito comerciales, videoclips y contenido de marca. Entre 2014 y 2019 fui director y socio de Neto Films, con campañas para Argentina, Latinoamérica y el mercado latino de Estados Unidos.',
-      p2: 'Ese oficio es el que aplico hoy a la inteligencia artificial: concepto, casting, locaciones, cámara, música y edición, pensados como un solo sistema. Trabajo escuchando y asesorando, con respeto por el camino que cada marca quiere construir, y con el ojo puesto en el control de calidad de cada pieza.',
+      p2: 'Ese oficio es el que aplico hoy a la inteligencia artificial: concepto, casting, locaciones, cámara, música y edición, pensados como un solo sistema.',
       servicesTitle: 'Qué hago',
-      services: ['Campañas y conceptos de marca', 'Films, spots y trailers', 'Contenido para redes', 'Personajes e influencers virtuales', 'E-commerce y lookbooks'],
+      services: ['Films, spots y trailers', 'Contenido para redes', 'Personajes e influencers virtuales', 'E-commerce y lookbooks'],
       brandsTitle: 'Marcas con las que trabajé',
       brands: ['DirecTV', 'Fox', 'Danone', 'Hellmann’s', 'Dog Chow', 'Samsung', 'Arcor', 'Nikon'],
       photoAltAi: 'Retrato de Andrés Arbit generado con IA',
@@ -79,7 +79,7 @@ export const copy = {
     },
     work: {
       title: 'Work',
-      intro: 'Campaigns, films, series and stills. Open any project to see it in full.',
+      intro: 'Campaigns, films, series and stills.\nOpen any project to see it in full.',
     },
     approach: {
       title: 'Approach',
@@ -93,9 +93,9 @@ export const copy = {
     bio: {
       title: 'Bio',
       p1: 'I’m Andrés Arbit, a creative director and film producer. For more than twenty years I have directed, produced and edited commercials, music videos and branded content. From 2014 to 2019 I was director and partner at Neto Films, running campaigns for Argentina, Latin America and the US Latino market.',
-      p2: 'That craft is what I now bring to artificial intelligence: concept, casting, locations, camera, music and edit, designed as a single system. I work by listening and advising, with respect for the path each brand wants to build, and with an eye on the quality control of every piece.',
+      p2: 'That craft is what I now bring to artificial intelligence: concept, casting, locations, camera, music and edit, designed as a single system.',
       servicesTitle: 'What I do',
-      services: ['Campaigns and brand concepts', 'Films, spots and trailers', 'Social content', 'Virtual characters and influencers', 'E-commerce and lookbooks'],
+      services: ['Films, spots and trailers', 'Social content', 'Virtual characters and influencers', 'E-commerce and lookbooks'],
       brandsTitle: 'Brands I have worked with',
       brands: ['DirecTV', 'Fox', 'Danone', 'Hellmann’s', 'Dog Chow', 'Samsung', 'Arcor', 'Nikon'],
       photoAltAi: 'Portrait of Andrés Arbit generated with AI',
@@ -175,7 +175,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'manifiesto', video: '720 / 1290', row: 2, ratio: '3 / 4', kind: 'video', year: 2026,
+    slug: 'manifiesto', video: '720 / 1290', row: 1, ratio: '3 / 4', kind: 'video', year: 2026,
     title: 'MANIFIESTO',
     type: { es: 'Spot spec · Telecomunicaciones', en: 'Spec spot · Telecom' },
     text: {
@@ -185,7 +185,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'labor-camperas', row: 2, ratio: '4 / 5', kind: 'stills', year: 2026, stills: 14,
+    slug: 'labor-camperas', row: 1, ratio: '4 / 5', kind: 'stills', year: 2026, stills: 14,
     title: 'LABOR',
     type: { es: 'Campaña spec · Indumentaria de trabajo', en: 'Spec campaign · Workwear' },
     text: {
@@ -195,7 +195,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'total-normalidad', video: '720 / 1290', row: 3, ratio: '4 / 5', kind: 'video', year: 2026,
+    slug: 'total-normalidad', video: '720 / 1290', row: 2, ratio: '4 / 5', kind: 'video', year: 2026,
     title: 'TOTAL NORMALIDAD',
     type: { es: 'Spot spec · Café', en: 'Spec spot · Coffee' },
     text: {
@@ -205,7 +205,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'chori', video: '720 / 1280', row: 3, ratio: '1 / 1', kind: 'video', year: 2026,
+    slug: 'chori', video: '720 / 1280', row: 2, ratio: '1 / 1', kind: 'video', year: 2026,
     title: 'CHORI',
     type: { es: 'Pieza de marca', en: 'Brand piece' },
     text: {
@@ -215,7 +215,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'cauce', row: 3, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 14,
+    slug: 'cauce', row: 2, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 14,
     title: 'CAUCE',
     type: { es: 'Campaña spec · Moda', en: 'Spec campaign · Fashion' },
     text: {
@@ -225,7 +225,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'como-corre-elisa', video: '1280 / 718', row: 4, ratio: '1 / 1', kind: 'video', year: 2026,
+    slug: 'como-corre-elisa', video: '1280 / 718', row: 2, ratio: '1 / 1', kind: 'video', year: 2026,
     title: 'CÓMO CORRE ELISA',
     type: { es: 'Trailer', en: 'Trailer' },
     text: {
@@ -235,7 +235,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'portraits-of-waiting', row: 4, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 5,
+    slug: 'portraits-of-waiting', row: 3, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 5,
     title: 'PORTRAITS OF WAITING',
     type: { es: 'Serie personal', en: 'Personal series' },
     text: {
@@ -245,7 +245,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'neto', video: '720 / 1280', row: 5, ratio: '2 / 3', kind: 'video', year: 2026,
+    slug: 'neto', video: '720 / 1280', row: 3, ratio: '2 / 3', kind: 'video', year: 2026,
     title: 'NETO',
     type: { es: 'Producción visual · Gastronomía', en: 'Visual production · Food' },
     text: {
@@ -255,7 +255,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'anteojos-skull', row: 5, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 12,
+    slug: 'anteojos-skull', row: 3, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 12,
     title: 'SKULL',
     type: { es: 'Campaña spec · Anteojos', en: 'Spec campaign · Eyewear' },
     text: {
@@ -265,7 +265,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'yapa', video: '720 / 1290', row: 5, ratio: '4 / 5', kind: 'video', year: 2026,
+    slug: 'yapa', video: '720 / 1290', row: 3, ratio: '4 / 5', kind: 'video', year: 2026,
     title: 'YAPA',
     type: { es: 'Spot spec · Bebidas', en: 'Spec spot · Beverages' },
     text: {
@@ -275,7 +275,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'deriva', video: '720 / 1280', row: 6, ratio: '3 / 4', kind: 'video', year: 2026, stills: 12,
+    slug: 'deriva', video: '720 / 1280', row: 3, ratio: '3 / 4', kind: 'video', year: 2026, stills: 12,
     title: 'DERIVA',
     type: { es: 'Campaña spec · Mobiliario', en: 'Spec campaign · Furniture' },
     text: {
@@ -285,7 +285,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'colgate', video: '1280 / 714', row: 6, ratio: '4 / 5', kind: 'video', year: 2026,
+    slug: 'colgate', video: '1280 / 714', row: 4, ratio: '4 / 5', kind: 'video', year: 2026,
     title: 'COLGATE × MARTÍN FIERRO',
     client: 'Colgate',
     type: { es: 'Cliente · Evento', en: 'Client · Event' },
@@ -296,7 +296,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'delivery-thriller', video: '720 / 1290', row: 7, ratio: '2 / 3', kind: 'video', year: 2026,
+    slug: 'delivery-thriller', video: '720 / 1290', row: 4, ratio: '2 / 3', kind: 'video', year: 2026,
     title: 'DELIVERY THRILLER',
     type: { es: 'Test de consistencia', en: 'Consistency test' },
     text: {
@@ -306,7 +306,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'f1-test', video: '1280 / 714', row: 7, ratio: '1 / 1', kind: 'video', year: 2026,
+    slug: 'f1-test', video: '1280 / 714', row: 4, ratio: '1 / 1', kind: 'video', year: 2026,
     title: 'F1 TEST',
     type: { es: 'Prueba de mapeo · Automotriz', en: 'Mapping test · Automotive' },
     text: {
@@ -316,7 +316,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'ugc-crime-life', video: '720 / 1280', row: 7, ratio: '4 / 5', kind: 'video', year: 2026, stills: 6,
+    slug: 'ugc-crime-life', video: '720 / 1280', row: 4, ratio: '4 / 5', kind: 'video', year: 2026, stills: 6,
     title: 'CRIME LIFE',
     client: 'BoomBit',
     type: { es: 'UGC con personajes IA · Mobile game', en: 'AI creator UGC · Mobile game' },
