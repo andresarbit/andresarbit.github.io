@@ -146,7 +146,7 @@ const R = { es: 'Concepto, dirección de arte, generación con IA y edición', e
 
 export const projects = [
   {
-    slug: 'fuga', video: '720 / 1290', row: 1, ratio: '4 / 5', kind: 'video', year: 2026, stills: 14,
+    slug: 'fuga', video: '720 / 1290', row: 1, ratio: '2 / 3', pos: '50% 88%', kind: 'video', year: 2026, stills: 14,
     title: 'FUGA',
     type: { es: 'Campaña spec · Moda', en: 'Spec campaign · Fashion' },
     text: {
@@ -166,7 +166,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'calle', video: '720 / 1290', row: 1, ratio: '2 / 3', pos: '50% 55%', kind: 'video', year: 2026,
+    slug: 'calle', video: '720 / 1290', row: 1, ratio: '2 / 3', pos: '50% 50%', kind: 'video', year: 2026,
     title: 'CALLE',
     type: { es: 'Campaña spec · Calzado', en: 'Spec campaign · Footwear' },
     text: {
