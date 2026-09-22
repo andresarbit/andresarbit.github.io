@@ -1,4 +1,5 @@
 // All visible copy lives here (ES / EN). Edit freely; the layout adapts.
+// En los títulos de Enfoque, *lo que va entre asteriscos* cambia de ancho (juego tipográfico).
 
 export const copy = {
   es: {
@@ -11,7 +12,7 @@ export const copy = {
     },
     statement: {
       lines: ['La marca', 'no existe.', 'El sistema sí.'],
-      body: 'Construyo marcas que no existen, con campaña, casting, producto y mundo visual propios. Son la prueba de un método: el mismo sistema que después pongo a trabajar para marcas reales.',
+      body: 'Lo que importa acá no son las marcas: es el sistema que las produce. Una forma de construir imagen y video que se aplica a cualquier rubro. Las campañas ficticias son el laboratorio donde lo investigo, y a medida que el método entra en marcas reales, este portfolio se va llenando de ellas.',
     },
     work: {
       title: 'Trabajo',
@@ -20,10 +21,10 @@ export const copy = {
     approach: {
       title: 'Enfoque',
       items: [
-        { head: 'Primero, la idea', body: 'Cada proyecto empieza en la marca: qué es, qué dice, cómo se mueve. Las imágenes vienen después.' },
-        { head: 'Muchos caminos', body: 'Antes de elegir, abro varias direcciones. Climas, castings, encuadres y finales que en un rodaje se deciden una sola vez.' },
-        { head: 'Sin techo de producción', body: 'Una montaña a cinco mil metros, un subsuelo inundado, una ciudad después del fin. Imágenes que antes pedían estructuras a las que pocos llegan.' },
-        { head: 'Un solo sistema', body: 'Personaje, producto, luz y clima sostenidos pieza a pieza, para que la campaña se sienta una sola.' },
+        { head: 'Primero, *la idea*', body: 'Cada proyecto empieza en la marca: qué es, qué dice, cómo se mueve. Las imágenes vienen después.' },
+        { head: '*Muchos* caminos', body: 'Antes de elegir, abro varias direcciones. Climas, castings, encuadres y finales que en un rodaje se deciden una sola vez.' },
+        { head: 'Sin techo *de producción*', body: 'Una montaña a cinco mil metros, un subsuelo inundado, una ciudad después del fin. Imágenes que antes pedían estructuras a las que pocos llegan.' },
+        { head: 'Un solo *sistema*', body: 'Personaje, producto, luz y clima sostenidos pieza a pieza, para que la campaña se sienta una sola.' },
       ],
     },
     bio: {
@@ -38,7 +39,7 @@ export const copy = {
     },
     contact: {
       title: 'Hablemos.',
-      body: 'Si tenés una marca, una idea o una campaña que todavía no existe, escribime.',
+      body: 'Contame qué marca tenés entre manos. Te muestro cómo se vería.',
       email: 'Email',
       whatsapp: 'WhatsApp',
       instagram: 'Instagram',
@@ -74,7 +75,7 @@ export const copy = {
     },
     statement: {
       lines: ['The brand', 'doesn’t exist.', 'The system does.'],
-      body: 'I build brands that don’t exist, each with its own campaign, casting, product and visual world. They prove a method: the same system I then put to work for real brands.',
+      body: 'What matters here is not the brands: it is the system that produces them. A way of building image and video that applies to any category. The fictional campaigns are the lab where I research it, and as the method moves into real brands, this portfolio fills up with them.',
     },
     work: {
       title: 'Work',
@@ -83,10 +84,10 @@ export const copy = {
     approach: {
       title: 'Approach',
       items: [
-        { head: 'Idea first', body: 'Every project starts with the brand: what it is, what it says, how it moves. The images come after.' },
-        { head: 'Many paths', body: 'Before choosing, I open several directions. Moods, castings, framings and endings that a shoot would decide only once.' },
-        { head: 'No production ceiling', body: 'A mountain at five thousand meters, a flooded basement, a city after the end. Images that used to require structures few can reach.' },
-        { head: 'One system', body: 'Character, product, light and mood held shot after shot, so the campaign feels like one.' },
+        { head: '*Idea* first', body: 'Every project starts with the brand: what it is, what it says, how it moves. The images come after.' },
+        { head: '*Many* paths', body: 'Before choosing, I open several directions. Moods, castings, framings and endings that a shoot would decide only once.' },
+        { head: 'No production *ceiling*', body: 'A mountain at five thousand meters, a flooded basement, a city after the end. Images that used to require structures few can reach.' },
+        { head: '*One* system', body: 'Character, product, light and mood held shot after shot, so the campaign feels like one.' },
       ],
     },
     bio: {
@@ -101,7 +102,7 @@ export const copy = {
     },
     contact: {
       title: 'Let’s talk.',
-      body: 'If you have a brand, an idea or a campaign that doesn’t exist yet, write to me.',
+      body: 'Tell me what brand you have in your hands. I will show you how it could look.',
       email: 'Email',
       whatsapp: 'WhatsApp',
       instagram: 'Instagram',
@@ -137,13 +138,13 @@ export const contact = {
 };
 
 // draft: true -> visible solo en `npm run dev`, nunca se publica en el build
-// size: 'v' vertical tile (1/3 row), 'vs' small vertical (1/4 row), 'w' 16:9 film, full width
+// span: columnas de 12 que ocupa la pieza · ratio: proporción del recorte · offset: vh que baja para romper la fila
 // kind: 'video' | 'stills'   ·   media lives in /public/media/<slug>/
 const R = { es: 'Concepto, dirección de arte, generación con IA y edición', en: 'Concept, art direction, AI generation and edit' };
 
 export const projects = [
   {
-    slug: 'fuga', size: 'v', kind: 'video', year: 2026, stills: 14,
+    slug: 'fuga', span: 5, ratio: '4 / 5', kind: 'video', year: 2026, stills: 14,
     title: 'FUGA',
     type: { es: 'Campaña spec · Moda', en: 'Spec campaign · Fashion' },
     text: {
@@ -153,7 +154,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'calle', size: 'v', offset: 1, kind: 'video', year: 2026,
+    slug: 'calle', span: 3, ratio: '2 / 3', offset: 12, kind: 'video', year: 2026,
     title: 'CALLE',
     type: { es: 'Campaña spec · Calzado', en: 'Spec campaign · Footwear' },
     text: {
@@ -163,7 +164,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'total-normalidad', size: 'v', kind: 'video', year: 2026,
+    slug: 'total-normalidad', span: 4, ratio: '1 / 1', offset: 32, kind: 'video', year: 2026,
     title: 'TOTAL NORMALIDAD',
     type: { es: 'Spot spec · Café', en: 'Spec spot · Coffee' },
     text: {
@@ -173,7 +174,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'como-corre-elisa', size: 'w', kind: 'video', year: 2026,
+    slug: 'como-corre-elisa', span: 12, ratio: '16 / 9', kind: 'video', year: 2026,
     title: 'CÓMO CORRE ELISA',
     type: { es: 'Trailer', en: 'Trailer' },
     text: {
@@ -183,7 +184,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'orbita-club', size: 'v', kind: 'stills', year: 2026, stills: 11,
+    slug: 'orbita-club', span: 4, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 11,
     title: 'ÓRBITA CLUB',
     type: { es: 'Campaña spec · Sportswear', en: 'Spec campaign · Sportswear' },
     text: {
@@ -193,7 +194,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'neto', size: 'v', offset: 1, kind: 'video', year: 2026,
+    slug: 'neto', span: 3, ratio: '2 / 3', offset: 18, kind: 'video', year: 2026,
     title: 'NETO',
     type: { es: 'Producción visual · Gastronomía', en: 'Visual production · Food' },
     text: {
@@ -203,7 +204,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'labor-camperas', size: 'v', kind: 'stills', year: 2026, stills: 14,
+    slug: 'labor-camperas', span: 5, ratio: '4 / 5', offset: 6, kind: 'stills', year: 2026, stills: 14,
     title: 'LABOR',
     type: { es: 'Campaña spec · Indumentaria de trabajo', en: 'Spec campaign · Workwear' },
     text: {
@@ -213,7 +214,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'delivery-thriller', size: 'vs', kind: 'video', year: 2026,
+    slug: 'delivery-thriller', span: 3, ratio: '2 / 3', kind: 'video', year: 2026,
     title: 'DELIVERY THRILLER',
     type: { es: 'Test de consistencia', en: 'Consistency test' },
     text: {
@@ -223,7 +224,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'cauce', size: 'vs', offset: 1, kind: 'stills', year: 2026, stills: 14,
+    slug: 'cauce', span: 5, ratio: '1 / 1', offset: 14, kind: 'stills', year: 2026, stills: 14,
     title: 'CAUCE',
     type: { es: 'Campaña spec · Moda', en: 'Spec campaign · Fashion' },
     text: {
@@ -233,7 +234,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'deriva', size: 'vs', kind: 'video', year: 2026, stills: 12,
+    slug: 'deriva', span: 4, ratio: '3 / 4', offset: 30, kind: 'video', year: 2026, stills: 12,
     title: 'DERIVA',
     type: { es: 'Campaña spec · Mobiliario', en: 'Spec campaign · Furniture' },
     text: {
@@ -243,28 +244,18 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'manifiesto', size: 'vs', offset: 1, kind: 'video', year: 2026,
-    title: 'MANIFIESTO',
-    type: { es: 'Spot spec · Telecomunicaciones', en: 'Spec spot · Telecom' },
-    text: {
-      es: 'Paisajes contemplativos, pausas largas y una voz que parece decir algo importante. Una telefónica ficticia construida con el lenguaje publicitario que todos conocemos. Los manifiestos de marca no son magia: son un sistema narrativo.',
-      en: 'Contemplative landscapes, long pauses and a voice that seems to say something important. A fictional telecom built with the ad language we all know. Brand manifestos aren’t magic: they’re a narrative system.',
-    },
-    roles: R,
-  },
-  {
-    slug: 'colgate', size: 'w', kind: 'video', year: 2026,
+    slug: 'colgate', span: 12, ratio: '16 / 9', kind: 'video', year: 2026,
     title: 'COLGATE × MARTÍN FIERRO',
     client: 'Colgate',
     type: { es: 'Cliente · Evento', en: 'Client · Event' },
     text: {
-      es: 'La alfombra roja de los Martín Fierro contada desde el #VioletEffect.',
-      en: 'The Martín Fierro awards red carpet, told through the #VioletEffect.',
+      es: 'La alfombra roja de los Martín Fierro contada desde el #VioletEffect. Los personajes se acercan a quienes representan sin llegar a ser idénticos: el parecido alcanza, la copia no.',
+      en: 'The Martín Fierro awards red carpet, told through the #VioletEffect. The characters come close to the people they stand for without being identical: the resemblance is enough, the copy is not.',
     },
     roles: R,
   },
   {
-    slug: 'anteojos-skull', size: 'v', kind: 'stills', year: 2026, stills: 12,
+    slug: 'anteojos-skull', span: 5, ratio: '2 / 3', kind: 'stills', year: 2026, stills: 12,
     title: 'SKULL',
     type: { es: 'Campaña spec · Anteojos', en: 'Spec campaign · Eyewear' },
     text: {
@@ -274,7 +265,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'ugc-crime-life', size: 'v', offset: 1, kind: 'video', year: 2026, stills: 6,
+    slug: 'ugc-crime-life', span: 3, ratio: '4 / 5', offset: 20, kind: 'video', year: 2026, stills: 6,
     title: 'CRIME LIFE',
     client: 'BoomBit',
     type: { es: 'UGC con personajes IA · Mobile game', en: 'AI creator UGC · Mobile game' },
@@ -285,7 +276,7 @@ export const projects = [
     roles: { es: 'Personajes, dirección, generación con IA y edición', en: 'Characters, direction, AI generation and edit' },
   },
   {
-    slug: 'portraits-of-waiting', size: 'v', kind: 'stills', year: 2026, stills: 5,
+    slug: 'portraits-of-waiting', span: 4, ratio: '3 / 4', offset: 6, kind: 'stills', year: 2026, stills: 5,
     title: 'PORTRAITS OF WAITING',
     type: { es: 'Serie personal', en: 'Personal series' },
     text: {
@@ -295,7 +286,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'f1-test', size: 'w', kind: 'video', year: 2026,
+    slug: 'f1-test', span: 12, ratio: '16 / 9', kind: 'video', year: 2026,
     title: 'F1 TEST',
     type: { es: 'Prueba de mapeo · Automotriz', en: 'Mapping test · Automotive' },
     text: {
@@ -305,7 +296,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'yapa', size: 'v', kind: 'video', year: 2026,
+    slug: 'yapa', span: 4, ratio: '4 / 5', kind: 'video', year: 2026,
     title: 'YAPA',
     type: { es: 'Spot spec · Bebidas', en: 'Spec spot · Beverages' },
     text: {
@@ -315,12 +306,22 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'chori', size: 'v', offset: 1, kind: 'video', year: 2026,
+    slug: 'chori', span: 3, ratio: '1 / 1', offset: 24, kind: 'video', year: 2026,
     title: 'CHORI',
     type: { es: 'Pieza de marca', en: 'Brand piece' },
     text: {
       es: 'Niebla, río y un sweater con un choripán bordado.',
       en: 'Fog, a river and a sweater with an embroidered choripán.',
+    },
+    roles: R,
+  },
+  {
+    slug: 'manifiesto', span: 5, ratio: '3 / 4', offset: 8, kind: 'video', year: 2026,
+    title: 'MANIFIESTO',
+    type: { es: 'Spot spec · Telecomunicaciones', en: 'Spec spot · Telecom' },
+    text: {
+      es: 'Paisajes contemplativos, pausas largas y una voz que parece decir algo importante. Una telefónica ficticia construida con el lenguaje publicitario que todos conocemos. Los manifiestos de marca no son magia: son un sistema narrativo.',
+      en: 'Contemplative landscapes, long pauses and a voice that seems to say something important. A fictional telecom built with the ad language we all know. Brand manifestos aren’t magic: they’re a narrative system.',
     },
     roles: R,
   },

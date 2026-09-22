@@ -19,7 +19,7 @@
     <a class="skip" href="#trabajo" data-i18n="nav.work">Trabajo</a>
 
     <header class="nav" id="nav">
-      <a class="nav__mark" href="#top" aria-label="Andrés Arbit">Andrés Arbit</a>
+      <a class="nav__mark" href="#top" aria-label="Andrés Arbit, AI Artist">Andrés Arbit <span>- AI Artist</span></a>
       <nav class="nav__links" aria-label="Principal">
         <a href="#trabajo" data-i18n="nav.work">Trabajo</a>
         <a href="#enfoque" data-i18n="nav.approach">Enfoque</a>
@@ -47,11 +47,9 @@
       <!-- 1. Name made of the work -->
       <section class="hero" id="hero" aria-label="Andrés Arbit">
         <div class="hero__stage">
-          <div class="hero__reel" id="heroReel"></div>
-          <div class="hero__zoom" id="heroZoom" aria-hidden="true">
-            <div class="hero__mask"><div class="hero__letters" id="heroMask"></div></div>
-            <div class="hero__edge"><div class="hero__letters" id="heroEdge"></div></div>
-          </div>
+          <div class="hero__ghosts" id="heroGhosts" aria-hidden="true"></div>
+          <div class="hero__type" id="heroType" aria-hidden="true"></div>
+          <div class="hero__edge" id="heroEdge" aria-hidden="true"></div>
           <h1 class="sr-only">Andrés Arbit</h1>
           <p class="hero__role" data-i18n="hero.role">Director creativo / AI Artist</p>
           <p class="hero__line-small" data-i18n="hero.line">Producción audiovisual y campañas con IA</p>
@@ -83,18 +81,24 @@
       <!-- 5. Bio -->
       <section class="bio" id="bio" aria-labelledby="bioTitle">
         <figure class="bio__photo">
-          <div class="bio__frame">
-            <img class="bio__img" src="/media/andres/bio.webp" width="848" height="1264" alt="" loading="lazy" decoding="async" />
-          </div>
+          <img class="bio__img" src="/media/andres/bio.webp" width="1800" height="1800" alt="" loading="lazy" decoding="async" />
         </figure>
         <div class="bio__text">
           <h2 class="bio__title" id="bioTitle" data-i18n="bio.title">Bio</h2>
-          <p class="bio__p bio__p--lead" data-i18n="bio.p1"></p>
-          <p class="bio__p" data-i18n="bio.p2"></p>
-          <h3 class="bio__sub" data-i18n="bio.servicesTitle">Qué hago</h3>
-          <ul class="bio__services" id="services" role="list"></ul>
-          <h3 class="bio__sub" data-i18n="bio.brandsTitle">Marcas con las que trabajé</h3>
-          <ul class="bio__brands" id="brands" role="list"></ul>
+          <div class="bio__copy">
+            <p class="bio__p bio__p--lead" data-i18n="bio.p1"></p>
+            <p class="bio__p" data-i18n="bio.p2"></p>
+            <div class="bio__lists">
+              <div>
+                <h3 class="bio__sub" data-i18n="bio.servicesTitle">Qué hago</h3>
+                <ul class="bio__services" id="services" role="list"></ul>
+              </div>
+              <div>
+                <h3 class="bio__sub" data-i18n="bio.brandsTitle">Marcas con las que trabajé</h3>
+                <ul class="bio__brands" id="brands" role="list"></ul>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -46,10 +46,12 @@ function renderText() {
   // approach
   $('#approachList').innerHTML = t('approach.items')
     .map((it) => {
-      const words = it.head.split(' ');
-      // break long heads into balanced display lines
+      // a marked phrase travels as one token, so a line break never splits it
+      const words = it.head.match(/\*[^*]+\*|\S+/g) || [it.head];
+      // break long heads into balanced display lines, then widen the marked words
       const lines = words.length > 2 ? splitBalanced(words) : [it.head];
-      return `<li class="ap rv"><h3 class="ap__head">${lines.map((l) => `<span>${l}</span>`).join('')}</h3><p class="ap__body">${it.body}</p></li>`;
+      const type = (l) => l.replace(/\*([^*]+)\*/g, '<em class="ap__wide">$1</em>');
+      return `<li class="ap rv"><h3 class="ap__head">${lines.map((l) => `<span>${type(l)}</span>`).join('')}</h3><p class="ap__body">${it.body}</p></li>`;
     })
     .join('');
 
@@ -75,10 +77,11 @@ function renderText() {
 }
 
 function splitBalanced(words) {
+  const plain = (w) => w.replace(/\*/g, '');
   // two lines, as even as possible by character count
   let best = 1, bestDiff = Infinity;
   for (let i = 1; i < words.length; i++) {
-    const a = words.slice(0, i).join(' ').length, b = words.slice(i).join(' ').length;
+    const a = plain(words.slice(0, i).join(' ')).length, b = plain(words.slice(i).join(' ')).length;
     if (Math.abs(a - b) < bestDiff) { bestDiff = Math.abs(a - b); best = i; }
   }
   return [words.slice(0, best).join(' '), words.slice(best).join(' ')];
@@ -87,19 +90,38 @@ function splitBalanced(words) {
 /* ── Work grid ────────────────────────────── */
 function renderGrid() {
   $('#grid').innerHTML = visible
-    .map((p) => {
-      const cls = `tile tile--${p.size}${p.offset ? ' tile--offset' : ''}`;
+    .map((p, i) => {
       const poster = p.kind === 'stills' ? media(p.slug, 'stills/01.webp') : media(p.slug, 'poster.webp');
       const inner = p.kind === 'stills'
         ? `<div class="tile__slides" data-count="${p.stills}"><img src="${poster}" alt="" class="is-on" loading="lazy" decoding="async"></div>`
         : `<img src="${poster}" alt="" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="${media(p.slug, 'preview.mp4')}"></video>`;
-      return `<li class="${cls}" data-slug="${p.slug}">
+      const wide = p.span >= 12 ? ' tile--wide' : '';
+      return `<li class="tile${wide}" data-slug="${p.slug}" data-i="${i}"
+        style="--span:${p.span};--ratio:${p.ratio};--offset:${p.offset || 0}vh">
         <a class="tile__link" href="#/p/${p.slug}" aria-label="${p.title}">
           <div class="tile__media">${inner}</div>
-          <div class="tile__cap"><h3 class="tile__title">${p.title}</h3><p class="tile__type"></p>${p.draft ? '<p class="tile__draft">Borrador, no se publica</p>' : ''}</div>
+          <div class="tile__cap"><h3 class="tile__title">${p.title}</h3><p class="tile__type"></p></div>
         </a></li>`;
     })
     .join('');
+}
+
+/* Every tile drifts a little as the page moves: small pieces travel further */
+let tileParallax = [];
+function gridMotion() {
+  tileParallax.forEach((t) => { t.scrollTrigger && t.scrollTrigger.kill(); t.kill(); });
+  tileParallax = [];
+  if (reduceMotion || window.innerWidth < 768) return;
+  $$('.tile').forEach((tile) => {
+    const span = +getComputedStyle(tile).getPropertyValue('--span') || 4;
+    const drift = span >= 12 ? 14 : 46 - span * 4;
+    tileParallax.push(
+      gsap.fromTo(tile, { y: drift }, {
+        y: -drift, ease: 'none',
+        scrollTrigger: { trigger: tile, start: 'top bottom', end: 'bottom top', scrub: 0.7 },
+      })
+    );
+  });
 }
 
 function wireTiles() {
@@ -124,6 +146,12 @@ function wireTiles() {
     { threshold: 0.3 }
   );
   $$('.tile').forEach((el) => io.observe(el));
+
+  const reveal = new IntersectionObserver(
+    (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); reveal.unobserve(e.target); } }),
+    { threshold: 0.12, rootMargin: '0px 0px -6% 0px' }
+  );
+  $$('.tile').forEach((el) => reveal.observe(el));
 }
 
 function startSlides(s) {
@@ -150,49 +178,96 @@ function startSlides(s) {
 function stopSlides(s) { clearInterval(s._timer); s._timer = null; }
 
 /* ── Hero: the name made of the work ──────── */
-let stillTimer;
-function renderHeroStills() {
-  const reel = $('#heroReel');
-  reel.innerHTML = heroStills
-    .map((n, i) => `<img class="hero__still${i === 0 ? ' is-on' : ''}" src="${n}" alt=""
-      ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`)
+/* One photo at a time: dimmed across the frame, full strength inside the letters.
+   Two letter layers crossfade so the image dissolves without the type moving. */
+const photoSize = new Map();
+function loadPhoto(src) {
+  return new Promise((res) => {
+    if (photoSize.has(src)) return res(photoSize.get(src));
+    const img = new Image();
+    img.onload = () => { photoSize.set(src, { w: img.naturalWidth, h: img.naturalHeight }); res(photoSize.get(src)); };
+    img.onerror = () => { photoSize.set(src, { w: 1600, h: 2000 }); res(photoSize.get(src)); };
+    img.src = src;
+  });
+}
+
+function renderHero() {
+  $('#heroGhosts').innerHTML = heroStills
+    .slice(0, 2)
+    .map((src, i) => `<img class="hero__ghost${i === 0 ? ' is-on' : ''}" src="${src}" alt=""
+      ${i === 0 ? 'fetchpriority="high"' : ''} decoding="async">`)
     .join('');
-  clearInterval(stillTimer);
-  if (reduceMotion || heroStills.length < 2) return;
-  let i = 0;
-  stillTimer = setInterval(() => {
-    const imgs = $$('.hero__still', reel);
-    imgs[i].classList.remove('is-on');
-    i = (i + 1) % imgs.length;
-    imgs[i].classList.add('is-on');
-  }, 5200);
+  $('#heroType').innerHTML = '<div class="hero__letters is-on"></div><div class="hero__letters"></div>';
+  $('#heroEdge').innerHTML = '<div class="hero__letters"></div>';
+  heroStills.forEach(loadPhoto);
+}
+
+/* Paints one photo inside the letters of a layer, lined up with the ghost behind */
+async function paintLetters(layer, src) {
+  const stage = $('.hero__stage');
+  const { w: iw, h: ih } = await loadPhoto(src);
+  const W = stage.clientWidth, H = stage.clientHeight;
+  const cover = Math.max(W / iw, H / ih);
+  const cw = iw * cover, ch = ih * cover;
+  const gx = (W - cw) / 2, gy = (H - ch) / 2;
+  // offsetLeft/Top, never getBoundingClientRect: the layer may be mid-zoom and
+  // a scaled measurement would paint the photo outside the letters
+  $$('.hero__line', layer).forEach((line) => {
+    line.style.backgroundImage = `url("${src}")`;
+    line.style.backgroundSize = `${cw}px ${ch}px`;
+    line.style.backgroundPosition = `${gx - line.offsetLeft}px ${gy - line.offsetTop}px`;
+  });
+}
+
+let heroIndex = 0;
+let heroTimer;
+function heroRotate() {
+  clearInterval(heroTimer);
+  const layers = $$('#heroType .hero__letters');
+  const ghosts = $$('.hero__ghost');
+  paintLetters(layers[0], heroStills[0]);
+  if (reduceMotion || saveData || heroStills.length < 2) return;
+  heroTimer = setInterval(async () => {
+    const next = (heroIndex + 1) % heroStills.length;
+    const src = heroStills[next];
+    const showing = layers.findIndex((l) => l.classList.contains('is-on'));
+    const hidden = showing === 0 ? 1 : 0;
+    await paintLetters(layers[hidden], src);
+    ghosts[hidden].src = src;
+    layers[hidden].classList.add('is-on');
+    layers[showing].classList.remove('is-on');
+    ghosts[hidden].classList.add('is-on');
+    ghosts[showing].classList.remove('is-on');
+    heroIndex = next;
+  }, 5400);
 }
 
 let heroMode = '';
 function fitHero() {
   const stage = $('.hero__stage');
-  const mask = $('#heroMask');
-  const edge = $('#heroEdge');
+  const layers = [...$$('#heroType .hero__letters'), ...$$('#heroEdge .hero__letters')];
   // portrait phones stack the name in syllables so it can fill the screen
-  const mode = window.innerWidth < 768 && window.innerHeight > window.innerWidth * 1.1 ? 'stack' : 'wide';
+  const mode = window.innerWidth < 1024 && window.innerHeight > window.innerWidth * 1.05 ? 'stack' : 'wide';
   if (mode !== heroMode) {
-    const words = mode === 'stack' ? ['AN', 'DRÉS', 'AR', 'B|I|T'] : ['ANDRÉS', 'ARB|I|T'];
+    const words = mode === 'stack' ? ['AN', '|D|RÉS', 'AR', 'BIT'] : ['AN|D|RÉS', 'ARBIT'];
     const html = words
-      .map((w) => `<span class="hero__line">${w.replace('|I|', '<span class="hero__i">I</span>')}</span>`)
+      .map((w) => `<span class="hero__line">${w.replace('|D|', '<span class="hero__d">D</span>')}</span>`)
       .join('');
-    mask.innerHTML = html;
-    edge.innerHTML = html;
+    layers.forEach((l) => { l.innerHTML = html; });
     heroMode = mode;
   }
-  const lines = $$('.hero__line', mask);
+  const lines = $$('.hero__line', layers[0]);
   const target = stage.clientWidth - 2 * gutterPx();
   const maxSize = (stage.clientHeight * 0.74) / (lines.length * 0.84);
   justifyByWidth(lines, target, maxSize);
-  // the outline layer traces the same letters, so the name reads over any image
-  $$('.hero__line', edge).forEach((el, i) => {
-    el.style.fontSize = lines[i].style.fontSize;
-    el.style.fontStretch = lines[i].style.fontStretch;
+  layers.slice(1).forEach((layer) => {
+    $$('.hero__line', layer).forEach((el, i) => {
+      el.style.fontSize = lines[i].style.fontSize;
+      el.style.fontStretch = lines[i].style.fontStretch;
+    });
   });
+  const onLayer = $('#heroType .hero__letters.is-on') || layers[0];
+  paintLetters(onLayer, heroStills[heroIndex]);
   return mode;
 }
 
@@ -201,15 +276,19 @@ function heroMotion() {
   if (reduceMotion) return;
   heroTl && heroTl.scrollTrigger && heroTl.scrollTrigger.kill();
   heroTl && heroTl.kill();
-  const mask = $('#heroMask');
+  const type = $('#heroType');
   const edge = $('#heroEdge');
-  const layers = [mask, edge];
-  // centre of the I's stem, in the mask's own (untransformed) space
+  const layers = [type, edge];
+  // the bottom-right corner of the D: where the frame flies into the name
   const point = () => {
     gsap.set(layers, { clearProps: 'transform' });
-    const i = $('#heroMask .hero__i').getBoundingClientRect();
-    const m = mask.getBoundingClientRect();
-    return { x: i.left + i.width / 2 - m.left, y: i.top + i.height * 0.55 - m.top, w: m.width, h: m.height };
+    const d = $('#heroType .hero__d').getBoundingClientRect();
+    const box = type.getBoundingClientRect();
+    return {
+      x: d.right - d.width * 0.17 - box.left,
+      y: d.bottom - d.height * 0.2 - box.top,
+      w: box.width, h: box.height,
+    };
   };
   let pt = point();
   const origin = () => `${pt.x}px ${pt.y}px`;
@@ -219,21 +298,21 @@ function heroMotion() {
     scrollTrigger: {
       trigger: '#hero',
       start: 'top top',
-      end: () => '+=' + window.innerHeight * 0.8,
+      end: () => '+=' + window.innerHeight * 0.85,
       pin: '.hero__stage',
-      scrub: 0.6,
+      scrub: 0.5,
       invalidateOnRefresh: true,
       onRefreshInit: () => { pt = point(); gsap.set(layers, { transformOrigin: origin() }); },
     },
   });
   heroTl
     .fromTo('.hero__role, .hero__line-small', { opacity: 1, y: 0 }, { opacity: 0, y: -10, duration: 0.15, immediateRender: false }, 0)
-    .to(layers, { scale: 9, duration: 1, ease: 'power2.in' }, 0)
-    // carry the I to the centre of the frame while we fly into it
-    .to(layers, { x: () => pt.w / 2 - pt.x, y: () => pt.h / 2 - pt.y, duration: 0.7, ease: 'power1.inOut' }, 0)
-
-    .to(layers, { opacity: 0, duration: 0.22 }, 0.72)
-    .to('#heroReel', { scale: 1.12, duration: 1, ease: 'power2.in' }, 0);
+    .to(layers, { scale: 6.5, duration: 1, ease: 'power2.in' }, 0)
+    // carry that corner to the centre of the frame as the name opens up
+    .to(layers, { x: () => pt.w / 2 - pt.x, y: () => pt.h / 2 - pt.y, duration: 0.85, ease: 'power1.inOut' }, 0)
+    .fromTo('#heroGhosts', { '--ghost-op': 0.17 }, { '--ghost-op': 1, duration: 0.55, immediateRender: false }, 0.35)
+    .to(type, { opacity: 0, duration: 0.2 }, 0.78)
+    .to(edge, { opacity: 0, duration: 0.15 }, 0.7);
 }
 
 /* ── Statement: lines that justify by stretching ── */
@@ -280,13 +359,56 @@ function gutterPx() {
   return parseFloat(getComputedStyle(probe).paddingLeft) || 24;
 }
 
-/* ── Approach sheen follows the scroll (lacquer) ── */
-function approachSheen() {
-  if (reduceMotion) return;
-  gsap.fromTo('.approach__sheen', { '--sx': '15%', '--sy': '8%', '--shift': '-6%' }, {
-    '--sx': '82%', '--sy': '88%', '--shift': '6%', ease: 'none',
-    scrollTrigger: { trigger: '.approach', start: 'top bottom', end: 'bottom top', scrub: 1 },
+/* ── Slow drift: nothing on the page sits perfectly still ── */
+let driftTweens = [];
+function drift(target, from, to, opts = {}) {
+  const tw = gsap.fromTo(target, from, {
+    ...to, ease: 'none',
+    scrollTrigger: { trigger: opts.trigger || target, start: opts.start || 'top bottom', end: opts.end || 'bottom top', scrub: opts.scrub ?? 0.8 },
   });
+  driftTweens.push(tw);
+  return tw;
+}
+
+function sectionMotion() {
+  driftTweens.forEach((t) => { t.scrollTrigger && t.scrollTrigger.kill(); t.kill(); });
+  driftTweens = [];
+  if (reduceMotion) return;
+
+  // lacquer sheen sliding across the approach
+  drift('.approach__sheen', { '--sx': '15%', '--sy': '8%', '--shift': '-6%' },
+    { '--sx': '82%', '--sy': '88%', '--shift': '6%' }, { trigger: '.approach', scrub: 1 });
+
+  // each approach line leans a little further into the margin
+  $$('.ap').forEach((ap, i) => {
+    const dir = i % 2 ? -1 : 1;
+    drift($('.ap__head', ap), { xPercent: 0 }, { xPercent: dir * 1.6 }, { trigger: ap });
+    drift($('.ap__body', ap), { y: 26 }, { y: -26 }, { trigger: ap });
+  });
+
+  // the marked words breathe on the width axis as the line passes
+  $$('.ap').forEach((ap, i) => {
+    const em = $('.ap__wide', ap);
+    if (!em) return;
+    const base = parseFloat(getComputedStyle(em).fontStretch) || 100;
+    const o = { w: base * 0.9 };
+    const tw = gsap.to(o, {
+      w: Math.min(125, base * 1.06), ease: 'power1.inOut',
+      onUpdate: () => { em.style.fontStretch = o.w.toFixed(1) + '%'; },
+      scrollTrigger: { trigger: ap, start: 'top 92%', end: 'bottom 45%', scrub: 0.9 },
+    });
+    driftTweens.push(tw);
+  });
+
+  // the portrait lags behind its own text
+  drift('.bio__photo', { y: 40 }, { y: -40 }, { trigger: '.bio' });
+  drift('.bio__title', { y: -18 }, { y: 18 }, { trigger: '.bio' });
+
+  // statement and closing lines breathe with the scroll
+  drift('.statement__body', { y: 34 }, { y: -20 }, { trigger: '.statement' });
+  drift('.contact__title', { xPercent: -1.2 }, { xPercent: 0.6 }, { trigger: '.contact' });
+  drift('.contact__body', { y: 26 }, { y: -18 }, { trigger: '.contact' });
+  drift('.work__title', { xPercent: -1.5 }, { xPercent: 1 }, { trigger: '.work' });
 }
 
 /* ── Reveals ──────────────────────────────── */
@@ -301,6 +423,10 @@ function wireReveals() {
 /* ── Nav: current section ─────────────────── */
 function wireNav() {
   const links = $$('.nav__links a');
+  ScrollTrigger.create({
+    start: () => window.innerHeight * 0.9,
+    onToggle: (self) => $('#nav').classList.toggle('is-stuck', self.isActive),
+  });
   ['trabajo', 'enfoque', 'bio', 'contacto'].forEach((id) => {
     ScrollTrigger.create({
       trigger: '#' + id, start: 'top 50%', end: 'bottom 50%',
@@ -371,7 +497,8 @@ window.addEventListener('load', () => { goTop(); requestAnimationFrame(goTop); }
 
 renderGrid();
 renderText();
-renderHeroStills();
+renderHero();
+heroRotate();
 wireTiles();
 wireNav();
 wireCopy();
@@ -389,7 +516,8 @@ fontsReady.then(() => {
   layout();
   heroMotion();
   statementMotion();
-  approachSheen();
+  sectionMotion();
+  gridMotion();
   wireReveals();
   goTop();
   requestAnimationFrame(() => document.body.classList.add('is-ready'));
@@ -407,6 +535,7 @@ window.addEventListener('resize', () => {
     lastW = window.innerWidth;
     const before = heroMode;
     layout();
+    gridMotion();
     if (heroMode !== before) heroMotion();
     ScrollTrigger.refresh();
   }, 150);

@@ -27,7 +27,7 @@ export function createTheater({ projects, copy, lang: initialLang, media }) {
 
   /* ── markup ─────────────────────────────── */
   function view(p) {
-    const layout = p.kind === 'stills' ? 'pj--s' : p.size === 'w' ? 'pj--w' : 'pj--v';
+    const layout = p.kind === 'stills' ? 'pj--s' : p.span >= 12 ? 'pj--w' : 'pj--v';
     const mediaHtml = p.kind === 'video'
       ? `<div class="player" data-player>
            <video src="${media(p.slug, 'full.mp4')}" poster="${media(p.slug, 'poster.webp')}" playsinline preload="metadata"></video>
