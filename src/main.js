@@ -69,7 +69,8 @@ function renderText() {
       <a class="crow__value" href="mailto:${contact.email}">${contact.email}</a>
       <button class="crow__btn" type="button" data-copy="${contact.email}">${t('contact.copy')}</button></div>
     <div class="crow"><span class="crow__label">${t('contact.whatsapp')}</span>
-      <a class="crow__value" href="${contact.whatsappUrl}" target="_blank" rel="noopener">${contact.whatsappLabel}</a><span></span></div>
+      <a class="crow__value" href="${contact.whatsappUrl}" target="_blank" rel="noopener">${contact.whatsappLabel}</a>
+      <button class="crow__btn" type="button" data-copy="${contact.whatsappLabel}">${t('contact.copy')}</button></div>
     <div class="crow"><span class="crow__label">${t('contact.instagram')}</span>
       <a class="crow__value" href="${contact.instagramUrl}" target="_blank" rel="noopener">${contact.instagramLabel}</a><span></span></div>`;
 
