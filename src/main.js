@@ -1,4 +1,5 @@
 import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource-variable/schibsted-grotesk';
 import './styles.css';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -88,20 +89,54 @@ function splitBalanced(words) {
 }
 
 /* ── Work grid ────────────────────────────── */
+const isPhone = () => window.matchMedia('(max-width: 767px)').matches;
+let gridPhone = null;
+
 function renderGrid() {
-  $('#grid').innerHTML = visible
-    .map((p, i) => {
-      const poster = p.kind === 'stills' ? media(p.slug, 'stills/01.webp') : media(p.slug, 'poster.webp');
-      const inner = p.kind === 'stills'
-        ? `<div class="tile__slides" data-count="${p.stills}"><img src="${poster}" alt="" class="is-on" loading="lazy" decoding="async"></div>`
-        : `<img src="${poster}" alt="" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="${media(p.slug, 'preview.mp4')}"></video>`;
-      const wide = p.span >= 12 ? ' tile--wide' : '';
-      return `<li class="tile${wide}" data-slug="${p.slug}" data-i="${i}"
-        style="--span:${p.span};--ratio:${p.ratio};--offset:${p.offset || 0}vh">
-        <a class="tile__link" href="#/p/${p.slug}" aria-label="${p.title}">
-          <div class="tile__media">${inner}</div>
-          <div class="tile__cap"><h3 class="tile__title">${p.title}</h3><p class="tile__type"></p></div>
-        </a></li>`;
+  // Each row is justified: widths follow each piece's own ratio, so every tile in
+  // a row starts and ends on the same line, whatever shape it is. On a phone the
+  // same rule applies to pairs, and the wide films take a line of their own.
+  const phone = isPhone();
+  gridPhone = phone;
+  const source = [];
+  visible.forEach((p) => {
+    const r = p.row || 1;
+    (source[r] ||= []).push(p);
+  });
+
+  const rows = [];
+  source.filter(Boolean).forEach((row) => {
+    if (!phone) return rows.push(row);
+    let pair = [];
+    row.forEach((p) => {
+      const [w, h] = p.ratio.split('/').map(Number);
+      if (w / h >= 1.4) {
+        if (pair.length) { rows.push(pair); pair = []; }
+        return rows.push([p]);
+      }
+      pair.push(p);
+      if (pair.length === 2) { rows.push(pair); pair = []; }
+    });
+    if (pair.length) rows.push(pair);
+  });
+
+  $('#grid').innerHTML = rows
+    .map((row) => {
+      const tiles = row
+        .map((p) => {
+          const poster = p.kind === 'stills' ? media(p.slug, 'stills/01.webp') : media(p.slug, 'poster.webp');
+          const inner = p.kind === 'stills'
+            ? `<div class="tile__slides" data-count="${p.stills}"><img src="${poster}" alt="" class="is-on" loading="lazy" decoding="async"></div>`
+            : `<img src="${poster}" alt="" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="${media(p.slug, 'preview.mp4')}"></video>`;
+          const [w, h] = p.ratio.split('/').map(Number);
+          return `<li class="tile" data-slug="${p.slug}" style="--ratio:${p.ratio};--aspect:${(w / h).toFixed(4)}">
+            <a class="tile__link" href="#/p/${p.slug}" aria-label="${p.title}">
+              <div class="tile__media">${inner}</div>
+              <div class="tile__cap"><h3 class="tile__title">${p.title}</h3><p class="tile__type"></p></div>
+            </a></li>`;
+        })
+        .join('');
+      return `<li class="grid__row"><ul class="grid__inner" role="list">${tiles}</ul></li>`;
     })
     .join('');
 }
@@ -113,8 +148,8 @@ function gridMotion() {
   tileParallax = [];
   if (reduceMotion || window.innerWidth < 768) return;
   $$('.tile').forEach((tile) => {
-    const span = +getComputedStyle(tile).getPropertyValue('--span') || 4;
-    const drift = span >= 12 ? 14 : 46 - span * 4;
+    const aspect = +getComputedStyle(tile).getPropertyValue('--aspect') || 0.8;
+    const drift = 16 + (1 - Math.min(aspect, 1.4) / 1.4) * 14;
     tileParallax.push(
       gsap.fromTo(tile, { y: drift }, {
         y: -drift, ease: 'none',
@@ -202,6 +237,17 @@ function renderHero() {
   heroStills.forEach(loadPhoto);
 }
 
+const letterGeom = new WeakMap();
+
+/* Keeps the photo inside the letters lined up with the ghost behind them */
+function alignLetters(layer) {
+  const g = letterGeom.get(layer);
+  if (!g) return;
+  $$('.hero__line', layer).forEach((line) => {
+    line.style.backgroundPosition = `${g.gx - line.offsetLeft}px ${g.gy - line.offsetTop}px`;
+  });
+}
+
 /* Paints one photo inside the letters of a layer, lined up with the ghost behind */
 async function paintLetters(layer, src) {
   const stage = $('.hero__stage');
@@ -210,13 +256,14 @@ async function paintLetters(layer, src) {
   const cover = Math.max(W / iw, H / ih);
   const cw = iw * cover, ch = ih * cover;
   const gx = (W - cw) / 2, gy = (H - ch) / 2;
-  // offsetLeft/Top, never getBoundingClientRect: the layer may be mid-zoom and
-  // a scaled measurement would paint the photo outside the letters
+  letterGeom.set(layer, { gx, gy });
+  // offsetLeft/Top, never getBoundingClientRect: a transformed measurement
+  // would paint the photo outside the letters
   $$('.hero__line', layer).forEach((line) => {
     line.style.backgroundImage = `url("${src}")`;
     line.style.backgroundSize = `${cw}px ${ch}px`;
-    line.style.backgroundPosition = `${gx - line.offsetLeft}px ${gy - line.offsetTop}px`;
   });
+  alignLetters(layer);
 }
 
 let heroIndex = 0;
@@ -278,21 +325,22 @@ function heroMotion() {
   heroTl && heroTl.kill();
   const type = $('#heroType');
   const edge = $('#heroEdge');
-  const layers = [type, edge];
-  // the bottom-right corner of the D: where the frame flies into the name
-  const point = () => {
-    gsap.set(layers, { clearProps: 'transform' });
-    const d = $('#heroType .hero__d').getBoundingClientRect();
-    const box = type.getBoundingClientRect();
-    return {
-      x: d.right - d.width * 0.17 - box.left,
-      y: d.bottom - d.height * 0.2 - box.top,
-      w: box.width, h: box.height,
-    };
+  const all = () => $$('.hero__letters');
+  // the width each line was fitted at: the animation walks from there to condensed
+  const base = $$('.hero__line', $('#heroType .hero__letters')).map((el) => parseFloat(el.style.fontStretch) || 100);
+
+  // counterpoint: one line opens up while the next one narrows
+  const target = base.map((_, i) => (i % 2 === 0 ? 125 : 62));
+  const state = { k: 0 };
+  const applyWidth = () => {
+    all().forEach((layer) => {
+      $$('.hero__line', layer).forEach((el, i) => {
+        el.style.fontStretch = (base[i] + (target[i] - base[i]) * state.k).toFixed(2) + '%';
+      });
+    });
+    $$('#heroType .hero__letters').forEach(alignLetters);
   };
-  let pt = point();
-  const origin = () => `${pt.x}px ${pt.y}px`;
-  gsap.set(layers, { transformOrigin: origin(), scale: 1 });
+
   heroTl = gsap.timeline({
     defaults: { ease: 'none' },
     scrollTrigger: {
@@ -300,20 +348,26 @@ function heroMotion() {
       start: 'top top',
       end: () => '+=' + window.innerHeight * 0.85,
       pin: '.hero__stage',
-      scrub: 0.5,
+      scrub: 0.55,
       invalidateOnRefresh: true,
-      onRefreshInit: () => { pt = point(); gsap.set(layers, { transformOrigin: origin() }); },
     },
   });
   heroTl
-    .fromTo('.hero__role, .hero__line-small', { opacity: 1, y: 0 }, { opacity: 0, y: -10, duration: 0.15, immediateRender: false }, 0)
-    .to(layers, { scale: 6.5, duration: 1, ease: 'power2.in' }, 0)
-    // carry that corner to the centre of the frame as the name opens up
-    .to(layers, { x: () => pt.w / 2 - pt.x, y: () => pt.h / 2 - pt.y, duration: 0.85, ease: 'power1.inOut' }, 0)
-    .fromTo('#heroGhosts', { '--ghost-op': 0.17 }, { '--ghost-op': 1, duration: 0.55, immediateRender: false }, 0.35)
-    .to(type, { opacity: 0, duration: 0.2 }, 0.78)
-    .to(edge, { opacity: 0, duration: 0.15 }, 0.7)
-    .fromTo(edge, { '--edge-k': 20 }, { '--edge-k': 4, duration: 0.55, immediateRender: false }, 0);
+    // the letters draw themselves in: full width to condensed, Scher on a dial
+    .fromTo(state, { k: 0 }, { k: 1, duration: 1, ease: 'power1.inOut', onUpdate: applyWidth, immediateRender: false }, 0)
+    .fromTo([type, edge], { letterSpacing: '-0.012em' }, { letterSpacing: '0.02em', duration: 1, ease: 'power1.inOut', immediateRender: false }, 0)
+    // the two lines drift apart as they narrow
+    .fromTo('#heroType .hero__letters .hero__line:first-child, #heroEdge .hero__line:first-child',
+      { yPercent: 0 }, { yPercent: -6, duration: 1, ease: 'power1.inOut', immediateRender: false }, 0)
+    .fromTo('#heroType .hero__letters .hero__line:last-child, #heroEdge .hero__line:last-child',
+      { yPercent: 0 }, { yPercent: 6, duration: 1, ease: 'power1.inOut', immediateRender: false }, 0)
+    // the photo comes up to full while the name steps aside
+    // the photo holds back while the name works, then takes the frame
+    .fromTo('#heroGhosts', { '--ghost-op': 0.12 }, { '--ghost-op': 0.3, duration: 0.7, immediateRender: false }, 0)
+    .to('#heroGhosts', { '--ghost-op': 1, duration: 0.3 }, 0.7)
+    .fromTo('.hero__role, .hero__line-small', { opacity: 1, y: 0 }, { opacity: 0, y: -10, duration: 0.18, immediateRender: false }, 0)
+    .fromTo('#heroReel', { scale: 1 }, { scale: 1.06, duration: 1, ease: 'power1.inOut', immediateRender: false }, 0)
+    .to([type, edge], { opacity: 0, duration: 0.25 }, 0.75);
 }
 
 /* ── Statement: lines that justify by stretching ── */
@@ -535,6 +589,7 @@ window.addEventListener('resize', () => {
     if (window.innerWidth === lastW) return;
     lastW = window.innerWidth;
     const before = heroMode;
+    if (isPhone() !== gridPhone) { renderGrid(); renderText(); wireTiles(); }
     layout();
     gridMotion();
     if (heroMode !== before) heroMotion();

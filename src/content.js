@@ -12,7 +12,7 @@ export const copy = {
     },
     statement: {
       lines: ['La marca', 'no existe.', 'El sistema sí.'],
-      body: 'Lo que importa acá no son las marcas: es el sistema que las produce. Una forma de construir imagen y video que se aplica a cualquier rubro. Las campañas ficticias son el laboratorio donde lo investigo, y a medida que el método entra en marcas reales, este portfolio se va llenando de ellas.',
+      body: 'Lo que importa acá no son las marcas: es el sistema que las produce. Una forma de construir imagen y video que se aplica a cualquier rubro.',
     },
     work: {
       title: 'Trabajo',
@@ -39,7 +39,7 @@ export const copy = {
     },
     contact: {
       title: 'Hablemos.',
-      body: 'Contame qué marca tenés entre manos. Te muestro cómo se vería.',
+      body: 'El sistema ya está. Falta tu marca.',
       email: 'Email',
       whatsapp: 'WhatsApp',
       instagram: 'Instagram',
@@ -75,7 +75,7 @@ export const copy = {
     },
     statement: {
       lines: ['The brand', 'doesn’t exist.', 'The system does.'],
-      body: 'What matters here is not the brands: it is the system that produces them. A way of building image and video that applies to any category. The fictional campaigns are the lab where I research it, and as the method moves into real brands, this portfolio fills up with them.',
+      body: 'What matters here is not the brands: it is the system that produces them. A way of building image and video that applies to any category.',
     },
     work: {
       title: 'Work',
@@ -102,7 +102,7 @@ export const copy = {
     },
     contact: {
       title: 'Let’s talk.',
-      body: 'Tell me what brand you have in your hands. I will show you how it could look.',
+      body: 'The system is already here. Your brand is what’s missing.',
       email: 'Email',
       whatsapp: 'WhatsApp',
       instagram: 'Instagram',
@@ -138,13 +138,13 @@ export const contact = {
 };
 
 // draft: true -> visible solo en `npm run dev`, nunca se publica en el build
-// span: columnas de 12 que ocupa la pieza · ratio: proporción del recorte · offset: vh que baja para romper la fila
+// row: fila de la grilla (las piezas de una fila comparten alto exacto) · ratio: proporción del recorte
 // kind: 'video' | 'stills'   ·   media lives in /public/media/<slug>/
 const R = { es: 'Concepto, dirección de arte, generación con IA y edición', en: 'Concept, art direction, AI generation and edit' };
 
 export const projects = [
   {
-    slug: 'fuga', span: 5, ratio: '4 / 5', kind: 'video', year: 2026, stills: 14,
+    slug: 'fuga', row: 1, ratio: '4 / 5', kind: 'video', year: 2026, stills: 14,
     title: 'FUGA',
     type: { es: 'Campaña spec · Moda', en: 'Spec campaign · Fashion' },
     text: {
@@ -154,7 +154,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'calle', span: 3, ratio: '2 / 3', offset: 12, kind: 'video', year: 2026,
+    slug: 'calle', row: 1, ratio: '2 / 3', kind: 'video', year: 2026,
     title: 'CALLE',
     type: { es: 'Campaña spec · Calzado', en: 'Spec campaign · Footwear' },
     text: {
@@ -164,7 +164,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'total-normalidad', span: 4, ratio: '1 / 1', offset: 32, kind: 'video', year: 2026,
+    slug: 'total-normalidad', row: 1, ratio: '1 / 1', kind: 'video', year: 2026,
     title: 'TOTAL NORMALIDAD',
     type: { es: 'Spot spec · Café', en: 'Spec spot · Coffee' },
     text: {
@@ -174,7 +174,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'como-corre-elisa', span: 12, ratio: '16 / 9', kind: 'video', year: 2026,
+    slug: 'como-corre-elisa', row: 2, ratio: '16 / 9', kind: 'video', year: 2026,
     title: 'CÓMO CORRE ELISA',
     type: { es: 'Trailer', en: 'Trailer' },
     text: {
@@ -184,7 +184,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'orbita-club', span: 4, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 11,
+    slug: 'orbita-club', row: 2, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 11,
     title: 'ÓRBITA CLUB',
     type: { es: 'Campaña spec · Sportswear', en: 'Spec campaign · Sportswear' },
     text: {
@@ -194,7 +194,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'neto', span: 3, ratio: '2 / 3', offset: 18, kind: 'video', year: 2026,
+    slug: 'neto', row: 3, ratio: '2 / 3', kind: 'video', year: 2026,
     title: 'NETO',
     type: { es: 'Producción visual · Gastronomía', en: 'Visual production · Food' },
     text: {
@@ -204,7 +204,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'labor-camperas', span: 5, ratio: '4 / 5', offset: 6, kind: 'stills', year: 2026, stills: 14,
+    slug: 'labor-camperas', row: 3, ratio: '4 / 5', kind: 'stills', year: 2026, stills: 14,
     title: 'LABOR',
     type: { es: 'Campaña spec · Indumentaria de trabajo', en: 'Spec campaign · Workwear' },
     text: {
@@ -214,37 +214,17 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'delivery-thriller', span: 3, ratio: '2 / 3', kind: 'video', year: 2026,
-    title: 'DELIVERY THRILLER',
-    type: { es: 'Test de consistencia', en: 'Consistency test' },
+    slug: 'anteojos-skull', row: 3, ratio: '2 / 3', kind: 'stills', year: 2026, stills: 12,
+    title: 'SKULL',
+    type: { es: 'Campaña spec · Anteojos', en: 'Spec campaign · Eyewear' },
     text: {
-      es: 'Una secuencia breve con continuidad visual, tensión narrativa y clima cinematográfico. Personaje, locaciones, props, cámara, música, foley y edición. Una escena construida plano por plano.',
-      en: 'A short sequence with visual continuity, narrative tension and cinematic mood. Character, locations, props, camera, music, foley and edit. A scene built shot by shot.',
+      es: 'Una calavera en la varilla, un baño de azulejos verdes y una ruta. Producto y personaje construidos con el mismo clima, del detalle macro al retrato.',
+      en: 'A skull on the temple, a green-tiled bathroom and a desert road. Product and character built in one mood, from macro detail to portrait.',
     },
     roles: R,
   },
   {
-    slug: 'cauce', span: 5, ratio: '1 / 1', offset: 14, kind: 'stills', year: 2026, stills: 14,
-    title: 'CAUCE',
-    type: { es: 'Campaña spec · Moda', en: 'Spec campaign · Fashion' },
-    text: {
-      es: 'Un set híbrido, cemento agrietado y naturaleza viva, con una dirección de arte enfocada en textura, movimiento y actitud.',
-      en: 'A hybrid set, cracked concrete and living nature, with art direction focused on texture, movement and attitude.',
-    },
-    roles: R,
-  },
-  {
-    slug: 'deriva', span: 4, ratio: '3 / 4', offset: 30, kind: 'video', year: 2026, stills: 12,
-    title: 'DERIVA',
-    type: { es: 'Campaña spec · Mobiliario', en: 'Spec campaign · Furniture' },
-    text: {
-      es: 'Sillas de madera frente al mar, entre la tormenta y la calma.',
-      en: 'Wooden chairs facing the sea, between the storm and the calm.',
-    },
-    roles: R,
-  },
-  {
-    slug: 'colgate', span: 12, ratio: '16 / 9', kind: 'video', year: 2026,
+    slug: 'colgate', row: 4, ratio: '16 / 9', kind: 'video', year: 2026,
     title: 'COLGATE × MARTÍN FIERRO',
     client: 'Colgate',
     type: { es: 'Cliente · Evento', en: 'Client · Event' },
@@ -255,17 +235,37 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'anteojos-skull', span: 5, ratio: '2 / 3', kind: 'stills', year: 2026, stills: 12,
-    title: 'SKULL',
-    type: { es: 'Campaña spec · Anteojos', en: 'Spec campaign · Eyewear' },
+    slug: 'cauce', row: 4, ratio: '1 / 1', kind: 'stills', year: 2026, stills: 14,
+    title: 'CAUCE',
+    type: { es: 'Campaña spec · Moda', en: 'Spec campaign · Fashion' },
     text: {
-      es: 'Una calavera en la varilla, un baño de azulejos verdes y una ruta. Producto y personaje construidos con el mismo clima, del detalle macro al retrato.',
-      en: 'A skull on the temple, a green-tiled bathroom and a desert road. Product and character built in one mood, from macro detail to portrait.',
+      es: 'Un set híbrido, cemento agrietado y naturaleza viva, con una dirección de arte enfocada en textura, movimiento y actitud.',
+      en: 'A hybrid set, cracked concrete and living nature, with art direction focused on texture, movement and attitude.',
     },
     roles: R,
   },
   {
-    slug: 'ugc-crime-life', span: 3, ratio: '4 / 5', offset: 20, kind: 'video', year: 2026, stills: 6,
+    slug: 'delivery-thriller', row: 5, ratio: '2 / 3', kind: 'video', year: 2026,
+    title: 'DELIVERY THRILLER',
+    type: { es: 'Test de consistencia', en: 'Consistency test' },
+    text: {
+      es: 'Una secuencia breve con continuidad visual, tensión narrativa y clima cinematográfico. Personaje, locaciones, props, cámara, música, foley y edición. Una escena construida plano por plano.',
+      en: 'A short sequence with visual continuity, narrative tension and cinematic mood. Character, locations, props, camera, music, foley and edit. A scene built shot by shot.',
+    },
+    roles: R,
+  },
+  {
+    slug: 'deriva', row: 5, ratio: '3 / 4', kind: 'video', year: 2026, stills: 12,
+    title: 'DERIVA',
+    type: { es: 'Campaña spec · Mobiliario', en: 'Spec campaign · Furniture' },
+    text: {
+      es: 'Sillas de madera frente al mar, entre la tormenta y la calma.',
+      en: 'Wooden chairs facing the sea, between the storm and the calm.',
+    },
+    roles: R,
+  },
+  {
+    slug: 'ugc-crime-life', row: 5, ratio: '4 / 5', kind: 'video', year: 2026, stills: 6,
     title: 'CRIME LIFE',
     client: 'BoomBit',
     type: { es: 'UGC con personajes IA · Mobile game', en: 'AI creator UGC · Mobile game' },
@@ -276,17 +276,7 @@ export const projects = [
     roles: { es: 'Personajes, dirección, generación con IA y edición', en: 'Characters, direction, AI generation and edit' },
   },
   {
-    slug: 'portraits-of-waiting', span: 4, ratio: '3 / 4', offset: 6, kind: 'stills', year: 2026, stills: 5,
-    title: 'PORTRAITS OF WAITING',
-    type: { es: 'Serie personal', en: 'Personal series' },
-    text: {
-      es: 'Gente esperando: un banco, una parada, un pasillo. Retratos del tiempo muerto, esa parte del día que no suele entrar en una campaña.',
-      en: 'People waiting: a bank, a bus stop, a corridor. Portraits of dead time, the part of the day campaigns leave out.',
-    },
-    roles: R,
-  },
-  {
-    slug: 'f1-test', span: 12, ratio: '16 / 9', kind: 'video', year: 2026,
+    slug: 'f1-test', row: 6, ratio: '16 / 9', kind: 'video', year: 2026,
     title: 'F1 TEST',
     type: { es: 'Prueba de mapeo · Automotriz', en: 'Mapping test · Automotive' },
     text: {
@@ -296,7 +286,17 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'yapa', span: 4, ratio: '4 / 5', kind: 'video', year: 2026,
+    slug: 'portraits-of-waiting', row: 6, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 5,
+    title: 'PORTRAITS OF WAITING',
+    type: { es: 'Serie personal', en: 'Personal series' },
+    text: {
+      es: 'Gente esperando: un banco, una parada, un pasillo. Retratos del tiempo muerto, esa parte del día que no suele entrar en una campaña.',
+      en: 'People waiting: a bank, a bus stop, a corridor. Portraits of dead time, the part of the day campaigns leave out.',
+    },
+    roles: R,
+  },
+  {
+    slug: 'yapa', row: 7, ratio: '4 / 5', kind: 'video', year: 2026,
     title: 'YAPA',
     type: { es: 'Spot spec · Bebidas', en: 'Spec spot · Beverages' },
     text: {
@@ -306,7 +306,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'chori', span: 3, ratio: '1 / 1', offset: 24, kind: 'video', year: 2026,
+    slug: 'chori', row: 7, ratio: '1 / 1', kind: 'video', year: 2026,
     title: 'CHORI',
     type: { es: 'Pieza de marca', en: 'Brand piece' },
     text: {
@@ -316,7 +316,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'manifiesto', span: 5, ratio: '3 / 4', offset: 8, kind: 'video', year: 2026,
+    slug: 'manifiesto', row: 7, ratio: '3 / 4', kind: 'video', year: 2026,
     title: 'MANIFIESTO',
     type: { es: 'Spot spec · Telecomunicaciones', en: 'Spec spot · Telecom' },
     text: {
