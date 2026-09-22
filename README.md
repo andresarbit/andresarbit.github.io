@@ -36,7 +36,20 @@ Tamaños de la grilla: `v` vertical (3 por fila), `vs` vertical chico (4 por fil
 
 Sumar la carpeta en `scripts/stills.sh`, correrlo, y crear el proyecto con `kind: 'stills'` y `stills: <cantidad>`.
 
+## Borradores
+
+Un proyecto con `draft: true` en `src/content.js` se ve solo con `npm run dev`. No aparece en la web publicada y sus videos se borran del build (`scripts/prune-drafts.mjs`). Además, esas carpetas de `public/media/` están en `.gitignore`, así que tampoco viajan al repositorio.
+
+Hoy están en borrador: Nuvo, Vikingo Urquiza y F1 Test.
+
 ## Publicar
 
-`dist/` se puede subir a cualquier hosting estático (GitHub Pages, Vercel, Netlify, Cloudflare Pages).
+El repositorio es `andresarbit/andresarbit.github.io`. Cada `git push` a `main` dispara la Action que compila y publica en https://andresarbit.github.io.
+
+```bash
+git add -A && git commit -m "actualizo textos" && git push
+```
+
+
+`dist/` también se puede subir a cualquier otro hosting estático (Vercel, Netlify, Cloudflare Pages).
 Ningún archivo supera 25 MB, así que entra en todos.
