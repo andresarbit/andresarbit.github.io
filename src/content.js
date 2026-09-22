@@ -331,7 +331,8 @@ export const projects = [
 ];
 
 // Fotos del hero: se cruzan de a una detrás del nombre (public/media/hero/).
-// fx, fy: punto de interés de la foto (0 a 1). anchor: letra del nombre sobre la que cae ese punto.
+// fx, fy: punto de interés de la foto (0 a 1). anchor: letra del nombre a cuya altura cae ese punto
+// (anchorX: false lo centra horizontalmente y usa la letra solo para la altura).
 // ghost: cuánto se ve la foto fuera de las letras (por defecto 0.12).
 export const heroStills = [
   { src: '/media/hero/01.webp' },
@@ -340,5 +341,5 @@ export const heroStills = [
   { src: '/media/hero/04.webp' },
   { src: '/media/hero/05.webp', fx: 0.44 },
   { src: '/media/hero/06.webp', fx: 0.74 },
-  { src: '/media/hero/07.webp', fx: 0.73, fy: 0.575, anchor: 'I', ghost: 0.42 },
+  { src: '/media/hero/07.webp', fy: 0.575, anchor: 'I', anchorX: false, ghost: 0.42 },
 ];

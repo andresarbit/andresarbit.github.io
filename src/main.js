@@ -250,7 +250,7 @@ function alignLetters(layer) {
 
 /* Paints one photo inside the letters of a layer, lined up with the ghost behind */
 async function paintLetters(layer, still) {
-  const { src, fx = 0.5, fy = 0.5, anchor, ghost: ghostOp } = still;
+  const { src, fx = 0.5, fy = 0.5, anchor, anchorX = true, ghost: ghostOp } = still;
   const stage = $('.hero__stage');
   const { w: iw, h: ih } = await loadPhoto(src);
   const W = stage.clientWidth, H = stage.clientHeight;
@@ -261,7 +261,10 @@ async function paintLetters(layer, still) {
   let tx = W / 2, ty = H / 2;
   if (anchor) {
     const glyph = $$('.hero__ch', layer).find((c) => c.textContent === anchor);
-    if (glyph) { tx = glyph.offsetLeft + glyph.offsetWidth / 2; ty = glyph.offsetTop + glyph.offsetHeight * 0.55; }
+    if (glyph) {
+      if (anchorX) tx = glyph.offsetLeft + glyph.offsetWidth / 2;
+      ty = glyph.offsetTop + glyph.offsetHeight * 0.55;
+    }
   }
   const gx = Math.min(0, Math.max(W - cw, tx - fx * cw));
   const gy = Math.min(0, Math.max(H - ch, ty - fy * ch));
