@@ -1,5 +1,6 @@
 import '@fontsource-variable/archivo/wdth.css';
 import '@fontsource-variable/schibsted-grotesk';
+import '@fontsource-variable/schibsted-grotesk/wght-italic.css';
 import './styles.css';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -124,7 +125,7 @@ function renderGrid() {
             ? `<div class="tile__slides" data-count="${p.stills}"><img src="${poster}" alt="" class="is-on" loading="lazy" decoding="async"></div>`
             : `<img src="${poster}" alt="" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="${media(p.slug, 'preview.mp4')}"></video>`;
           const [w, h] = p.ratio.split('/').map(Number);
-          return `<li class="tile" data-slug="${p.slug}" style="--ratio:${p.ratio};--aspect:${(w / h).toFixed(4)}">
+          return `<li class="tile" data-slug="${p.slug}" style="--ratio:${p.ratio};--aspect:${(w / h).toFixed(4)};--pos:${p.pos || '50% 40%'}">
             <a class="tile__link" href="#/p/${p.slug}" aria-label="${p.title}">
               <div class="tile__media">${inner}</div>
               <div class="tile__cap"><h3 class="tile__title">${p.title}</h3><p class="tile__type"></p></div>

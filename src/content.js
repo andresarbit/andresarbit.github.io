@@ -7,7 +7,7 @@ export const copy = {
     metaDesc: 'Producción audiovisual y campañas con IA. La marca no existe. El sistema sí.',
     nav: { work: 'Trabajo', approach: 'Enfoque', bio: 'Bio', contact: 'Contacto', menu: 'Menú', close: 'Cerrar' },
     hero: {
-      role: 'Director creativo / AI Artist',
+      role: 'Director creativo / AI artist',
       line: 'Producción audiovisual y campañas con IA',
     },
     statement: {
@@ -70,7 +70,7 @@ export const copy = {
     metaDesc: 'Film and campaigns made with AI. The brand doesn’t exist. The system does.',
     nav: { work: 'Work', approach: 'Approach', bio: 'Bio', contact: 'Contact', menu: 'Menu', close: 'Close' },
     hero: {
-      role: 'Creative Director / AI Artist',
+      role: 'Creative director / AI artist',
       line: 'Film and campaigns made with AI',
     },
     statement: {
@@ -140,6 +140,7 @@ export const contact = {
 // draft: true -> visible solo en `npm run dev`, nunca se publica en el build
 // row: fila de la grilla (las piezas de una fila comparten alto exacto) · ratio: proporción del recorte en la grilla
 // video: proporción real del archivo, que la vista de proyecto respeta sin recortar
+// pos: punto de la imagen que se mantiene en la ficha (object-position); por defecto '50% 40%'
 // kind: 'video' | 'stills'   ·   media lives in /public/media/<slug>/
 const R = { es: 'Concepto, dirección de arte, generación con IA y edición', en: 'Concept, art direction, AI generation and edit' };
 
@@ -165,7 +166,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'calle', video: '720 / 1290', row: 1, ratio: '2 / 3', kind: 'video', year: 2026,
+    slug: 'calle', video: '720 / 1290', row: 1, ratio: '2 / 3', pos: '50% 55%', kind: 'video', year: 2026,
     title: 'CALLE',
     type: { es: 'Campaña spec · Calzado', en: 'Spec campaign · Footwear' },
     text: {
@@ -215,7 +216,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'como-corre-elisa', video: '1280 / 718', row: 2, ratio: '1 / 1', kind: 'video', year: 2026,
+    slug: 'como-corre-elisa', video: '1280 / 718', row: 2, ratio: '1 / 1', pos: '50% 55%', kind: 'video', year: 2026,
     title: 'CÓMO CORRE ELISA',
     type: { es: 'Trailer', en: 'Trailer' },
     text: {
@@ -225,7 +226,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'portraits-of-waiting', row: 2, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 5,
+    slug: 'portraits-of-waiting', row: 2, ratio: '3 / 4', pos: '50% 62%', kind: 'stills', year: 2026, stills: 5,
     title: 'PORTRAITS OF WAITING',
     type: { es: 'Serie personal', en: 'Personal series' },
     text: {
@@ -255,7 +256,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'yapa', video: '720 / 1290', row: 3, ratio: '4 / 5', kind: 'video', year: 2026,
+    slug: 'yapa', video: '720 / 1290', row: 3, ratio: '4 / 5', pos: '50% 68%', kind: 'video', year: 2026,
     title: 'YAPA',
     type: { es: 'Spot spec · Bebidas', en: 'Spec spot · Beverages' },
     text: {
@@ -286,7 +287,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'orbita-club', row: 4, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 11,
+    slug: 'orbita-club', row: 4, ratio: '3 / 4', pos: '50% 30%', kind: 'stills', year: 2026, stills: 11,
     title: 'ÓRBITA CLUB',
     type: { es: 'Campaña spec · Sportswear', en: 'Spec campaign · Sportswear' },
     text: {
@@ -296,7 +297,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'delivery-thriller', video: '720 / 1290', row: 4, ratio: '2 / 3', kind: 'video', year: 2026,
+    slug: 'delivery-thriller', video: '720 / 1290', row: 4, ratio: '2 / 3', pos: '50% 45%', kind: 'video', year: 2026,
     title: 'DELIVERY THRILLER',
     type: { es: 'Test de consistencia', en: 'Consistency test' },
     text: {
