@@ -1,0 +1,9 @@
+node_modules
+dist
+.DS_Store
+.impeccable/config.local.json
+
+# Borradores: material no aprobado para publicar (queda solo en esta máquina)
+public/media/nuvo/
+public/media/vikingo-urquiza/
+public/media/f1-test/

@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Andrés Arbit | Director creativo y AI Artist</title>
+    <meta name="description" content="Producción audiovisual y campañas con IA. La marca no existe. El sistema sí." />
+    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="color-scheme" content="dark" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Andrés Arbit | Director creativo y AI Artist" />
+    <meta property="og:description" content="Producción audiovisual y campañas con IA. La marca no existe. El sistema sí." />
+    <meta property="og:image" content="/og.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/media/fuga/poster.webp" as="image" />
+  </head>
+  <body>
+    <a class="skip" href="#trabajo" data-i18n="nav.work">Trabajo</a>
+
+    <header class="nav" id="nav">
+      <a class="nav__mark" href="#top" aria-label="Andrés Arbit">Andrés Arbit</a>
+      <nav class="nav__links" aria-label="Principal">
+        <a href="#trabajo" data-i18n="nav.work">Trabajo</a>
+        <a href="#enfoque" data-i18n="nav.approach">Enfoque</a>
+        <a href="#bio" data-i18n="nav.bio">Bio</a>
+        <a href="#contacto" data-i18n="nav.contact">Contacto</a>
+      </nav>
+      <div class="nav__tools">
+        <button class="lang" type="button" id="lang" aria-label="Cambiar idioma">
+          <span data-lang="es">ES</span><span data-lang="en">EN</span>
+        </button>
+        <button class="nav__menu" type="button" id="menuBtn" aria-expanded="false" aria-controls="menu" data-i18n="nav.menu">Menú</button>
+      </div>
+    </header>
+
+    <div class="menu" id="menu" hidden>
+      <nav aria-label="Menú">
+        <a href="#trabajo" data-i18n="nav.work">Trabajo</a>
+        <a href="#enfoque" data-i18n="nav.approach">Enfoque</a>
+        <a href="#bio" data-i18n="nav.bio">Bio</a>
+        <a href="#contacto" data-i18n="nav.contact">Contacto</a>
+      </nav>
+    </div>
+
+    <main id="top">
+      <!-- 1. Name made of the work -->
+      <section class="hero" id="hero" aria-label="Andrés Arbit">
+        <div class="hero__stage">
+          <div class="hero__reel" id="heroReel"></div>
+          <div class="hero__mask" id="heroMask" aria-hidden="true">
+            <span class="hero__line" data-fit="ANDRÉS">ANDRÉS</span>
+            <span class="hero__line" data-fit="ARBIT">ARB<span class="hero__i">I</span>T</span>
+          </div>
+          <h1 class="sr-only">Andrés Arbit</h1>
+          <p class="hero__role" data-i18n="hero.role">Director creativo / AI Artist</p>
+          <p class="hero__line-small" data-i18n="hero.line">Producción audiovisual y campañas con IA</p>
+        </div>
+      </section>
+
+      <!-- 2. The statement -->
+      <section class="statement" id="statement" aria-labelledby="statementTitle">
+        <h2 class="statement__type" id="statementTitle"></h2>
+        <p class="statement__body" data-i18n="statement.body"></p>
+      </section>
+
+      <!-- 3. Work -->
+      <section class="work" id="trabajo" aria-labelledby="workTitle">
+        <header class="work__head">
+          <h2 class="work__title" id="workTitle" data-i18n="work.title">Trabajo</h2>
+          <p class="work__intro" data-i18n="work.intro"></p>
+        </header>
+        <ul class="grid" id="grid" role="list"></ul>
+      </section>
+
+      <!-- 4. Approach -->
+      <section class="approach" id="enfoque" aria-labelledby="approachTitle">
+        <div class="approach__sheen" aria-hidden="true"></div>
+        <h2 class="sr-only" id="approachTitle" data-i18n="approach.title">Enfoque</h2>
+        <ol class="approach__list" id="approachList" role="list"></ol>
+      </section>
+
+      <!-- 5. Bio -->
+      <section class="bio" id="bio" aria-labelledby="bioTitle">
+        <figure class="bio__photo">
+          <div class="bio__frame">
+            <img class="bio__img" src="/media/andres/ia.webp" width="1800" height="1800" alt="" loading="lazy" decoding="async" />
+          </div>
+        </figure>
+        <div class="bio__text">
+          <h2 class="bio__title" id="bioTitle" data-i18n="bio.title">Bio</h2>
+          <p class="bio__p bio__p--lead" data-i18n="bio.p1"></p>
+          <p class="bio__p" data-i18n="bio.p2"></p>
+          <h3 class="bio__sub" data-i18n="bio.servicesTitle">Qué hago</h3>
+          <ul class="bio__services" id="services" role="list"></ul>
+        </div>
+      </section>
+
+      <!-- 6. Contact -->
+      <section class="contact" id="contacto" aria-labelledby="contactTitle">
+        <h2 class="contact__title" id="contactTitle"><span data-i18n="contact.title">Hablemos.</span></h2>
+        <p class="contact__body" data-i18n="contact.body"></p>
+        <div class="contact__rows" id="contactRows"></div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <span>© 2026 Andrés Arbit</span>
+      <span data-i18n="footer.tagline">La marca no existe. El sistema sí.</span>
+    </footer>
+
+    <!-- Project theater -->
+    <div class="theater" id="theater" role="dialog" aria-modal="true" aria-labelledby="thTitle" hidden>
+      <div class="theater__inner">
+        <div class="theater__bar">
+          <button type="button" class="tbtn" id="thPrev" data-i18n="theater.prev">Anterior</button>
+          <button type="button" class="tbtn" id="thNext" data-i18n="theater.next">Siguiente</button>
+          <button type="button" class="tbtn tbtn--close" id="thClose" data-i18n="theater.close">Cerrar</button>
+        </div>
+        <div class="theater__body" id="thBody"></div>
+      </div>
+    </div>
+
+    <div class="grain" aria-hidden="true"></div>
+    <div class="live sr-only" aria-live="polite" id="live"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
