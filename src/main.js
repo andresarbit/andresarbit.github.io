@@ -399,12 +399,19 @@ const statementPlan = [
   { from: 62, to: 125, fill: 1 },
   { from: 125, to: 72, fill: 1 },
 ];
+// on a phone every line grows into its width instead of bleeding off the screen
+const statementPhone = [
+  { from: 62, to: 84, fill: 1 },
+  { from: 62, to: 100, fill: 1 },
+  { from: 62, to: 88, fill: 1 },
+];
+const linePlan = (i) => (isPhone() ? statementPhone : statementPlan)[i] || statementPlan[0];
 let stTweens = [];
 function fitStatement() {
   const lines = $$('.st-line');
   const width = $('.statement').clientWidth - 2 * gutterPx();
   lines.forEach((el, i) => {
-    const plan = statementPlan[i] || statementPlan[0];
+    const plan = linePlan(i);
     fitToWidth(el, width * plan.fill, plan.to);
   });
 }
@@ -412,15 +419,16 @@ function statementMotion() {
   stTweens.forEach((tw) => { tw.scrollTrigger && tw.scrollTrigger.kill(); tw.kill(); });
   stTweens = [];
   const lines = $$('.st-line');
-  if (reduceMotion || isPhone()) { lines.forEach((el, i) => { el.style.fontStretch = (statementPlan[i] || statementPlan[0]).to + '%'; }); return; }
+  if (reduceMotion) { lines.forEach((el, i) => { el.style.fontStretch = linePlan(i).to + '%'; }); return; }
+  const phone = isPhone();
   lines.forEach((el, i) => {
-    const plan = statementPlan[i] || statementPlan[0];
+    const plan = linePlan(i);
     const o = { w: plan.from };
     const tw = gsap.to(o, {
       w: plan.to,
       ease: 'power1.inOut',
       onUpdate: () => { el.style.fontStretch = o.w.toFixed(2) + '%'; },
-      scrollTrigger: { trigger: el, start: 'top 96%', end: 'top 52%', scrub: 0.8 },
+      scrollTrigger: { trigger: el, start: 'top 96%', end: phone ? 'top 60%' : 'top 52%', scrub: 0.8 },
     });
     stTweens.push(tw);
   });
