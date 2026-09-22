@@ -196,7 +196,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'chori', video: '720 / 1280', row: 2, ratio: '1 / 1', kind: 'video', year: 2026,
+    slug: 'chori', video: '720 / 1280', row: 2, ratio: '2 / 3', pos: '50% 22%', kind: 'video', year: 2026,
     title: 'CHORI',
     type: { es: 'Pieza de marca', en: 'Brand piece' },
     text: {
