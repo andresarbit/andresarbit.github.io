@@ -235,12 +235,12 @@ function loadPhoto(src) {
 function renderHero() {
   $('#heroGhosts').innerHTML = heroStills
     .slice(0, 2)
-    .map((src, i) => `<img class="hero__ghost${i === 0 ? ' is-on' : ''}" src="${src}" alt=""
+    .map(({ src }, i) => `<img class="hero__ghost${i === 0 ? ' is-on' : ''}" src="${src}" alt=""
       ${i === 0 ? 'fetchpriority="high"' : ''} decoding="async">`)
     .join('');
   $('#heroType').innerHTML = '<div class="hero__letters is-on"></div><div class="hero__letters"></div>';
   $('#heroEdge').innerHTML = '<div class="hero__letters"></div>';
-  heroStills.forEach(loadPhoto);
+  heroStills.forEach(({ src }) => loadPhoto(src));
 }
 
 const letterGeom = new WeakMap();
@@ -255,13 +255,18 @@ function alignLetters(layer) {
 }
 
 /* Paints one photo inside the letters of a layer, lined up with the ghost behind */
-async function paintLetters(layer, src) {
+async function paintLetters(layer, still) {
+  const { src, fx = 0.5 } = still;
   const stage = $('.hero__stage');
   const { w: iw, h: ih } = await loadPhoto(src);
   const W = stage.clientWidth, H = stage.clientHeight;
   const cover = Math.max(W / iw, H / ih);
   const cw = iw * cover, ch = ih * cover;
-  const gx = (W - cw) / 2, gy = (H - ch) / 2;
+  // keep the point of interest on screen when the frame is narrower than the photo
+  const gx = Math.min(0, Math.max(W - cw, W / 2 - fx * cw));
+  const gy = (H - ch) / 2;
+  const ghost = $$('.hero__ghost').find((g) => g.getAttribute('src') === src);
+  if (ghost) ghost.style.objectPosition = cw > W ? `${(gx / (W - cw)) * 100}% 50%` : '50% 50%';
   letterGeom.set(layer, { gx, gy });
   // offsetLeft/Top, never getBoundingClientRect: a transformed measurement
   // would paint the photo outside the letters
@@ -274,6 +279,16 @@ async function paintLetters(layer, src) {
 
 let heroIndex = 0;
 let heroTimer;
+if (import.meta.env.DEV) {
+  // local preview only: jump to a hero photo to check its framing
+  window.__heroShow = async (i) => {
+    clearInterval(heroTimer);
+    const layer = $('#heroType .hero__letters.is-on');
+    heroIndex = i;
+    $('.hero__ghost.is-on').src = heroStills[i].src;
+    await paintLetters(layer, heroStills[i]);
+  };
+}
 function heroRotate() {
   clearInterval(heroTimer);
   const layers = $$('#heroType .hero__letters');
@@ -282,11 +297,11 @@ function heroRotate() {
   if (reduceMotion || saveData || heroStills.length < 2) return;
   heroTimer = setInterval(async () => {
     const next = (heroIndex + 1) % heroStills.length;
-    const src = heroStills[next];
+    const still = heroStills[next];
     const showing = layers.findIndex((l) => l.classList.contains('is-on'));
     const hidden = showing === 0 ? 1 : 0;
-    await paintLetters(layers[hidden], src);
-    ghosts[hidden].src = src;
+    ghosts[hidden].src = still.src;
+    await paintLetters(layers[hidden], still);
     layers[hidden].classList.add('is-on');
     layers[showing].classList.remove('is-on');
     ghosts[hidden].classList.add('is-on');

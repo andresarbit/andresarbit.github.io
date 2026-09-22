@@ -330,12 +330,13 @@ export const projects = [
 ];
 
 // Fotos del hero: se cruzan de a una detrás del nombre (public/media/hero/).
+// fx: punto de interés horizontal (0 a 1) que se mantiene visible cuando la pantalla es angosta.
 export const heroStills = [
-  '/media/hero/01.webp',
-  '/media/hero/02.webp',
-  '/media/hero/03.webp',
-  '/media/hero/04.webp',
-  '/media/hero/05.webp',
-  '/media/hero/06.webp',
-  '/media/hero/07.webp',
+  { src: '/media/hero/01.webp' },
+  { src: '/media/hero/02.webp' },
+  { src: '/media/hero/03.webp' },
+  { src: '/media/hero/04.webp' },
+  { src: '/media/hero/05.webp', fx: 0.44 },
+  { src: '/media/hero/06.webp', fx: 0.74 },
+  { src: '/media/hero/07.webp' },
 ];
