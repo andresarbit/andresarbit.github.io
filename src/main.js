@@ -312,7 +312,8 @@ function heroMotion() {
     .to(layers, { x: () => pt.w / 2 - pt.x, y: () => pt.h / 2 - pt.y, duration: 0.85, ease: 'power1.inOut' }, 0)
     .fromTo('#heroGhosts', { '--ghost-op': 0.17 }, { '--ghost-op': 1, duration: 0.55, immediateRender: false }, 0.35)
     .to(type, { opacity: 0, duration: 0.2 }, 0.78)
-    .to(edge, { opacity: 0, duration: 0.15 }, 0.7);
+    .to(edge, { opacity: 0, duration: 0.15 }, 0.7)
+    .fromTo(edge, { '--edge-k': 20 }, { '--edge-k': 4, duration: 0.55, immediateRender: false }, 0);
 }
 
 /* ── Statement: lines that justify by stretching ── */

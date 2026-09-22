@@ -224,8 +224,9 @@ ul, ol { padding: 0; list-style: none; }
 }
 .hero__edge .hero__line {
   background: none;
-  -webkit-text-stroke: 1.1px rgba(236, 235, 231, 0.4);
-  text-stroke: 1.1px rgba(236, 235, 231, 0.4);
+  /* thickness rides the type size, and thins out while the name is flying at you */
+  -webkit-text-stroke: calc(var(--edge-k, 20) * 0.001em) var(--paper);
+  text-stroke: calc(var(--edge-k, 20) * 0.001em) var(--paper);
 }
 .hero__line + .hero__line { margin-top: 0.035em; }
 .is-ready .hero__line {
