@@ -39,7 +39,7 @@ export const copy = {
     },
     contact: {
       title: 'Hablemos.',
-      body: 'El sistema ya está. Falta tu marca.',
+      body: 'Contame en qué andás y lo armamos.',
       email: 'Email',
       whatsapp: 'WhatsApp',
       instagram: 'Instagram',
@@ -102,7 +102,7 @@ export const copy = {
     },
     contact: {
       title: 'Let’s talk.',
-      body: 'The system is already here. Your brand is what’s missing.',
+      body: 'Tell me what you are working on and we build it.',
       email: 'Email',
       whatsapp: 'WhatsApp',
       instagram: 'Instagram',
