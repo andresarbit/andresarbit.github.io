@@ -579,10 +579,14 @@ ul, ol { padding: 0; list-style: none; }
 .pj__text { margin-top: 4vh; max-width: 44ch; font-size: clamp(18px, 1.45vw, 25px); line-height: 1.4; color: var(--paper); text-wrap: pretty; }
 
 .player { position: relative; background: #000; }
-.player video { width: 100%; object-fit: contain; background: #000; cursor: pointer; }
+.player video {
+  display: block; width: 100%; height: auto;
+  aspect-ratio: var(--vr, 9 / 16);   /* the file's own ratio */
+  object-fit: contain; background: #000; cursor: pointer;
+}
 .pj--v .player { width: fit-content; max-width: 100%; }
-.pj--v .player video { width: auto; max-width: 100%; height: calc(100dvh - var(--nav-h) - 56px); aspect-ratio: 9 / 16; object-fit: cover; }
-.pj--w .player video { aspect-ratio: 16 / 9; max-height: calc(100dvh - var(--nav-h) - 40px); }
+.pj--v .player video { width: auto; max-width: 100%; height: calc(100dvh - var(--nav-h) - 56px); }
+.pj--w .player video { max-height: calc(100dvh - var(--nav-h) - 40px); }
 .player__ui {
   position: absolute; left: 0; right: 0; bottom: 0;
   display: grid; grid-template-columns: auto 1fr auto auto auto; align-items: center; gap: 14px;

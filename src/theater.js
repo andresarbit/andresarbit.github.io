@@ -27,9 +27,11 @@ export function createTheater({ projects, copy, lang: initialLang, media }) {
 
   /* ── markup ─────────────────────────────── */
   function view(p) {
-    const layout = p.kind === 'stills' ? 'pj--s' : p.span >= 12 ? 'pj--w' : 'pj--v';
+    // the project view always shows the piece at its own ratio, never cropped
+    const [vw, vh] = (p.video || '9 / 16').split('/').map(Number);
+    const layout = p.kind === 'stills' ? 'pj--s' : vw / vh >= 1 ? 'pj--w' : 'pj--v';
     const mediaHtml = p.kind === 'video'
-      ? `<div class="player" data-player>
+      ? `<div class="player" data-player style="--vr:${vw} / ${vh}">
            <video src="${media(p.slug, 'full.mp4')}" poster="${media(p.slug, 'poster.webp')}" playsinline preload="metadata"></video>
            <div class="player__ui">
              <button type="button" data-act="play">${L('play')}</button>

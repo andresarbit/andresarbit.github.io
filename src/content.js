@@ -138,13 +138,14 @@ export const contact = {
 };
 
 // draft: true -> visible solo en `npm run dev`, nunca se publica en el build
-// row: fila de la grilla (las piezas de una fila comparten alto exacto) · ratio: proporción del recorte
+// row: fila de la grilla (las piezas de una fila comparten alto exacto) · ratio: proporción del recorte en la grilla
+// video: proporción real del archivo, que la vista de proyecto respeta sin recortar
 // kind: 'video' | 'stills'   ·   media lives in /public/media/<slug>/
 const R = { es: 'Concepto, dirección de arte, generación con IA y edición', en: 'Concept, art direction, AI generation and edit' };
 
 export const projects = [
   {
-    slug: 'fuga', row: 1, ratio: '4 / 5', kind: 'video', year: 2026, stills: 14,
+    slug: 'fuga', video: '720 / 1290', row: 1, ratio: '4 / 5', kind: 'video', year: 2026, stills: 14,
     title: 'FUGA',
     type: { es: 'Campaña spec · Moda', en: 'Spec campaign · Fashion' },
     text: {
@@ -154,7 +155,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'calle', row: 1, ratio: '2 / 3', kind: 'video', year: 2026,
+    slug: 'calle', video: '720 / 1290', row: 1, ratio: '2 / 3', kind: 'video', year: 2026,
     title: 'CALLE',
     type: { es: 'Campaña spec · Calzado', en: 'Spec campaign · Footwear' },
     text: {
@@ -164,7 +165,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'total-normalidad', row: 1, ratio: '1 / 1', kind: 'video', year: 2026,
+    slug: 'total-normalidad', video: '720 / 1290', row: 1, ratio: '1 / 1', kind: 'video', year: 2026,
     title: 'TOTAL NORMALIDAD',
     type: { es: 'Spot spec · Café', en: 'Spec spot · Coffee' },
     text: {
@@ -174,7 +175,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'como-corre-elisa', row: 2, ratio: '1 / 1', kind: 'video', year: 2026,
+    slug: 'como-corre-elisa', video: '1280 / 718', row: 2, ratio: '1 / 1', kind: 'video', year: 2026,
     title: 'CÓMO CORRE ELISA',
     type: { es: 'Trailer', en: 'Trailer' },
     text: {
@@ -194,7 +195,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'neto', row: 3, ratio: '2 / 3', kind: 'video', year: 2026,
+    slug: 'neto', video: '720 / 1280', row: 3, ratio: '2 / 3', kind: 'video', year: 2026,
     title: 'NETO',
     type: { es: 'Producción visual · Gastronomía', en: 'Visual production · Food' },
     text: {
@@ -224,7 +225,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'colgate', row: 4, ratio: '4 / 5', kind: 'video', year: 2026,
+    slug: 'colgate', video: '1280 / 714', row: 4, ratio: '4 / 5', kind: 'video', year: 2026,
     title: 'COLGATE × MARTÍN FIERRO',
     client: 'Colgate',
     type: { es: 'Cliente · Evento', en: 'Client · Event' },
@@ -245,7 +246,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'delivery-thriller', row: 5, ratio: '2 / 3', kind: 'video', year: 2026,
+    slug: 'delivery-thriller', video: '720 / 1290', row: 5, ratio: '2 / 3', kind: 'video', year: 2026,
     title: 'DELIVERY THRILLER',
     type: { es: 'Test de consistencia', en: 'Consistency test' },
     text: {
@@ -255,7 +256,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'deriva', row: 5, ratio: '3 / 4', kind: 'video', year: 2026, stills: 12,
+    slug: 'deriva', video: '720 / 1280', row: 5, ratio: '3 / 4', kind: 'video', year: 2026, stills: 12,
     title: 'DERIVA',
     type: { es: 'Campaña spec · Mobiliario', en: 'Spec campaign · Furniture' },
     text: {
@@ -265,7 +266,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'ugc-crime-life', row: 5, ratio: '4 / 5', kind: 'video', year: 2026, stills: 6,
+    slug: 'ugc-crime-life', video: '720 / 1280', row: 5, ratio: '4 / 5', kind: 'video', year: 2026, stills: 6,
     title: 'CRIME LIFE',
     client: 'BoomBit',
     type: { es: 'UGC con personajes IA · Mobile game', en: 'AI creator UGC · Mobile game' },
@@ -276,7 +277,7 @@ export const projects = [
     roles: { es: 'Personajes, dirección, generación con IA y edición', en: 'Characters, direction, AI generation and edit' },
   },
   {
-    slug: 'f1-test', row: 6, ratio: '1 / 1', kind: 'video', year: 2026,
+    slug: 'f1-test', video: '1280 / 714', row: 6, ratio: '1 / 1', kind: 'video', year: 2026,
     title: 'F1 TEST',
     type: { es: 'Prueba de mapeo · Automotriz', en: 'Mapping test · Automotive' },
     text: {
@@ -296,7 +297,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'yapa', row: 7, ratio: '4 / 5', kind: 'video', year: 2026,
+    slug: 'yapa', video: '720 / 1290', row: 7, ratio: '4 / 5', kind: 'video', year: 2026,
     title: 'YAPA',
     type: { es: 'Spot spec · Bebidas', en: 'Spec spot · Beverages' },
     text: {
@@ -306,7 +307,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'chori', row: 7, ratio: '1 / 1', kind: 'video', year: 2026,
+    slug: 'chori', video: '720 / 1280', row: 7, ratio: '1 / 1', kind: 'video', year: 2026,
     title: 'CHORI',
     type: { es: 'Pieza de marca', en: 'Brand piece' },
     text: {
@@ -316,7 +317,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'manifiesto', row: 7, ratio: '3 / 4', kind: 'video', year: 2026,
+    slug: 'manifiesto', video: '720 / 1290', row: 7, ratio: '3 / 4', kind: 'video', year: 2026,
     title: 'MANIFIESTO',
     type: { es: 'Spot spec · Telecomunicaciones', en: 'Spec spot · Telecom' },
     text: {
