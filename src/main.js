@@ -249,17 +249,29 @@ function alignLetters(layer) {
 
 /* Paints one photo inside the letters of a layer, lined up with the ghost behind */
 async function paintLetters(layer, still) {
-  const { src, fx = 0.5 } = still;
+  const { src, fx = 0.5, fy = 0.5, anchor, ghost: ghostOp } = still;
   const stage = $('.hero__stage');
   const { w: iw, h: ih } = await loadPhoto(src);
   const W = stage.clientWidth, H = stage.clientHeight;
   const cover = Math.max(W / iw, H / ih);
   const cw = iw * cover, ch = ih * cover;
-  // keep the point of interest on screen when the frame is narrower than the photo
-  const gx = Math.min(0, Math.max(W - cw, W / 2 - fx * cw));
-  const gy = (H - ch) / 2;
+  // the photo's point of interest (fx, fy) lands on the frame's centre, or on a
+  // named letter when the still asks for one, as far as cover allows
+  let tx = W / 2, ty = H / 2;
+  if (anchor) {
+    const glyph = $$('.hero__ch', layer).find((c) => c.textContent === anchor);
+    if (glyph) { tx = glyph.offsetLeft + glyph.offsetWidth / 2; ty = glyph.offsetTop + glyph.offsetHeight * 0.55; }
+  }
+  const gx = Math.min(0, Math.max(W - cw, tx - fx * cw));
+  const gy = Math.min(0, Math.max(H - ch, ty - fy * ch));
   const ghost = $$('.hero__ghost').find((g) => g.getAttribute('src') === src);
-  if (ghost) ghost.style.objectPosition = cw > W ? `${(gx / (W - cw)) * 100}% 50%` : '50% 50%';
+  if (ghost) {
+    const px = cw > W ? (gx / (W - cw)) * 100 : 50;
+    const py = ch > H ? (gy / (H - ch)) * 100 : 50;
+    ghost.style.objectPosition = `${px}% ${py}%`;
+    // a photo may ask to show through the black a little more (faces)
+    if (ghostOp) ghost.style.setProperty('--ghost-op', ghostOp); else ghost.style.removeProperty('--ghost-op');
+  }
   letterGeom.set(layer, { gx, gy });
   // offsetLeft/Top, never getBoundingClientRect: a transformed measurement
   // would paint the photo outside the letters

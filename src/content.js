@@ -155,12 +155,12 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'orbita-club', row: 1, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 11,
-    title: 'ÓRBITA CLUB',
-    type: { es: 'Campaña spec · Sportswear', en: 'Spec campaign · Sportswear' },
+    slug: 'manifiesto', video: '720 / 1290', row: 1, ratio: '3 / 4', kind: 'video', year: 2026,
+    title: 'MANIFIESTO',
+    type: { es: 'Spot spec · Telecomunicaciones', en: 'Spec spot · Telecom' },
     text: {
-      es: 'ÓRBITA CLUB no existe, pero ya tiene campaña, casting, producto y universo visual. Básquet, tenis, futsal, gym. Mismo sistema, distintas escenas.',
-      en: 'ÓRBITA CLUB doesn’t exist, yet it already has a campaign, casting, product and visual world. Basketball, tennis, futsal, gym. Same system, different scenes.',
+      es: 'Paisajes contemplativos, pausas largas y una voz que parece decir algo importante. Una telefónica ficticia construida con el lenguaje publicitario que todos conocemos. Los manifiestos de marca no son magia: son un sistema narrativo.',
+      en: 'Contemplative landscapes, long pauses and a voice that seems to say something important. A fictional telecom built with the ad language we all know. Brand manifestos aren’t magic: they’re a narrative system.',
     },
     roles: R,
   },
@@ -175,16 +175,6 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'manifiesto', video: '720 / 1290', row: 1, ratio: '3 / 4', kind: 'video', year: 2026,
-    title: 'MANIFIESTO',
-    type: { es: 'Spot spec · Telecomunicaciones', en: 'Spec spot · Telecom' },
-    text: {
-      es: 'Paisajes contemplativos, pausas largas y una voz que parece decir algo importante. Una telefónica ficticia construida con el lenguaje publicitario que todos conocemos. Los manifiestos de marca no son magia: son un sistema narrativo.',
-      en: 'Contemplative landscapes, long pauses and a voice that seems to say something important. A fictional telecom built with the ad language we all know. Brand manifestos aren’t magic: they’re a narrative system.',
-    },
-    roles: R,
-  },
-  {
     slug: 'labor-camperas', row: 1, ratio: '4 / 5', kind: 'stills', year: 2026, stills: 14,
     title: 'LABOR',
     type: { es: 'Campaña spec · Indumentaria de trabajo', en: 'Spec campaign · Workwear' },
@@ -195,7 +185,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'total-normalidad', video: '720 / 1290', row: 2, ratio: '4 / 5', kind: 'video', year: 2026,
+    slug: 'total-normalidad', video: '720 / 1290', row: 1, ratio: '4 / 5', kind: 'video', year: 2026,
     title: 'TOTAL NORMALIDAD',
     type: { es: 'Spot spec · Café', en: 'Spec spot · Coffee' },
     text: {
@@ -215,12 +205,12 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'cauce', row: 2, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 14,
-    title: 'CAUCE',
-    type: { es: 'Campaña spec · Moda', en: 'Spec campaign · Fashion' },
+    slug: 'anteojos-skull', row: 2, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 12,
+    title: 'SKULL',
+    type: { es: 'Campaña spec · Anteojos', en: 'Spec campaign · Eyewear' },
     text: {
-      es: 'Un set híbrido, cemento agrietado y naturaleza viva, con una dirección de arte enfocada en textura, movimiento y actitud.',
-      en: 'A hybrid set, cracked concrete and living nature, with art direction focused on texture, movement and attitude.',
+      es: 'Una calavera en la varilla, un baño de azulejos verdes y una ruta. Producto y personaje construidos con el mismo clima, del detalle macro al retrato.',
+      en: 'A skull on the temple, a green-tiled bathroom and a desert road. Product and character built in one mood, from macro detail to portrait.',
     },
     roles: R,
   },
@@ -235,7 +225,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'portraits-of-waiting', row: 3, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 5,
+    slug: 'portraits-of-waiting', row: 2, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 5,
     title: 'PORTRAITS OF WAITING',
     type: { es: 'Serie personal', en: 'Personal series' },
     text: {
@@ -255,12 +245,12 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'anteojos-skull', row: 3, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 12,
-    title: 'SKULL',
-    type: { es: 'Campaña spec · Anteojos', en: 'Spec campaign · Eyewear' },
+    slug: 'cauce', row: 3, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 14,
+    title: 'CAUCE',
+    type: { es: 'Campaña spec · Moda', en: 'Spec campaign · Fashion' },
     text: {
-      es: 'Una calavera en la varilla, un baño de azulejos verdes y una ruta. Producto y personaje construidos con el mismo clima, del detalle macro al retrato.',
-      en: 'A skull on the temple, a green-tiled bathroom and a desert road. Product and character built in one mood, from macro detail to portrait.',
+      es: 'Un set híbrido, cemento agrietado y naturaleza viva, con una dirección de arte enfocada en textura, movimiento y actitud.',
+      en: 'A hybrid set, cracked concrete and living nature, with art direction focused on texture, movement and attitude.',
     },
     roles: R,
   },
@@ -285,13 +275,23 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'colgate', video: '1280 / 714', row: 4, ratio: '4 / 5', kind: 'video', year: 2026,
+    slug: 'colgate', video: '1280 / 714', row: 3, ratio: '4 / 5', kind: 'video', year: 2026,
     title: 'COLGATE × MARTÍN FIERRO',
     client: 'Colgate',
     type: { es: 'Cliente · Evento', en: 'Client · Event' },
     text: {
       es: 'La alfombra roja de los Martín Fierro contada desde el #VioletEffect. Los personajes se acercan a quienes representan sin llegar a ser idénticos: el parecido alcanza, la copia no.',
       en: 'The Martín Fierro awards red carpet, told through the #VioletEffect. The characters come close to the people they stand for without being identical: the resemblance is enough, the copy is not.',
+    },
+    roles: R,
+  },
+  {
+    slug: 'orbita-club', row: 4, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 11,
+    title: 'ÓRBITA CLUB',
+    type: { es: 'Campaña spec · Sportswear', en: 'Spec campaign · Sportswear' },
+    text: {
+      es: 'ÓRBITA CLUB no existe, pero ya tiene campaña, casting, producto y universo visual. Básquet, tenis, futsal, gym. Mismo sistema, distintas escenas.',
+      en: 'ÓRBITA CLUB doesn’t exist, yet it already has a campaign, casting, product and visual world. Basketball, tennis, futsal, gym. Same system, different scenes.',
     },
     roles: R,
   },
@@ -330,7 +330,8 @@ export const projects = [
 ];
 
 // Fotos del hero: se cruzan de a una detrás del nombre (public/media/hero/).
-// fx: punto de interés horizontal (0 a 1) que se mantiene visible cuando la pantalla es angosta.
+// fx, fy: punto de interés de la foto (0 a 1). anchor: letra del nombre sobre la que cae ese punto.
+// ghost: cuánto se ve la foto fuera de las letras (por defecto 0.12).
 export const heroStills = [
   { src: '/media/hero/01.webp' },
   { src: '/media/hero/02.webp' },
@@ -338,5 +339,5 @@ export const heroStills = [
   { src: '/media/hero/04.webp' },
   { src: '/media/hero/05.webp', fx: 0.44 },
   { src: '/media/hero/06.webp', fx: 0.74 },
-  { src: '/media/hero/07.webp' },
+  { src: '/media/hero/07.webp', fx: 0.73, fy: 0.575, anchor: 'I', ghost: 0.42 },
 ];

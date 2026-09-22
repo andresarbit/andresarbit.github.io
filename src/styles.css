@@ -609,6 +609,22 @@ ul, ol { padding: 0; list-style: none; }
 .player__bar::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; margin-top: -5px; background: var(--paper); border-radius: 50%; }
 .player__bar::-moz-range-thumb { width: 12px; height: 12px; border: 0; background: var(--paper); border-radius: 50%; }
 
+.pj__still { display: block; width: auto; max-width: 100%; height: auto; max-height: calc(100dvh - var(--nav-h) - 48px); background: var(--raise); }
+
+/* thin arrow at the foot of a photo project: there is more below; gone once you move */
+.theater__hint {
+  position: fixed; bottom: calc(18px + env(safe-area-inset-bottom)); z-index: 4;
+  left: calc(var(--gutter) + (100vw - 2 * var(--gutter)) * 0.75);
+  transform: translateX(-50%);
+  color: var(--paper); pointer-events: none;
+  opacity: 1; transition: opacity 500ms ease;
+  animation: hint-bob 2.2s var(--ease-io) infinite;
+}
+.theater.is-scrolled .theater__hint { opacity: 0; }
+@keyframes hint-bob { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 6px); } }
+@media (max-width: 767px) { .theater__hint { left: 50%; } }
+@media (prefers-reduced-motion: reduce) { .theater__hint { animation: none; } }
+
 .stills { columns: 3; column-gap: clamp(10px, 1.4vw, 22px); margin-top: 10vh; }
 .stills img { width: 100%; height: auto; margin-bottom: clamp(10px, 1.4vw, 22px); break-inside: avoid; background: var(--raise); }
 .pj--s .pj__media { grid-column: 1 / span 6; }
