@@ -277,6 +277,10 @@ ul, ol { padding: 0; list-style: none; }
 }
 .st-line + .st-line { margin-top: 0.06em; }
 .st-line--end { color: var(--red); }
+/* while the lines are still narrow, each one sits in a different place */
+.st-line:nth-child(1) { margin-right: auto; }
+.st-line:nth-child(2) { margin-left: auto; margin-right: auto; }
+.st-line:nth-child(3) { margin-left: auto; }
 .st-line + .st-line--end { margin-top: 0.12em; }
 .statement__body {
   margin: 9vh 0 0 0;
