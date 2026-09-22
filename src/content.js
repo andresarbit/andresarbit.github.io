@@ -12,7 +12,7 @@ export const copy = {
     },
     statement: {
       lines: ['La marca', 'no existe.', 'El sistema sí.'],
-      body: 'Cada una de estas marcas es un sistema completo: campaña, casting, producto y mundo visual. El mismo método se aplica a cualquier marca real, sea cual sea el rubro.',
+      body: 'Cada una de estas marcas es un sistema completo: campaña, casting, producto y mundo visual.\nEl mismo método se aplica a cualquier marca real, sea cual sea el rubro.',
     },
     work: {
       title: 'Trabajo',
@@ -75,7 +75,7 @@ export const copy = {
     },
     statement: {
       lines: ['The brand', 'doesn’t exist.', 'The system does.'],
-      body: 'Each of these brands is a complete system: campaign, casting, product and visual world. The same method applies to any real brand, in any category.',
+      body: 'Each of these brands is a complete system: campaign, casting, product and visual world.\nThe same method applies to any real brand, in any category.',
     },
     work: {
       title: 'Work',

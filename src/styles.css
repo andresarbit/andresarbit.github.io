@@ -273,12 +273,13 @@ ul, ol { padding: 0; list-style: none; }
 .st-line--end { color: var(--red); }
 .st-line + .st-line--end { margin-top: 0.12em; }
 .statement__body {
-  margin: 9vh 0 0 auto;
-  max-width: 30ch;
-  font-size: clamp(20px, 1.65vw, 29px);
-  line-height: 1.36; letter-spacing: -0.01em;
+  margin: 9vh 0 0 0;
+  max-width: 72ch;
+  font-size: clamp(18px, 1.45vw, 24px);
+  line-height: 1.45; letter-spacing: -0.005em;
   color: var(--paper);
-  text-wrap: balance;
+  white-space: pre-line;   /* one sentence per line, as written */
+  text-wrap: pretty;
 }
 @media (max-width: 767px) {
   .statement { padding: 14vh var(--gutter) 12vh; }
