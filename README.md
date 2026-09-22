@@ -44,7 +44,7 @@ Las fotos del inicio están en `public/media/hero/` y se listan en `heroStills` 
 
 Un proyecto con `draft: true` en `src/content.js` se ve solo con `npm run dev`. No aparece en la web publicada y sus videos se borran del build (`scripts/prune-drafts.mjs`). Además, esas carpetas de `public/media/` están en `.gitignore`, así que tampoco viajan al repositorio.
 
-Hoy están en borrador: Nuvo y Vikingo Urquiza.
+Hoy no hay ninguno en borrador.
 
 ## Publicar
 

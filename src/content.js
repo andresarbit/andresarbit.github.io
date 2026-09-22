@@ -10,7 +10,7 @@ export const copy = {
       line: 'Producción audiovisual y campañas con IA',
     },
     statement: {
-      lines: ['La marca', 'no existe.', 'El sistema', 'sí.'],
+      lines: ['La marca', 'no existe.', 'El sistema sí.'],
       body: 'Construyo marcas que no existen, con campaña, casting, producto y mundo visual propios. Son la prueba de un método: el mismo sistema que después pongo a trabajar para marcas reales.',
     },
     work: {
@@ -73,7 +73,7 @@ export const copy = {
       line: 'Film and campaigns made with AI',
     },
     statement: {
-      lines: ['The brand', 'doesn’t exist.', 'The system', 'does.'],
+      lines: ['The brand', 'doesn’t exist.', 'The system does.'],
       body: 'I build brands that don’t exist, each with its own campaign, casting, product and visual world. They prove a method: the same system I then put to work for real brands.',
     },
     work: {
@@ -276,6 +276,7 @@ export const projects = [
   {
     slug: 'ugc-crime-life', size: 'v', offset: 1, kind: 'video', year: 2026, stills: 6,
     title: 'CRIME LIFE',
+    client: 'BoomBit',
     type: { es: 'UGC con personajes IA · Mobile game', en: 'AI creator UGC · Mobile game' },
     text: {
       es: 'Creadores generados con IA hablando a cámara para los anuncios de un juego mobile. Personaje consistente, set de streamer y gameplay integrado, en varias versiones para testear.',
@@ -320,26 +321,6 @@ export const projects = [
     text: {
       es: 'Niebla, río y un sweater con un choripán bordado.',
       en: 'Fog, a river and a sweater with an embroidered choripán.',
-    },
-    roles: R,
-  },
-  {
-    slug: 'nuvo', size: 'w', kind: 'video', year: 2026, draft: true,
-    title: 'NUVO',
-    type: { es: 'Film de marca', en: 'Brand film' },
-    text: {
-      es: 'París de noche: pétalos, fuego y pista. Un film de marca pensado para la noche.',
-      en: 'Paris at night: petals, fire and the dance floor. A brand film made for the night.',
-    },
-    roles: R,
-  },
-  {
-    slug: 'vikingo-urquiza', size: 'v', kind: 'video', year: 2026, draft: true,
-    title: 'VIKINGO URQUIZA',
-    type: { es: 'Serie', en: 'Series' },
-    text: {
-      es: 'Un vikingo suelto en Villa Urquiza y los vecinos que tienen algo para decir.',
-      en: 'A viking loose in Villa Urquiza, and the neighbors who have something to say.',
     },
     roles: R,
   },

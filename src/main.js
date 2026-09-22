@@ -21,7 +21,8 @@ const store = {
   get(k) { try { return localStorage.getItem(k); } catch { return null; } },
   set(k, v) { try { localStorage.setItem(k, v); } catch { /* private mode */ } },
 };
-let lang = store.get('lang') || ((navigator.language || 'es').toLowerCase().startsWith('es') ? 'es' : 'en');
+// Español primero; el visitante puede cambiar a inglés y queda guardado
+let lang = store.get('lang') || 'es';
 const t = (path) => path.split('.').reduce((o, k) => (o ? o[k] : undefined), copy[lang]);
 
 /* ── Static render ────────────────────────── */
@@ -218,7 +219,7 @@ function heroMotion() {
     scrollTrigger: {
       trigger: '#hero',
       start: 'top top',
-      end: () => '+=' + window.innerHeight * 1.25,
+      end: () => '+=' + window.innerHeight * 0.8,
       pin: '.hero__stage',
       scrub: 0.6,
       invalidateOnRefresh: true,
@@ -227,19 +228,19 @@ function heroMotion() {
   });
   heroTl
     .fromTo('.hero__role, .hero__line-small', { opacity: 1, y: 0 }, { opacity: 0, y: -10, duration: 0.15, immediateRender: false }, 0)
-    .to(layers, { scale: 60, duration: 1, ease: 'power2.in' }, 0)
+    .to(layers, { scale: 9, duration: 1, ease: 'power2.in' }, 0)
     // carry the I to the centre of the frame while we fly into it
     .to(layers, { x: () => pt.w / 2 - pt.x, y: () => pt.h / 2 - pt.y, duration: 0.7, ease: 'power1.inOut' }, 0)
-    .fromTo('#heroReel', { scale: 1.1 }, { scale: 1, duration: 1 }, 0)
-    .to(layers, { opacity: 0, duration: 0.12 }, 0.88);
+
+    .to(layers, { opacity: 0, duration: 0.22 }, 0.72)
+    .to('#heroReel', { scale: 1.12, duration: 1, ease: 'power2.in' }, 0);
 }
 
 /* ── Statement: lines that justify by stretching ── */
 const statementPlan = [
   { from: 125, to: 62, fill: 1 },
   { from: 62, to: 125, fill: 1 },
-  { from: 125, to: 62, fill: 1 },
-  { from: 62, to: 112, fill: 0.62 },
+  { from: 125, to: 72, fill: 1 },
 ];
 let stTweens = [];
 function fitStatement() {
@@ -247,8 +248,7 @@ function fitStatement() {
   const width = $('.statement').clientWidth - 2 * gutterPx();
   lines.forEach((el, i) => {
     const plan = statementPlan[i] || statementPlan[0];
-    const fill = window.innerWidth < 768 && i === lines.length - 1 ? 0.8 : plan.fill;
-    fitToWidth(el, width * fill, plan.to);
+    fitToWidth(el, width * plan.fill, plan.to);
   });
 }
 function statementMotion() {

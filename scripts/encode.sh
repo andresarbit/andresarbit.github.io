@@ -15,9 +15,7 @@ LIST=(
 "deriva|$P/Muebles Deriva/Exports/IG04_largo.mp4|12"
 "chori|$P/Chori/Exports/Chori_IG02.mp4|8"
 "como-corre-elisa|$P/CCE 2/Exports/Cc2 Trailer 02 comp.mp4|47"
-"nuvo|$R/Nuvo/Paris Boliche/11_Produccion_H3/montaje/NUVO_corte_final_v2b_BW+NeonFinal.mp4|14"
 "colgate|$R/Colgate MF/Exports/Colgate_MartinFierro_V05_Logo.mp4|45"
-"vikingo-urquiza|$R/Vikingo Urquiza/Exports/Vikingo Urquiza E01.mp4|3"
 "f1-test|$P/F1 Test/Test01.mp4|8"
 "ugc-crime-life|$R/BoomBit/Crime Life/Exports/Crime Life_UGC_04_01_ok.mp4|4"
 )

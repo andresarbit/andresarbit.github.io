@@ -189,9 +189,14 @@ ul, ol { padding: 0; list-style: none; }
 /* No transform/filter here: it would cut the mask's blend with the photo below */
 .hero__zoom { position: absolute; inset: 0; }
 .hero__mask, .hero__edge {
-  position: absolute; inset: 0; will-change: transform;
+  position: absolute; inset: 0;
+  overflow: hidden;           /* keeps the zoom from painting a giant layer */
+}
+.hero__letters {
+  position: absolute; inset: 0;
   display: flex; flex-direction: column; justify-content: center; align-items: center;
   padding-bottom: 4vh;
+  will-change: transform;
 }
 .hero__mask { background: #1f1f1f; color: #fff; mix-blend-mode: multiply; }
 .hero__edge { pointer-events: none; }
@@ -248,8 +253,8 @@ ul, ol { padding: 0; list-style: none; }
   white-space: nowrap;
 }
 .st-line + .st-line { margin-top: 0.06em; }
-.st-line--end { margin-left: auto; color: var(--red); }
-.st-line + .st-line--end { margin-top: 0.2em; }
+.st-line--end { color: var(--red); }
+.st-line + .st-line--end { margin-top: 0.12em; }
 .statement__body {
   margin: 10vh 0 0 auto;
   max-width: 34ch;
