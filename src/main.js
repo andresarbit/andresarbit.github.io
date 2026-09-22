@@ -52,7 +52,9 @@ function renderText() {
       // break long heads into balanced display lines, then widen the marked words
       const lines = words.length > 2 ? splitBalanced(words) : [it.head];
       const type = (l) => l.replace(/\*([^*]+)\*/g, '<em class="ap__wide">$1</em>');
-      return `<li class="ap rv"><h3 class="ap__head">${lines.map((l) => `<span>${type(l)}</span>`).join('')}</h3><p class="ap__body">${it.body}</p></li>`;
+      // one sentence per line: a full stop followed by text becomes a line break
+      const prose = it.body.replace(/\.\s+(?=\S)/g, '.\n');
+      return `<li class="ap rv"><h3 class="ap__head">${lines.map((l) => `<span>${type(l)}</span>`).join('')}</h3><p class="ap__body">${prose}</p></li>`;
     })
     .join('');
 
@@ -203,14 +205,18 @@ function startSlides(s) {
     s._built = true;
   }
   let i = 0;
-  s._timer = setInterval(() => {
+  // no two tiles tick together: each gets its own period and starting offset
+  const seat = [...$$('.tile__slides')].indexOf(s);
+  const period = 2200 + (seat % 4) * 450;
+  s._timer = setTimeout(function tick() {
     const imgs = $$('img', s);
     imgs[i].classList.remove('is-on');
     i = (i + 1) % imgs.length;
     imgs[i].classList.add('is-on');
-  }, 1700);
+    s._timer = setTimeout(tick, period);
+  }, 600 + seat * 700);
 }
-function stopSlides(s) { clearInterval(s._timer); s._timer = null; }
+function stopSlides(s) { clearTimeout(s._timer); s._timer = null; }
 
 /* ── Hero: the name made of the work ──────── */
 /* One photo at a time: dimmed across the frame, full strength inside the letters.
@@ -296,9 +302,9 @@ function fitHero() {
   // portrait phones stack the name in syllables so it can fill the screen
   const mode = window.innerWidth < 1024 && window.innerHeight > window.innerWidth * 1.05 ? 'stack' : 'wide';
   if (mode !== heroMode) {
-    const words = mode === 'stack' ? ['AN', '|D|RÉS', 'AR', 'BIT'] : ['AN|D|RÉS', 'ARBIT'];
+    const words = mode === 'stack' ? ['AN', 'DRÉS', 'AR', 'BIT'] : ['ANDRÉS', 'ARBIT'];
     const html = words
-      .map((w) => `<span class="hero__line">${w.replace('|D|', '<span class="hero__d">D</span>')}</span>`)
+      .map((w) => `<span class="hero__line">${[...w].map((c) => `<span class="hero__ch">${c}</span>`).join('')}</span>`)
       .join('');
     layers.forEach((l) => { l.innerHTML = html; });
     heroMode = mode;
@@ -323,51 +329,43 @@ function heroMotion() {
   if (reduceMotion) return;
   heroTl && heroTl.scrollTrigger && heroTl.scrollTrigger.kill();
   heroTl && heroTl.kill();
-  const type = $('#heroType');
-  const edge = $('#heroEdge');
-  const all = () => $$('.hero__letters');
-  // the width each line was fitted at: the animation walks from there to condensed
-  const base = $$('.hero__line', $('#heroType .hero__letters')).map((el) => parseFloat(el.style.fontStretch) || 100);
+  const layers = $$('.hero__letters');
+  const lines = $$('.hero__line', layers[0]);
+  const base = lines.map((el) => parseFloat(el.style.fontStretch) || 100);
 
-  // counterpoint: one line opens up while the next one narrows
-  const target = base.map((_, i) => (i % 2 === 0 ? 125 : 62));
+  // Each letter narrows to its own width, and the wave runs left to right:
+  // letter j of a line starts at j/n of the scroll and takes the second half.
+  const targets = [62, 84, 66, 96, 62, 74, 88, 62, 70, 92, 62, 80];
+  const plan = lines.map((line) => {
+    const n = $$('.hero__ch', line).length;
+    return [...Array(n)].map((_, j) => ({ start: (j / n) * 0.5, target: targets[j % targets.length] }));
+  });
+
   const state = { k: 0 };
   const applyWidth = () => {
-    all().forEach((layer) => {
-      $$('.hero__line', layer).forEach((el, i) => {
-        el.style.fontStretch = (base[i] + (target[i] - base[i]) * state.k).toFixed(2) + '%';
+    layers.forEach((layer) => {
+      $$('.hero__line', layer).forEach((line, i) => {
+        $$('.hero__ch', line).forEach((ch, j) => {
+          const { start, target } = plan[i][j];
+          const p = Math.min(1, Math.max(0, (state.k - start) / 0.5));
+          ch.style.fontStretch = (base[i] + (target - base[i]) * p).toFixed(2) + '%';
+        });
       });
     });
     $$('#heroType .hero__letters').forEach(alignLetters);
   };
 
+  // no pin: the page moves as soon as you scroll, and the name works while it leaves
   heroTl = gsap.timeline({
-    defaults: { ease: 'none' },
     scrollTrigger: {
       trigger: '#hero',
       start: 'top top',
-      end: () => '+=' + window.innerHeight * 0.85,
-      pin: '.hero__stage',
-      scrub: 0.55,
+      end: 'bottom top',
+      scrub: 0.4,
       invalidateOnRefresh: true,
     },
   });
-  heroTl
-    // the letters draw themselves in: full width to condensed, Scher on a dial
-    .fromTo(state, { k: 0 }, { k: 1, duration: 1, ease: 'power1.inOut', onUpdate: applyWidth, immediateRender: false }, 0)
-    .fromTo([type, edge], { letterSpacing: '-0.012em' }, { letterSpacing: '0.02em', duration: 1, ease: 'power1.inOut', immediateRender: false }, 0)
-    // the two lines drift apart as they narrow
-    .fromTo('#heroType .hero__letters .hero__line:first-child, #heroEdge .hero__line:first-child',
-      { yPercent: 0 }, { yPercent: -6, duration: 1, ease: 'power1.inOut', immediateRender: false }, 0)
-    .fromTo('#heroType .hero__letters .hero__line:last-child, #heroEdge .hero__line:last-child',
-      { yPercent: 0 }, { yPercent: 6, duration: 1, ease: 'power1.inOut', immediateRender: false }, 0)
-    // the photo comes up to full while the name steps aside
-    // the photo holds back while the name works, then takes the frame
-    .fromTo('#heroGhosts', { '--ghost-op': 0.12 }, { '--ghost-op': 0.3, duration: 0.7, immediateRender: false }, 0)
-    .to('#heroGhosts', { '--ghost-op': 1, duration: 0.3 }, 0.7)
-    .fromTo('.hero__role, .hero__line-small', { opacity: 1, y: 0 }, { opacity: 0, y: -10, duration: 0.18, immediateRender: false }, 0)
-    .fromTo('#heroReel', { scale: 1 }, { scale: 1.06, duration: 1, ease: 'power1.inOut', immediateRender: false }, 0)
-    .to([type, edge], { opacity: 0, duration: 0.25 }, 0.75);
+  heroTl.fromTo(state, { k: 0 }, { k: 1, duration: 1, ease: 'none', onUpdate: applyWidth, immediateRender: false }, 0);
 }
 
 /* ── Statement: lines that justify by stretching ── */
@@ -389,7 +387,7 @@ function statementMotion() {
   stTweens.forEach((tw) => { tw.scrollTrigger && tw.scrollTrigger.kill(); tw.kill(); });
   stTweens = [];
   const lines = $$('.st-line');
-  if (reduceMotion) { lines.forEach((el, i) => { el.style.fontStretch = (statementPlan[i] || statementPlan[0]).to + '%'; }); return; }
+  if (reduceMotion || isPhone()) { lines.forEach((el, i) => { el.style.fontStretch = (statementPlan[i] || statementPlan[0]).to + '%'; }); return; }
   lines.forEach((el, i) => {
     const plan = statementPlan[i] || statementPlan[0];
     const o = { w: plan.from };

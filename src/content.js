@@ -12,7 +12,7 @@ export const copy = {
     },
     statement: {
       lines: ['La marca', 'no existe.', 'El sistema sí.'],
-      body: 'Lo que importa acá no son las marcas: es el sistema que las produce. Una forma de construir imagen y video que se aplica a cualquier rubro.',
+      body: 'Cada una de estas marcas es un sistema completo: campaña, casting, producto y mundo visual. El mismo método se aplica a cualquier marca real, sea cual sea el rubro.',
     },
     work: {
       title: 'Trabajo',
@@ -32,14 +32,14 @@ export const copy = {
       p1: 'Soy Andrés Arbit, director creativo y productor audiovisual. Hace más de veinte años que dirijo, produzco y edito comerciales, videoclips y contenido de marca. Entre 2014 y 2019 fui director y socio de Neto Films, con campañas para Argentina, Latinoamérica y el mercado latino de Estados Unidos.',
       p2: 'Ese oficio es el que aplico hoy a la inteligencia artificial: concepto, casting, locaciones, cámara, música y edición, pensados como un solo sistema. Trabajo escuchando y asesorando, con respeto por el camino que cada marca quiere construir, y con el ojo puesto en el control de calidad de cada pieza.',
       servicesTitle: 'Qué hago',
-      services: ['Campañas y conceptos de marca', 'Films, spots y trailers', 'Contenido para redes', 'Personajes e influencers virtuales', 'Lookbooks y e-commerce'],
+      services: ['Campañas y conceptos de marca', 'Films, spots y trailers', 'Contenido para redes', 'Personajes e influencers virtuales', 'E-commerce y lookbooks'],
       brandsTitle: 'Marcas con las que trabajé',
       brands: ['DirecTV', 'Fox', 'Danone', 'Hellmann’s', 'Dog Chow', 'Samsung', 'Arcor', 'Nikon'],
       photoAltAi: 'Retrato de Andrés Arbit generado con IA',
     },
     contact: {
       title: 'Hablemos.',
-      body: 'Contame en qué andás y lo armamos.',
+      body: 'Contame en qué andás\ny lo armamos.',
       email: 'Email',
       whatsapp: 'WhatsApp',
       instagram: 'Instagram',
@@ -75,7 +75,7 @@ export const copy = {
     },
     statement: {
       lines: ['The brand', 'doesn’t exist.', 'The system does.'],
-      body: 'What matters here is not the brands: it is the system that produces them. A way of building image and video that applies to any category.',
+      body: 'Each of these brands is a complete system: campaign, casting, product and visual world. The same method applies to any real brand, in any category.',
     },
     work: {
       title: 'Work',
@@ -95,14 +95,14 @@ export const copy = {
       p1: 'I’m Andrés Arbit, a creative director and film producer. For more than twenty years I have directed, produced and edited commercials, music videos and branded content. From 2014 to 2019 I was director and partner at Neto Films, running campaigns for Argentina, Latin America and the US Latino market.',
       p2: 'That craft is what I now bring to artificial intelligence: concept, casting, locations, camera, music and edit, designed as a single system. I work by listening and advising, with respect for the path each brand wants to build, and with an eye on the quality control of every piece.',
       servicesTitle: 'What I do',
-      services: ['Campaigns and brand concepts', 'Films, spots and trailers', 'Social content', 'Virtual characters and influencers', 'Lookbooks and e-commerce'],
+      services: ['Campaigns and brand concepts', 'Films, spots and trailers', 'Social content', 'Virtual characters and influencers', 'E-commerce and lookbooks'],
       brandsTitle: 'Brands I have worked with',
       brands: ['DirecTV', 'Fox', 'Danone', 'Hellmann’s', 'Dog Chow', 'Samsung', 'Arcor', 'Nikon'],
       photoAltAi: 'Portrait of Andrés Arbit generated with AI',
     },
     contact: {
       title: 'Let’s talk.',
-      body: 'Tell me what you are working on and we build it.',
+      body: 'Tell me what you are working on\nand we build it.',
       email: 'Email',
       whatsapp: 'WhatsApp',
       instagram: 'Instagram',
@@ -155,6 +155,16 @@ export const projects = [
     roles: R,
   },
   {
+    slug: 'orbita-club', row: 1, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 11,
+    title: 'ÓRBITA CLUB',
+    type: { es: 'Campaña spec · Sportswear', en: 'Spec campaign · Sportswear' },
+    text: {
+      es: 'ÓRBITA CLUB no existe, pero ya tiene campaña, casting, producto y universo visual. Básquet, tenis, futsal, gym. Mismo sistema, distintas escenas.',
+      en: 'ÓRBITA CLUB doesn’t exist, yet it already has a campaign, casting, product and visual world. Basketball, tennis, futsal, gym. Same system, different scenes.',
+    },
+    roles: R,
+  },
+  {
     slug: 'calle', video: '720 / 1290', row: 1, ratio: '2 / 3', kind: 'video', year: 2026,
     title: 'CALLE',
     type: { es: 'Campaña spec · Calzado', en: 'Spec campaign · Footwear' },
@@ -165,47 +175,17 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'total-normalidad', video: '720 / 1290', row: 1, ratio: '1 / 1', kind: 'video', year: 2026,
-    title: 'TOTAL NORMALIDAD',
-    type: { es: 'Spot spec · Café', en: 'Spec spot · Coffee' },
+    slug: 'manifiesto', video: '720 / 1290', row: 2, ratio: '3 / 4', kind: 'video', year: 2026,
+    title: 'MANIFIESTO',
+    type: { es: 'Spot spec · Telecomunicaciones', en: 'Spec spot · Telecom' },
     text: {
-      es: 'Un mundo post-apocalíptico, una heroína consistente y un café que ordena la escena. Hecho con IA, sí, pero con reglas: construcción de mundo, continuidad visual y props a escala.',
-      en: 'A post-apocalyptic world, a consistent heroine and a coffee that holds the scene together. Made with AI, yes, but with rules: worldbuilding, visual continuity and props to scale.',
+      es: 'Paisajes contemplativos, pausas largas y una voz que parece decir algo importante. Una telefónica ficticia construida con el lenguaje publicitario que todos conocemos. Los manifiestos de marca no son magia: son un sistema narrativo.',
+      en: 'Contemplative landscapes, long pauses and a voice that seems to say something important. A fictional telecom built with the ad language we all know. Brand manifestos aren’t magic: they’re a narrative system.',
     },
     roles: R,
   },
   {
-    slug: 'como-corre-elisa', video: '1280 / 718', row: 2, ratio: '1 / 1', kind: 'video', year: 2026,
-    title: 'CÓMO CORRE ELISA',
-    type: { es: 'Trailer', en: 'Trailer' },
-    text: {
-      es: 'Una mujer, una montaña y la nieve. Trailer de un film construido plano por plano.',
-      en: 'A woman, a mountain and the snow. Trailer for a film built shot by shot.',
-    },
-    roles: R,
-  },
-  {
-    slug: 'orbita-club', row: 2, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 11,
-    title: 'ÓRBITA CLUB',
-    type: { es: 'Campaña spec · Sportswear', en: 'Spec campaign · Sportswear' },
-    text: {
-      es: 'ÓRBITA CLUB no existe, pero ya tiene campaña, casting, producto y universo visual. Básquet, tenis, futsal, gym. Mismo sistema, distintas escenas.',
-      en: 'ÓRBITA CLUB doesn’t exist, yet it already has a campaign, casting, product and visual world. Basketball, tennis, futsal, gym. Same system, different scenes.',
-    },
-    roles: R,
-  },
-  {
-    slug: 'neto', video: '720 / 1280', row: 3, ratio: '2 / 3', kind: 'video', year: 2026,
-    title: 'NETO',
-    type: { es: 'Producción visual · Gastronomía', en: 'Visual production · Food' },
-    text: {
-      es: 'Cocina en movimiento, ritmo de trabajo, platos en circulación. Imagen pensada para acompañar la intensidad del proceso. El método es el mismo; cambia el pulso.',
-      en: 'A kitchen in motion, working rhythm, plates in circulation. Images made to match the intensity of the process. The method stays the same; the pulse changes.',
-    },
-    roles: R,
-  },
-  {
-    slug: 'labor-camperas', row: 3, ratio: '4 / 5', kind: 'stills', year: 2026, stills: 14,
+    slug: 'labor-camperas', row: 2, ratio: '4 / 5', kind: 'stills', year: 2026, stills: 14,
     title: 'LABOR',
     type: { es: 'Campaña spec · Indumentaria de trabajo', en: 'Spec campaign · Workwear' },
     text: {
@@ -215,7 +195,67 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'anteojos-skull', row: 3, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 12,
+    slug: 'total-normalidad', video: '720 / 1290', row: 3, ratio: '4 / 5', kind: 'video', year: 2026,
+    title: 'TOTAL NORMALIDAD',
+    type: { es: 'Spot spec · Café', en: 'Spec spot · Coffee' },
+    text: {
+      es: 'Un mundo post-apocalíptico, una heroína consistente y un café que ordena la escena. Hecho con IA, sí, pero con reglas: construcción de mundo, continuidad visual y props a escala.',
+      en: 'A post-apocalyptic world, a consistent heroine and a coffee that holds the scene together. Made with AI, yes, but with rules: worldbuilding, visual continuity and props to scale.',
+    },
+    roles: R,
+  },
+  {
+    slug: 'chori', video: '720 / 1280', row: 3, ratio: '1 / 1', kind: 'video', year: 2026,
+    title: 'CHORI',
+    type: { es: 'Pieza de marca', en: 'Brand piece' },
+    text: {
+      es: 'Niebla, río y un sweater con un choripán bordado.',
+      en: 'Fog, a river and a sweater with an embroidered choripán.',
+    },
+    roles: R,
+  },
+  {
+    slug: 'cauce', row: 3, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 14,
+    title: 'CAUCE',
+    type: { es: 'Campaña spec · Moda', en: 'Spec campaign · Fashion' },
+    text: {
+      es: 'Un set híbrido, cemento agrietado y naturaleza viva, con una dirección de arte enfocada en textura, movimiento y actitud.',
+      en: 'A hybrid set, cracked concrete and living nature, with art direction focused on texture, movement and attitude.',
+    },
+    roles: R,
+  },
+  {
+    slug: 'como-corre-elisa', video: '1280 / 718', row: 4, ratio: '1 / 1', kind: 'video', year: 2026,
+    title: 'CÓMO CORRE ELISA',
+    type: { es: 'Trailer', en: 'Trailer' },
+    text: {
+      es: 'Una mujer, una montaña y la nieve. Trailer de un film construido plano por plano.',
+      en: 'A woman, a mountain and the snow. Trailer for a film built shot by shot.',
+    },
+    roles: R,
+  },
+  {
+    slug: 'portraits-of-waiting', row: 4, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 5,
+    title: 'PORTRAITS OF WAITING',
+    type: { es: 'Serie personal', en: 'Personal series' },
+    text: {
+      es: 'Gente esperando: un banco, una parada, un pasillo. Retratos del tiempo muerto, esa parte del día que no suele entrar en una campaña.',
+      en: 'People waiting: a bank, a bus stop, a corridor. Portraits of dead time, the part of the day campaigns leave out.',
+    },
+    roles: R,
+  },
+  {
+    slug: 'neto', video: '720 / 1280', row: 5, ratio: '2 / 3', kind: 'video', year: 2026,
+    title: 'NETO',
+    type: { es: 'Producción visual · Gastronomía', en: 'Visual production · Food' },
+    text: {
+      es: 'Cocina en movimiento, ritmo de trabajo, platos en circulación. Imagen pensada para acompañar la intensidad del proceso. El método es el mismo; cambia el pulso.',
+      en: 'A kitchen in motion, working rhythm, plates in circulation. Images made to match the intensity of the process. The method stays the same; the pulse changes.',
+    },
+    roles: R,
+  },
+  {
+    slug: 'anteojos-skull', row: 5, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 12,
     title: 'SKULL',
     type: { es: 'Campaña spec · Anteojos', en: 'Spec campaign · Eyewear' },
     text: {
@@ -225,7 +265,27 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'colgate', video: '1280 / 714', row: 4, ratio: '4 / 5', kind: 'video', year: 2026,
+    slug: 'yapa', video: '720 / 1290', row: 5, ratio: '4 / 5', kind: 'video', year: 2026,
+    title: 'YAPA',
+    type: { es: 'Spot spec · Bebidas', en: 'Spec spot · Beverages' },
+    text: {
+      es: 'Soda y fruta natural. Del durazno en el árbol a la lata, entre los cerros de colores.',
+      en: 'Soda and real fruit. From the peach on the tree to the can, among the colored hills.',
+    },
+    roles: R,
+  },
+  {
+    slug: 'deriva', video: '720 / 1280', row: 6, ratio: '3 / 4', kind: 'video', year: 2026, stills: 12,
+    title: 'DERIVA',
+    type: { es: 'Campaña spec · Mobiliario', en: 'Spec campaign · Furniture' },
+    text: {
+      es: 'Sillas de madera frente al mar, entre la tormenta y la calma.',
+      en: 'Wooden chairs facing the sea, between the storm and the calm.',
+    },
+    roles: R,
+  },
+  {
+    slug: 'colgate', video: '1280 / 714', row: 6, ratio: '4 / 5', kind: 'video', year: 2026,
     title: 'COLGATE × MARTÍN FIERRO',
     client: 'Colgate',
     type: { es: 'Cliente · Evento', en: 'Client · Event' },
@@ -236,17 +296,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'cauce', row: 4, ratio: '1 / 1', kind: 'stills', year: 2026, stills: 14,
-    title: 'CAUCE',
-    type: { es: 'Campaña spec · Moda', en: 'Spec campaign · Fashion' },
-    text: {
-      es: 'Un set híbrido, cemento agrietado y naturaleza viva, con una dirección de arte enfocada en textura, movimiento y actitud.',
-      en: 'A hybrid set, cracked concrete and living nature, with art direction focused on texture, movement and attitude.',
-    },
-    roles: R,
-  },
-  {
-    slug: 'delivery-thriller', video: '720 / 1290', row: 5, ratio: '2 / 3', kind: 'video', year: 2026,
+    slug: 'delivery-thriller', video: '720 / 1290', row: 7, ratio: '2 / 3', kind: 'video', year: 2026,
     title: 'DELIVERY THRILLER',
     type: { es: 'Test de consistencia', en: 'Consistency test' },
     text: {
@@ -256,28 +306,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'deriva', video: '720 / 1280', row: 5, ratio: '3 / 4', kind: 'video', year: 2026, stills: 12,
-    title: 'DERIVA',
-    type: { es: 'Campaña spec · Mobiliario', en: 'Spec campaign · Furniture' },
-    text: {
-      es: 'Sillas de madera frente al mar, entre la tormenta y la calma.',
-      en: 'Wooden chairs facing the sea, between the storm and the calm.',
-    },
-    roles: R,
-  },
-  {
-    slug: 'ugc-crime-life', video: '720 / 1280', row: 5, ratio: '4 / 5', kind: 'video', year: 2026, stills: 6,
-    title: 'CRIME LIFE',
-    client: 'BoomBit',
-    type: { es: 'UGC con personajes IA · Mobile game', en: 'AI creator UGC · Mobile game' },
-    text: {
-      es: 'Creadores generados con IA hablando a cámara para los anuncios de un juego mobile. Personaje consistente, set de streamer y gameplay integrado, en varias versiones para testear.',
-      en: 'AI-generated creators talking to camera for a mobile game’s ads. Consistent character, streamer set and gameplay integrated, in several versions to test.',
-    },
-    roles: { es: 'Personajes, dirección, generación con IA y edición', en: 'Characters, direction, AI generation and edit' },
-  },
-  {
-    slug: 'f1-test', video: '1280 / 714', row: 6, ratio: '1 / 1', kind: 'video', year: 2026,
+    slug: 'f1-test', video: '1280 / 714', row: 7, ratio: '1 / 1', kind: 'video', year: 2026,
     title: 'F1 TEST',
     type: { es: 'Prueba de mapeo · Automotriz', en: 'Mapping test · Automotive' },
     text: {
@@ -287,44 +316,15 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'portraits-of-waiting', row: 6, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 5,
-    title: 'PORTRAITS OF WAITING',
-    type: { es: 'Serie personal', en: 'Personal series' },
+    slug: 'ugc-crime-life', video: '720 / 1280', row: 7, ratio: '4 / 5', kind: 'video', year: 2026, stills: 6,
+    title: 'CRIME LIFE',
+    client: 'BoomBit',
+    type: { es: 'UGC con personajes IA · Mobile game', en: 'AI creator UGC · Mobile game' },
     text: {
-      es: 'Gente esperando: un banco, una parada, un pasillo. Retratos del tiempo muerto, esa parte del día que no suele entrar en una campaña.',
-      en: 'People waiting: a bank, a bus stop, a corridor. Portraits of dead time, the part of the day campaigns leave out.',
+      es: 'Creadores generados con IA hablando a cámara para los anuncios de un juego mobile. Personaje consistente, set de streamer y gameplay integrado, en varias versiones para testear.',
+      en: 'AI-generated creators talking to camera for a mobile game’s ads. Consistent character, streamer set and gameplay integrated, in several versions to test.',
     },
-    roles: R,
-  },
-  {
-    slug: 'yapa', video: '720 / 1290', row: 7, ratio: '4 / 5', kind: 'video', year: 2026,
-    title: 'YAPA',
-    type: { es: 'Spot spec · Bebidas', en: 'Spec spot · Beverages' },
-    text: {
-      es: 'Soda y fruta natural. Del durazno en el árbol a la lata, entre los cerros de colores.',
-      en: 'Soda and real fruit. From the peach on the tree to the can, among the colored hills.',
-    },
-    roles: R,
-  },
-  {
-    slug: 'chori', video: '720 / 1280', row: 7, ratio: '1 / 1', kind: 'video', year: 2026,
-    title: 'CHORI',
-    type: { es: 'Pieza de marca', en: 'Brand piece' },
-    text: {
-      es: 'Niebla, río y un sweater con un choripán bordado.',
-      en: 'Fog, a river and a sweater with an embroidered choripán.',
-    },
-    roles: R,
-  },
-  {
-    slug: 'manifiesto', video: '720 / 1290', row: 7, ratio: '3 / 4', kind: 'video', year: 2026,
-    title: 'MANIFIESTO',
-    type: { es: 'Spot spec · Telecomunicaciones', en: 'Spec spot · Telecom' },
-    text: {
-      es: 'Paisajes contemplativos, pausas largas y una voz que parece decir algo importante. Una telefónica ficticia construida con el lenguaje publicitario que todos conocemos. Los manifiestos de marca no son magia: son un sistema narrativo.',
-      en: 'Contemplative landscapes, long pauses and a voice that seems to say something important. A fictional telecom built with the ad language we all know. Brand manifestos aren’t magic: they’re a narrative system.',
-    },
-    roles: R,
+    roles: { es: 'Personajes, dirección, generación con IA y edición', en: 'Characters, direction, AI generation and edit' },
   },
 
 ];
