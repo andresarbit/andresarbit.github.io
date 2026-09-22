@@ -3,7 +3,7 @@
 # usage: bash scripts/encode.sh   (re-runs skip existing outputs)
 set -u
 P="D:/Produccion IA/Portfolio"; R="D:/Produccion IA"; OUT="D:/Andi AI Web/public/media"
-# slug | source | preview start (s)
+# slug | source | preview start (s), o varios inicios separados por coma para un loop de tomas distintas
 LIST=(
 "fuga|$P/Fuga/Exports/Armado Fuga 03.mp4|9"
 "calle|$P/Calle Zapas/Exports/Calle_IG01.mp4|14"
@@ -15,10 +15,9 @@ LIST=(
 "deriva|$P/Muebles Deriva/Exports/IG04_largo.mp4|12"
 "chori|$P/Chori/Exports/Chori_IG02.mp4|8"
 "como-corre-elisa|$P/CCE 2/Exports/Cc2 Trailer 02 comp.mp4|47"
-"nuvo|$R/Nuvo/Paris Boliche/11_Produccion_H3/montaje/NUVO_corte_final_v2b_BW+NeonFinal.mp4|14"
-"colgate|$R/Colgate MF/Exports/Colgate_MartinFierro_V05_Logo.mp4|45"
-"vikingo-urquiza|$R/Vikingo Urquiza/Exports/Vikingo Urquiza E01.mp4|3"
-"f1-test|$P/F1 Test/Test01.mp4|8"
+"colgate|$R/Colgate MF/Exports/Colgate_MartinFierro_V05_Logo.mp4|10.65"
+"f1-test|$P/F1 Test/Test01.mp4|1.5,12,17"
+"ugc-crime-life|$R/BoomBit/Crime Life/Exports/Crime Life_UGC_04_01_ok.mp4|4"
 )
 for row in "${LIST[@]}"; do
   IFS='|' read -r slug src ss <<< "$row"
@@ -31,8 +30,19 @@ for row in "${LIST[@]}"; do
   pmax=1100k; [ "$w" -gt "$h" ] && pmax=2200k
   vb=$(python -c "print(int(min(2600, 22*8*1024/float($dur) - 140)))")
   [ -f "$d/full.mp4" ] || ffmpeg -v error -y -i "$src" -vf "$full,format=yuv420p" -c:v libx264 -preset slow -crf 23 -maxrate ${vb}k -bufsize $((vb*2))k -profile:v high -c:a aac -b:a 128k -ac 2 -movflags +faststart "$d/full.mp4"
-  [ -f "$d/preview.mp4" ] || ffmpeg -v error -y -ss "$ss" -t 6 -i "$src" -vf "$prev,format=yuv420p" -an -c:v libx264 -preset slow -crf 27 -maxrate $pmax -bufsize $((2*${pmax%k}))k -profile:v high -movflags +faststart "$d/preview.mp4"
-  [ -f "$d/poster.webp" ] || ffmpeg -v error -y -ss "$(python -c "print($ss+0.5)")" -i "$src" -frames:v 1 -vf "$post" -q:v 80 "$d/poster.webp"
+  if [ -f "$d/preview.mp4" ]; then :
+  elif [[ "$ss" == *,* ]]; then
+    # several shots: equal slices that add up to six seconds, joined with no fade
+    IFS=',' read -ra starts <<< "$ss"; n=${#starts[@]}; len=$(python -c "print(6/$n)")
+    inputs=(); fc=""; k=0
+    for st in "${starts[@]}"; do inputs+=(-ss "$st" -t "$len" -i "$src"); fc="$fc[$k:v]$prev,format=yuv420p,setpts=PTS-STARTPTS[v$k];"; k=$((k+1)); done
+    chain=""; for j in $(seq 0 $((n-1))); do chain="$chain[v$j]"; done
+    ffmpeg -v error -y "${inputs[@]}" -filter_complex "${fc}${chain}concat=n=$n:v=1:a=0[out]" -map "[out]" -an -c:v libx264 -preset slow -crf 27 -maxrate $pmax -bufsize $((2*${pmax%k}))k -profile:v high -movflags +faststart "$d/preview.mp4"
+  else
+    ffmpeg -v error -y -ss "$ss" -t 6 -i "$src" -vf "$prev,format=yuv420p" -an -c:v libx264 -preset slow -crf 27 -maxrate $pmax -bufsize $((2*${pmax%k}))k -profile:v high -movflags +faststart "$d/preview.mp4"
+  fi
+  first="${ss%%,*}"
+  [ -f "$d/poster.webp" ] || ffmpeg -v error -y -ss "$(python -c "print($first+0.5)")" -i "$src" -frames:v 1 -vf "$post" -q:v 80 "$d/poster.webp"
   printf "%s  dur=%.1fs  %sx%s  full=%sKB prev=%sKB\n" "$slug" "$dur" "$w" "$h" "$(( $(stat -c%s "$d/full.mp4")/1024 ))" "$(( $(stat -c%s "$d/preview.mp4")/1024 ))"
 done
 echo ALL_DONE

@@ -1,8 +1,10 @@
 import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource-variable/schibsted-grotesk';
+import '@fontsource-variable/schibsted-grotesk/wght-italic.css';
 import './styles.css';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { copy, contact, projects, heroReel } from './content.js';
+import { copy, contact, projects, heroStills } from './content.js';
 import { fitToWidth, justifyByWidth } from './fit.js';
 import { createTheater } from './theater.js';
 
@@ -21,7 +23,8 @@ const store = {
   get(k) { try { return localStorage.getItem(k); } catch { return null; } },
   set(k, v) { try { localStorage.setItem(k, v); } catch { /* private mode */ } },
 };
-let lang = store.get('lang') || ((navigator.language || 'es').toLowerCase().startsWith('es') ? 'es' : 'en');
+// Español primero; el visitante puede cambiar a inglés y queda guardado
+let lang = store.get('lang') || 'es';
 const t = (path) => path.split('.').reduce((o, k) => (o ? o[k] : undefined), copy[lang]);
 
 /* ── Static render ────────────────────────── */
@@ -45,10 +48,14 @@ function renderText() {
   // approach
   $('#approachList').innerHTML = t('approach.items')
     .map((it) => {
-      const words = it.head.split(' ');
-      // break long heads into balanced display lines
+      // a marked phrase travels as one token, so a line break never splits it
+      const words = it.head.match(/\*[^*]+\*|\S+/g) || [it.head];
+      // break long heads into balanced display lines, then widen the marked words
       const lines = words.length > 2 ? splitBalanced(words) : [it.head];
-      return `<li class="ap rv"><h3 class="ap__head">${lines.map((l) => `<span>${l}</span>`).join('')}</h3><p class="ap__body">${it.body}</p></li>`;
+      const type = (l) => l.replace(/\*([^*]+)\*/g, '<em class="ap__wide">$1</em>');
+      // one sentence per line: a full stop followed by text becomes a line break
+      const prose = it.body.replace(/\.\s+(?=\S)/g, '.\n');
+      return `<li class="ap rv"><h3 class="ap__head">${lines.map((l) => `<span>${type(l)}</span>`).join('')}</h3><p class="ap__body">${prose}</p></li>`;
     })
     .join('');
 
@@ -74,31 +81,78 @@ function renderText() {
 }
 
 function splitBalanced(words) {
+  const plain = (w) => w.replace(/\*/g, '');
   // two lines, as even as possible by character count
   let best = 1, bestDiff = Infinity;
   for (let i = 1; i < words.length; i++) {
-    const a = words.slice(0, i).join(' ').length, b = words.slice(i).join(' ').length;
+    const a = plain(words.slice(0, i).join(' ')).length, b = plain(words.slice(i).join(' ')).length;
     if (Math.abs(a - b) < bestDiff) { bestDiff = Math.abs(a - b); best = i; }
   }
   return [words.slice(0, best).join(' '), words.slice(best).join(' ')];
 }
 
 /* ── Work grid ────────────────────────────── */
+const isPhone = () => window.matchMedia('(max-width: 767px)').matches;
+let gridPhone = null;
+
 function renderGrid() {
-  $('#grid').innerHTML = visible
-    .map((p) => {
-      const cls = `tile tile--${p.size}${p.offset ? ' tile--offset' : ''}`;
-      const poster = p.kind === 'stills' ? media(p.slug, 'stills/01.webp') : media(p.slug, 'poster.webp');
-      const inner = p.kind === 'stills'
-        ? `<div class="tile__slides" data-count="${p.stills}"><img src="${poster}" alt="" class="is-on" loading="lazy" decoding="async"></div>`
-        : `<img src="${poster}" alt="" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="${media(p.slug, 'preview.mp4')}"></video>`;
-      return `<li class="${cls}" data-slug="${p.slug}">
-        <a class="tile__link" href="#/p/${p.slug}" aria-label="${p.title}">
-          <div class="tile__media">${inner}</div>
-          <div class="tile__cap"><h3 class="tile__title">${p.title}</h3><p class="tile__type"></p>${p.draft ? '<p class="tile__draft">Borrador, no se publica</p>' : ''}</div>
-        </a></li>`;
+  // Each row is justified: widths follow each piece's own ratio, so every tile in
+  // a row starts and ends on the same line, whatever shape it is. On a phone the
+  // same rule applies to pairs, and the wide films take a line of their own.
+  const phone = isPhone();
+  gridPhone = phone;
+  const source = [];
+  visible.forEach((p) => {
+    const r = p.row || 1;
+    (source[r] ||= []).push(p);
+  });
+
+  const rows = [];
+  if (!phone) {
+    source.filter(Boolean).forEach((row) => rows.push(row));
+  } else {
+    // phones pair the pieces in order, across the desktop rows, so none is left alone
+    const all = source.filter(Boolean).flat();
+    for (let i = 0; i < all.length; i += 2) rows.push(all.slice(i, i + 2));
+  }
+
+  $('#grid').innerHTML = rows
+    .map((row) => {
+      const tiles = row
+        .map((p) => {
+          const poster = p.kind === 'stills' ? media(p.slug, 'stills/01.webp') : media(p.slug, 'poster.webp');
+          const inner = p.kind === 'stills'
+            ? `<div class="tile__slides" data-count="${p.stills}"><img src="${poster}" alt="" class="is-on" loading="lazy" decoding="async"></div>`
+            : `<img src="${poster}" alt="" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="${media(p.slug, 'preview.mp4')}"></video>`;
+          const [w, h] = p.ratio.split('/').map(Number);
+          return `<li class="tile" data-slug="${p.slug}" style="--ratio:${p.ratio};--aspect:${(w / h).toFixed(4)};--pos:${p.pos || '50% 40%'}">
+            <a class="tile__link" href="#/p/${p.slug}" aria-label="${p.title}">
+              <div class="tile__media">${inner}</div>
+              <div class="tile__cap"><h3 class="tile__title">${p.title}</h3><p class="tile__type"></p></div>
+            </a></li>`;
+        })
+        .join('');
+      return `<li class="grid__row"><ul class="grid__inner" role="list">${tiles}</ul></li>`;
     })
     .join('');
+}
+
+/* Every tile drifts a little as the page moves: small pieces travel further */
+let tileParallax = [];
+function gridMotion() {
+  tileParallax.forEach((t) => { t.scrollTrigger && t.scrollTrigger.kill(); t.kill(); });
+  tileParallax = [];
+  if (reduceMotion || window.innerWidth < 768) return;
+  $$('.tile').forEach((tile) => {
+    const aspect = +getComputedStyle(tile).getPropertyValue('--aspect') || 0.8;
+    const drift = 16 + (1 - Math.min(aspect, 1.4) / 1.4) * 14;
+    tileParallax.push(
+      gsap.fromTo(tile, { y: drift }, {
+        y: -drift, ease: 'none',
+        scrollTrigger: { trigger: tile, start: 'top bottom', end: 'bottom top', scrub: 0.7 },
+      })
+    );
+  });
 }
 
 function wireTiles() {
@@ -123,6 +177,12 @@ function wireTiles() {
     { threshold: 0.3 }
   );
   $$('.tile').forEach((el) => io.observe(el));
+
+  const reveal = new IntersectionObserver(
+    (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); reveal.unobserve(e.target); } }),
+    { threshold: 0.12, rootMargin: '0px 0px -6% 0px' }
+  );
+  $$('.tile').forEach((el) => reveal.observe(el));
 }
 
 function startSlides(s) {
@@ -139,48 +199,152 @@ function startSlides(s) {
     s._built = true;
   }
   let i = 0;
-  s._timer = setInterval(() => {
+  // no two tiles tick together: each gets its own period and starting offset
+  const seat = [...$$('.tile__slides')].indexOf(s);
+  const period = 2200 + (seat % 4) * 450;
+  s._timer = setTimeout(function tick() {
     const imgs = $$('img', s);
     imgs[i].classList.remove('is-on');
     i = (i + 1) % imgs.length;
     imgs[i].classList.add('is-on');
-  }, 1700);
+    s._timer = setTimeout(tick, period);
+  }, 600 + seat * 700);
 }
-function stopSlides(s) { clearInterval(s._timer); s._timer = null; }
+function stopSlides(s) { clearTimeout(s._timer); s._timer = null; }
 
 /* ── Hero: the name made of the work ──────── */
-function renderHeroReel() {
-  $('#heroReel').innerHTML = heroReel
-    .map((slug) => {
-      const poster = media(slug, 'poster.webp');
-      if (reduceMotion || saveData) return `<div><img src="${poster}" alt=""></div>`;
-      return `<div><video src="${media(slug, 'preview.mp4')}" poster="${poster}" muted loop playsinline autoplay preload="auto"></video></div>`;
-    })
-    .join('');
-  // stagger loop phases so the strip never cuts in sync
-  $$('#heroReel video').forEach((v, i) => {
-    v.addEventListener('loadedmetadata', () => { v.currentTime = (i * 1.3) % (v.duration || 6); }, { once: true });
+/* One photo at a time: dimmed across the frame, full strength inside the letters.
+   Two letter layers crossfade so the image dissolves without the type moving. */
+const photoSize = new Map();
+function loadPhoto(src) {
+  return new Promise((res) => {
+    if (photoSize.has(src)) return res(photoSize.get(src));
+    const img = new Image();
+    img.onload = () => { photoSize.set(src, { w: img.naturalWidth, h: img.naturalHeight }); res(photoSize.get(src)); };
+    img.onerror = () => { photoSize.set(src, { w: 1600, h: 2000 }); res(photoSize.get(src)); };
+    img.src = src;
   });
+}
+
+function renderHero() {
+  $('#heroGhosts').innerHTML = heroStills
+    .slice(0, 2)
+    .map(({ src }, i) => `<img class="hero__ghost${i === 0 ? ' is-on' : ''}" src="${src}" alt=""
+      ${i === 0 ? 'fetchpriority="high"' : ''} decoding="async">`)
+    .join('');
+  $('#heroType').innerHTML = '<div class="hero__letters is-on"></div><div class="hero__letters"></div>';
+  $('#heroEdge').innerHTML = '<div class="hero__letters"></div>';
+  heroStills.forEach(({ src }) => loadPhoto(src));
+}
+
+const letterGeom = new WeakMap();
+
+/* Keeps the photo inside the letters lined up with the ghost behind them */
+function alignLetters(layer) {
+  const g = letterGeom.get(layer);
+  if (!g) return;
+  $$('.hero__line', layer).forEach((line) => {
+    line.style.backgroundPosition = `${g.gx - line.offsetLeft}px ${g.gy - line.offsetTop}px`;
+  });
+}
+
+/* Paints one photo inside the letters of a layer, lined up with the ghost behind */
+async function paintLetters(layer, still) {
+  const { src, fx = 0.5, fy = 0.5, anchor, anchorX = true, ghost: ghostOp } = still;
+  const stage = $('.hero__stage');
+  const { w: iw, h: ih } = await loadPhoto(src);
+  const W = stage.clientWidth, H = stage.clientHeight;
+  const cover = Math.max(W / iw, H / ih);
+  const cw = iw * cover, ch = ih * cover;
+  // the photo's point of interest (fx, fy) lands on the frame's centre, or on a
+  // named letter when the still asks for one, as far as cover allows
+  let tx = W / 2, ty = H / 2;
+  if (anchor) {
+    const glyph = $$('.hero__ch', layer).find((c) => c.textContent === anchor);
+    if (glyph) {
+      if (anchorX) tx = glyph.offsetLeft + glyph.offsetWidth / 2;
+      ty = glyph.offsetTop + glyph.offsetHeight * 0.55;
+    }
+  }
+  const gx = Math.min(0, Math.max(W - cw, tx - fx * cw));
+  const gy = Math.min(0, Math.max(H - ch, ty - fy * ch));
+  const ghost = $$('.hero__ghost').find((g) => g.getAttribute('src') === src);
+  if (ghost) {
+    const px = cw > W ? (gx / (W - cw)) * 100 : 50;
+    const py = ch > H ? (gy / (H - ch)) * 100 : 50;
+    ghost.style.objectPosition = `${px}% ${py}%`;
+    // a photo may ask to show through the black a little more (faces)
+    if (ghostOp) ghost.style.setProperty('--ghost-op', ghostOp); else ghost.style.removeProperty('--ghost-op');
+  }
+  letterGeom.set(layer, { gx, gy });
+  // offsetLeft/Top, never getBoundingClientRect: a transformed measurement
+  // would paint the photo outside the letters
+  $$('.hero__line', layer).forEach((line) => {
+    line.style.backgroundImage = `url("${src}")`;
+    line.style.backgroundSize = `${cw}px ${ch}px`;
+  });
+  alignLetters(layer);
+}
+
+let heroIndex = 0;
+let heroTimer;
+if (import.meta.env.DEV) {
+  // local preview only: jump to a hero photo to check its framing
+  window.__heroShow = async (i) => {
+    clearInterval(heroTimer);
+    const layer = $('#heroType .hero__letters.is-on');
+    heroIndex = i;
+    $('.hero__ghost.is-on').src = heroStills[i].src;
+    await paintLetters(layer, heroStills[i]);
+  };
+}
+function heroRotate() {
+  clearInterval(heroTimer);
+  const layers = $$('#heroType .hero__letters');
+  const ghosts = $$('.hero__ghost');
+  paintLetters(layers[0], heroStills[0]);
+  if (reduceMotion || saveData || heroStills.length < 2) return;
+  heroTimer = setInterval(async () => {
+    const next = (heroIndex + 1) % heroStills.length;
+    const still = heroStills[next];
+    const showing = layers.findIndex((l) => l.classList.contains('is-on'));
+    const hidden = showing === 0 ? 1 : 0;
+    ghosts[hidden].src = still.src;
+    await paintLetters(layers[hidden], still);
+    layers[hidden].classList.add('is-on');
+    layers[showing].classList.remove('is-on');
+    ghosts[hidden].classList.add('is-on');
+    ghosts[showing].classList.remove('is-on');
+    heroIndex = next;
+  }, 5400);
 }
 
 let heroMode = '';
 function fitHero() {
   const stage = $('.hero__stage');
-  const mask = $('#heroMask');
+  const layers = [...$$('#heroType .hero__letters'), ...$$('#heroEdge .hero__letters')];
   // portrait phones stack the name in syllables so it can fill the screen
-  const mode = window.innerWidth < 768 && window.innerHeight > window.innerWidth * 1.1 ? 'stack' : 'wide';
+  const mode = window.innerWidth < 1024 && window.innerHeight > window.innerWidth * 1.05 ? 'stack' : 'wide';
   if (mode !== heroMode) {
-    const words = mode === 'stack' ? ['AN', 'DRÉS', 'AR', 'B|I|T'] : ['ANDRÉS', 'ARB|I|T'];
-    mask.innerHTML = words
-      .map((w) => `<span class="hero__line">${w.replace('|I|', '<span class="hero__i">I</span>')}</span>`)
+    const words = mode === 'stack' ? ['AN', 'DRÉS', 'AR', 'BIT'] : ['ANDRÉS', 'ARBIT'];
+    const html = words
+      .map((w) => `<span class="hero__line">${[...w].map((c) => `<span class="hero__ch">${c}</span>`).join('')}</span>`)
       .join('');
+    layers.forEach((l) => { l.innerHTML = html; });
     heroMode = mode;
   }
-  const lines = $$('.hero__line', mask);
+  const lines = $$('.hero__line', layers[0]);
   const target = stage.clientWidth - 2 * gutterPx();
-  const fill = mode === 'stack' ? 0.74 : 0.74;
-  const maxSize = (stage.clientHeight * fill) / (lines.length * 0.84);
+  const maxSize = (stage.clientHeight * 0.74) / (lines.length * 0.84);
   justifyByWidth(lines, target, maxSize);
+  layers.slice(1).forEach((layer) => {
+    $$('.hero__line', layer).forEach((el, i) => {
+      el.style.fontSize = lines[i].style.fontSize;
+      el.style.fontStretch = lines[i].style.fontStretch;
+    });
+  });
+  const onLayer = $('#heroType .hero__letters.is-on') || layers[0];
+  paintLetters(onLayer, heroStills[heroIndex]);
   return mode;
 }
 
@@ -189,44 +353,50 @@ function heroMotion() {
   if (reduceMotion) return;
   heroTl && heroTl.scrollTrigger && heroTl.scrollTrigger.kill();
   heroTl && heroTl.kill();
-  const mask = $('#heroMask');
-  // centre of the I's stem, in the mask's own (untransformed) space
-  const point = () => {
-    gsap.set(mask, { clearProps: 'transform' });
-    const i = $('.hero__i').getBoundingClientRect();
-    const m = mask.getBoundingClientRect();
-    return { x: i.left + i.width / 2 - m.left, y: i.top + i.height * 0.55 - m.top, w: m.width, h: m.height };
+  const layers = $$('.hero__letters');
+  const lines = $$('.hero__line', layers[0]);
+  const base = lines.map((el) => parseFloat(el.style.fontStretch) || 100);
+
+  // Each letter narrows to its own width, and the wave runs left to right:
+  // letter j of a line starts at j/n of the scroll and takes the second half.
+  const targets = [62, 84, 66, 96, 62, 74, 88, 62, 70, 92, 62, 80];
+  const plan = lines.map((line) => {
+    const n = $$('.hero__ch', line).length;
+    return [...Array(n)].map((_, j) => ({ start: (j / n) * 0.5, target: targets[j % targets.length] }));
+  });
+
+  const state = { k: 0 };
+  const applyWidth = () => {
+    layers.forEach((layer) => {
+      $$('.hero__line', layer).forEach((line, i) => {
+        $$('.hero__ch', line).forEach((ch, j) => {
+          const { start, target } = plan[i][j];
+          const p = Math.min(1, Math.max(0, (state.k - start) / 0.5));
+          ch.style.fontStretch = (base[i] + (target - base[i]) * p).toFixed(2) + '%';
+        });
+      });
+    });
+    $$('#heroType .hero__letters').forEach(alignLetters);
   };
-  let pt = point();
-  const origin = () => `${pt.x}px ${pt.y}px`;
-  gsap.set(mask, { transformOrigin: origin(), scale: 1 });
+
+  // no pin: the page moves as soon as you scroll, and the name works while it leaves
   heroTl = gsap.timeline({
-    defaults: { ease: 'none' },
     scrollTrigger: {
       trigger: '#hero',
       start: 'top top',
-      end: () => '+=' + window.innerHeight * 1.25,
-      pin: '.hero__stage',
-      scrub: 0.6,
+      end: 'bottom top',
+      scrub: 0.4,
       invalidateOnRefresh: true,
-      onRefreshInit: () => { pt = point(); gsap.set(mask, { transformOrigin: origin() }); },
     },
   });
-  heroTl
-    .fromTo('.hero__role, .hero__line-small', { opacity: 1, y: 0 }, { opacity: 0, y: -10, duration: 0.15, immediateRender: false }, 0)
-    .to(mask, { scale: 60, duration: 1, ease: 'power2.in' }, 0)
-    // carry the I to the centre of the frame while we fly into it
-    .to(mask, { x: () => pt.w / 2 - pt.x, y: () => pt.h / 2 - pt.y, duration: 0.7, ease: 'power1.inOut' }, 0)
-    .fromTo('#heroReel', { scale: 1.1 }, { scale: 1, duration: 1 }, 0)
-    .to(mask, { opacity: 0, duration: 0.12 }, 0.88);
+  heroTl.fromTo(state, { k: 0 }, { k: 1, duration: 1, ease: 'none', onUpdate: applyWidth, immediateRender: false }, 0);
 }
 
 /* ── Statement: lines that justify by stretching ── */
 const statementPlan = [
   { from: 125, to: 62, fill: 1 },
   { from: 62, to: 125, fill: 1 },
-  { from: 125, to: 62, fill: 1 },
-  { from: 62, to: 112, fill: 0.62 },
+  { from: 125, to: 72, fill: 1 },
 ];
 let stTweens = [];
 function fitStatement() {
@@ -234,15 +404,14 @@ function fitStatement() {
   const width = $('.statement').clientWidth - 2 * gutterPx();
   lines.forEach((el, i) => {
     const plan = statementPlan[i] || statementPlan[0];
-    const fill = window.innerWidth < 768 && i === lines.length - 1 ? 0.8 : plan.fill;
-    fitToWidth(el, width * fill, plan.to);
+    fitToWidth(el, width * plan.fill, plan.to);
   });
 }
 function statementMotion() {
   stTweens.forEach((tw) => { tw.scrollTrigger && tw.scrollTrigger.kill(); tw.kill(); });
   stTweens = [];
   const lines = $$('.st-line');
-  if (reduceMotion) { lines.forEach((el, i) => { el.style.fontStretch = (statementPlan[i] || statementPlan[0]).to + '%'; }); return; }
+  if (reduceMotion || isPhone()) { lines.forEach((el, i) => { el.style.fontStretch = (statementPlan[i] || statementPlan[0]).to + '%'; }); return; }
   lines.forEach((el, i) => {
     const plan = statementPlan[i] || statementPlan[0];
     const o = { w: plan.from };
@@ -267,13 +436,56 @@ function gutterPx() {
   return parseFloat(getComputedStyle(probe).paddingLeft) || 24;
 }
 
-/* ── Approach sheen follows the scroll (lacquer) ── */
-function approachSheen() {
-  if (reduceMotion) return;
-  gsap.fromTo('.approach__sheen', { '--sx': '15%', '--sy': '8%', '--shift': '-6%' }, {
-    '--sx': '82%', '--sy': '88%', '--shift': '6%', ease: 'none',
-    scrollTrigger: { trigger: '.approach', start: 'top bottom', end: 'bottom top', scrub: 1 },
+/* ── Slow drift: nothing on the page sits perfectly still ── */
+let driftTweens = [];
+function drift(target, from, to, opts = {}) {
+  const tw = gsap.fromTo(target, from, {
+    ...to, ease: 'none',
+    scrollTrigger: { trigger: opts.trigger || target, start: opts.start || 'top bottom', end: opts.end || 'bottom top', scrub: opts.scrub ?? 0.8 },
   });
+  driftTweens.push(tw);
+  return tw;
+}
+
+function sectionMotion() {
+  driftTweens.forEach((t) => { t.scrollTrigger && t.scrollTrigger.kill(); t.kill(); });
+  driftTweens = [];
+  if (reduceMotion) return;
+
+  // lacquer sheen sliding across the approach
+  drift('.approach__sheen', { '--sx': '15%', '--sy': '8%', '--shift': '-6%' },
+    { '--sx': '82%', '--sy': '88%', '--shift': '6%' }, { trigger: '.approach', scrub: 1 });
+
+  // each approach line leans a little further into the margin
+  $$('.ap').forEach((ap, i) => {
+    const dir = i % 2 ? -1 : 1;
+    drift($('.ap__head', ap), { xPercent: 0 }, { xPercent: dir * 1.6 }, { trigger: ap });
+    drift($('.ap__body', ap), { y: 26 }, { y: -26 }, { trigger: ap });
+  });
+
+  // the marked words breathe on the width axis as the line passes
+  $$('.ap').forEach((ap, i) => {
+    const em = $('.ap__wide', ap);
+    if (!em) return;
+    const base = parseFloat(getComputedStyle(em).fontStretch) || 100;
+    const o = { w: base * 0.9 };
+    const tw = gsap.to(o, {
+      w: Math.min(125, base * 1.06), ease: 'power1.inOut',
+      onUpdate: () => { em.style.fontStretch = o.w.toFixed(1) + '%'; },
+      scrollTrigger: { trigger: ap, start: 'top 92%', end: 'bottom 45%', scrub: 0.9 },
+    });
+    driftTweens.push(tw);
+  });
+
+  // the portrait lags behind its own text
+  drift('.bio__photo', { y: 40 }, { y: -40 }, { trigger: '.bio' });
+  drift('.bio__title', { y: -18 }, { y: 18 }, { trigger: '.bio' });
+
+  // statement and closing lines breathe with the scroll
+  drift('.statement__body', { y: 34 }, { y: -20 }, { trigger: '.statement' });
+  drift('.contact__title', { xPercent: -1.2 }, { xPercent: 0.6 }, { trigger: '.contact' });
+  drift('.contact__body', { y: 26 }, { y: -18 }, { trigger: '.contact' });
+  drift('.work__title', { xPercent: -1.5 }, { xPercent: 1 }, { trigger: '.work' });
 }
 
 /* ── Reveals ──────────────────────────────── */
@@ -288,6 +500,10 @@ function wireReveals() {
 /* ── Nav: current section ─────────────────── */
 function wireNav() {
   const links = $$('.nav__links a');
+  ScrollTrigger.create({
+    start: () => window.innerHeight * 0.9,
+    onToggle: (self) => $('#nav').classList.toggle('is-stuck', self.isActive),
+  });
   ['trabajo', 'enfoque', 'bio', 'contacto'].forEach((id) => {
     ScrollTrigger.create({
       trigger: '#' + id, start: 'top 50%', end: 'bottom 50%',
@@ -345,9 +561,21 @@ function setLang(next) {
 }
 
 /* ── Boot ─────────────────────────────────── */
+// A reload restoring a mid-hero scroll used to show a letter blown up instead of
+// the name, so the page starts at the top unless the visitor takes over first.
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+let userScrolled = false;
+['wheel', 'touchstart', 'keydown'].forEach((e) =>
+  window.addEventListener(e, () => { userScrolled = true; }, { once: true, passive: true })
+);
+const goTop = () => { if (!location.hash && !userScrolled && window.scrollY) window.scrollTo(0, 0); };
+goTop();
+window.addEventListener('load', () => { goTop(); requestAnimationFrame(goTop); });
+
 renderGrid();
 renderText();
-renderHeroReel();
+renderHero();
+heroRotate();
 wireTiles();
 wireNav();
 wireCopy();
@@ -365,8 +593,10 @@ fontsReady.then(() => {
   layout();
   heroMotion();
   statementMotion();
-  approachSheen();
+  sectionMotion();
+  gridMotion();
   wireReveals();
+  goTop();
   requestAnimationFrame(() => document.body.classList.add('is-ready'));
   ScrollTrigger.refresh();
   theater.route();
@@ -381,7 +611,9 @@ window.addEventListener('resize', () => {
     if (window.innerWidth === lastW) return;
     lastW = window.innerWidth;
     const before = heroMode;
+    if (isPhone() !== gridPhone) { renderGrid(); renderText(); wireTiles(); }
     layout();
+    gridMotion();
     if (heroMode !== before) heroMotion();
     ScrollTrigger.refresh();
   }, 150);

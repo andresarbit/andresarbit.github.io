@@ -34,13 +34,17 @@ Tamaños de la grilla: `v` vertical (3 por fila), `vs` vertical chico (4 por fil
 
 ## Agregar una serie de fotos
 
-Sumar la carpeta en `scripts/stills.sh`, correrlo, y crear el proyecto con `kind: 'stills'` y `stills: <cantidad>`.
+`scripts/stills.sh` toma carpetas enteras; `scripts/stills2.sh` toma una selección por número de orden
+(la posición del archivo dentro de la carpeta, ordenada alfabéticamente). Después se crea el proyecto
+con `kind: 'stills'` y `stills: <cantidad>`, o se le suma `stills: <cantidad>` a un proyecto de video.
+
+Las fotos del inicio están en `public/media/hero/` y se listan en `heroStills` (`src/content.js`).
 
 ## Borradores
 
 Un proyecto con `draft: true` en `src/content.js` se ve solo con `npm run dev`. No aparece en la web publicada y sus videos se borran del build (`scripts/prune-drafts.mjs`). Además, esas carpetas de `public/media/` están en `.gitignore`, así que tampoco viajan al repositorio.
 
-Hoy están en borrador: Nuvo, Vikingo Urquiza y F1 Test.
+Hoy no hay ninguno en borrador.
 
 ## Publicar
 

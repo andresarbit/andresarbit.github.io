@@ -27,9 +27,11 @@ export function createTheater({ projects, copy, lang: initialLang, media }) {
 
   /* ── markup ─────────────────────────────── */
   function view(p) {
-    const layout = p.kind === 'stills' ? 'pj--s' : p.size === 'w' ? 'pj--w' : 'pj--v';
+    // the project view always shows the piece at its own ratio, never cropped
+    const [vw, vh] = (p.video || '9 / 16').split('/').map(Number);
+    const layout = p.kind === 'stills' ? 'pj--s' : vw / vh >= 1 ? 'pj--w' : 'pj--v';
     const mediaHtml = p.kind === 'video'
-      ? `<div class="player" data-player>
+      ? `<div class="player" data-player style="--vr:${vw} / ${vh}">
            <video src="${media(p.slug, 'full.mp4')}" poster="${media(p.slug, 'poster.webp')}" playsinline preload="metadata"></video>
            <div class="player__ui">
              <button type="button" data-act="play">${L('play')}</button>
@@ -39,7 +41,7 @@ export function createTheater({ projects, copy, lang: initialLang, media }) {
              <button type="button" data-act="fs">${L('fullscreen')}</button>
            </div>
          </div>`
-      : `<img src="${media(p.slug, 'stills/01.webp')}" alt="${p.title}" decoding="async" style="width:100%;height:auto;background:#141414">`;
+      : `<img class="pj__still" src="${media(p.slug, 'stills/01.webp')}" alt="${p.title}" decoding="async">`;
 
     const meta = [
       [L('type'), p.type[lang]],
@@ -56,7 +58,10 @@ export function createTheater({ projects, copy, lang: initialLang, media }) {
         }).join('')}</div>`
       : '';
 
-    return `<article class="pj ${layout}">
+    const hint = p.kind === 'stills'
+      ? `<div class="theater__hint" aria-hidden="true"><svg viewBox="0 0 24 44" width="16" height="30"><path d="M12 2v38M5 32l7 8 7-8" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`
+      : '';
+    return `${hint}<article class="pj ${layout}">
       <div class="pj__top">
         <div class="pj__media">${mediaHtml}</div>
         <div class="pj__info">
@@ -152,6 +157,7 @@ export function createTheater({ projects, copy, lang: initialLang, media }) {
     current = i;
     body.innerHTML = view(p);
     root.scrollTop = 0;
+    root.classList.remove('is-scrolled');
     wirePlayer(autoplay);
 
     if (wasOpen) return;
@@ -226,6 +232,8 @@ export function createTheater({ projects, copy, lang: initialLang, media }) {
   });
   window.addEventListener('popstate', () => { pushed = false; route(); });
   window.addEventListener('hashchange', route);
+
+  root.addEventListener('scroll', () => root.classList.toggle('is-scrolled', root.scrollTop > 30), { passive: true });
 
   btnClose.addEventListener('click', close);
   btnPrev.addEventListener('click', () => step(-1));
