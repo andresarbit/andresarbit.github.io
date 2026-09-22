@@ -174,7 +174,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'como-corre-elisa', row: 2, ratio: '16 / 9', kind: 'video', year: 2026,
+    slug: 'como-corre-elisa', row: 2, ratio: '1 / 1', kind: 'video', year: 2026,
     title: 'CÓMO CORRE ELISA',
     type: { es: 'Trailer', en: 'Trailer' },
     text: {
@@ -214,7 +214,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'anteojos-skull', row: 3, ratio: '2 / 3', kind: 'stills', year: 2026, stills: 12,
+    slug: 'anteojos-skull', row: 3, ratio: '3 / 4', kind: 'stills', year: 2026, stills: 12,
     title: 'SKULL',
     type: { es: 'Campaña spec · Anteojos', en: 'Spec campaign · Eyewear' },
     text: {
@@ -224,7 +224,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'colgate', row: 4, ratio: '16 / 9', kind: 'video', year: 2026,
+    slug: 'colgate', row: 4, ratio: '4 / 5', kind: 'video', year: 2026,
     title: 'COLGATE × MARTÍN FIERRO',
     client: 'Colgate',
     type: { es: 'Cliente · Evento', en: 'Client · Event' },
@@ -276,7 +276,7 @@ export const projects = [
     roles: { es: 'Personajes, dirección, generación con IA y edición', en: 'Characters, direction, AI generation and edit' },
   },
   {
-    slug: 'f1-test', row: 6, ratio: '16 / 9', kind: 'video', year: 2026,
+    slug: 'f1-test', row: 6, ratio: '1 / 1', kind: 'video', year: 2026,
     title: 'F1 TEST',
     type: { es: 'Prueba de mapeo · Automotriz', en: 'Mapping test · Automotive' },
     text: {
