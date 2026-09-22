@@ -217,7 +217,7 @@ export const projects = [
   },
   {
     slug: 'como-corre-elisa', video: '1280 / 718', row: 2, ratio: '1 / 1', pos: '50% 55%', kind: 'video', year: 2026,
-    title: 'CÓMO CORRE ELISA',
+    title: 'CÓMO CORRE ELISA 2',
     type: { es: 'Trailer', en: 'Trailer' },
     text: {
       es: 'Una mujer, una montaña y la nieve. Trailer de un film construido plano por plano.',
