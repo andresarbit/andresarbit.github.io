@@ -203,12 +203,12 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'the-dude', size: 'v', kind: 'stills', year: 2026, stills: 9,
-    title: 'THE DUDE',
-    type: { es: 'Personajes', en: 'Characters' },
+    slug: 'labor-camperas', size: 'v', kind: 'stills', year: 2026, stills: 14,
+    title: 'LABOR',
+    type: { es: 'Campaña spec · Indumentaria de trabajo', en: 'Spec campaign · Workwear' },
     text: {
-      es: 'Una saga de looks inspirados en personajes de cine. Esta vez, The Dude: una presencia tranquila en medio del ruido. Ficción, referencia y un poco de realidad construida. La identidad se entrena.',
-      en: 'A series of looks inspired by film characters. This time, The Dude: a calm presence in the middle of the noise. Fiction, reference and a bit of built reality. Identity can be trained.',
+      es: 'Ropa de trabajo de alta visibilidad tratada como campaña de moda. Fondos de color en estudio, retrato y calle: el mismo sistema para barrido, tránsito y recolección.',
+      en: 'High-visibility workwear treated like a fashion campaign. Studio color backdrops, portrait and street: one system across sweeping, traffic and waste collection.',
     },
     roles: R,
   },
@@ -233,7 +233,7 @@ export const projects = [
     roles: R,
   },
   {
-    slug: 'deriva', size: 'vs', kind: 'video', year: 2026,
+    slug: 'deriva', size: 'vs', kind: 'video', year: 2026, stills: 12,
     title: 'DERIVA',
     type: { es: 'Campaña spec · Mobiliario', en: 'Spec campaign · Furniture' },
     text: {
@@ -260,6 +260,46 @@ export const projects = [
     text: {
       es: 'La alfombra roja de los Martín Fierro contada desde el #VioletEffect.',
       en: 'The Martín Fierro awards red carpet, told through the #VioletEffect.',
+    },
+    roles: R,
+  },
+  {
+    slug: 'anteojos-skull', size: 'v', kind: 'stills', year: 2026, stills: 12,
+    title: 'SKULL',
+    type: { es: 'Campaña spec · Anteojos', en: 'Spec campaign · Eyewear' },
+    text: {
+      es: 'Una calavera en la varilla, un baño de azulejos verdes y una ruta. Producto y personaje construidos con el mismo clima, del detalle macro al retrato.',
+      en: 'A skull on the temple, a green-tiled bathroom and a desert road. Product and character built in one mood, from macro detail to portrait.',
+    },
+    roles: R,
+  },
+  {
+    slug: 'ugc-crime-life', size: 'v', offset: 1, kind: 'video', year: 2026, stills: 6,
+    title: 'CRIME LIFE',
+    type: { es: 'UGC con personajes IA · Mobile game', en: 'AI creator UGC · Mobile game' },
+    text: {
+      es: 'Creadores generados con IA hablando a cámara para los anuncios de un juego mobile. Personaje consistente, set de streamer y gameplay integrado, en varias versiones para testear.',
+      en: 'AI-generated creators talking to camera for a mobile game’s ads. Consistent character, streamer set and gameplay integrated, in several versions to test.',
+    },
+    roles: { es: 'Personajes, dirección, generación con IA y edición', en: 'Characters, direction, AI generation and edit' },
+  },
+  {
+    slug: 'portraits-of-waiting', size: 'v', kind: 'stills', year: 2026, stills: 5,
+    title: 'PORTRAITS OF WAITING',
+    type: { es: 'Serie personal', en: 'Personal series' },
+    text: {
+      es: 'Gente esperando: un banco, una parada, un pasillo. Retratos del tiempo muerto, esa parte del día que no suele entrar en una campaña.',
+      en: 'People waiting: a bank, a bus stop, a corridor. Portraits of dead time, the part of the day campaigns leave out.',
+    },
+    roles: R,
+  },
+  {
+    slug: 'f1-test', size: 'w', kind: 'video', year: 2026,
+    title: 'F1 TEST',
+    type: { es: 'Prueba de mapeo · Automotriz', en: 'Mapping test · Automotive' },
+    text: {
+      es: 'Prueba de mapeo de un auto de Fórmula 1: el mismo vehículo sostenido en distintos ángulos, luces y planos de detalle.',
+      en: 'Mapping test on a Formula 1 car: the same vehicle held across angles, lighting and detail shots.',
     },
     roles: R,
   },
@@ -303,18 +343,16 @@ export const projects = [
     },
     roles: R,
   },
-  {
-    slug: 'f1-test', size: 'w', kind: 'video', year: 2026, draft: true,
-    title: 'F1 TEST',
-    type: { es: 'Prueba de campaña', en: 'Campaign test' },
-    text: {
-      es: 'Prueba de producto y cámara sobre un monoplaza. Material de prueba, todavía sin salir al aire.',
-      en: 'Product and camera test on a Formula 1 car. Test material, not aired yet.',
-    },
-    roles: R,
-  },
 
 ];
 
-// Hero filmstrip (muted previews), left to right.
-export const heroReel = ['yapa', 'deriva', 'calle', 'fuga', 'neto'];
+// Fotos del hero: se cruzan de a una detrás del nombre (public/media/hero/).
+export const heroStills = [
+  '/media/hero/01.webp',
+  '/media/hero/02.webp',
+  '/media/hero/03.webp',
+  '/media/hero/04.webp',
+  '/media/hero/05.webp',
+  '/media/hero/06.webp',
+  '/media/hero/07.webp',
+];

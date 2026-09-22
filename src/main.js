@@ -2,7 +2,7 @@ import '@fontsource-variable/archivo/wdth.css';
 import './styles.css';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { copy, contact, projects, heroReel } from './content.js';
+import { copy, contact, projects, heroStills } from './content.js';
 import { fitToWidth, justifyByWidth } from './fit.js';
 import { createTheater } from './theater.js';
 
@@ -149,38 +149,49 @@ function startSlides(s) {
 function stopSlides(s) { clearInterval(s._timer); s._timer = null; }
 
 /* ── Hero: the name made of the work ──────── */
-function renderHeroReel() {
-  $('#heroReel').innerHTML = heroReel
-    .map((slug) => {
-      const poster = media(slug, 'poster.webp');
-      if (reduceMotion || saveData) return `<div><img src="${poster}" alt=""></div>`;
-      return `<div><video src="${media(slug, 'preview.mp4')}" poster="${poster}" muted loop playsinline autoplay preload="auto"></video></div>`;
-    })
+let stillTimer;
+function renderHeroStills() {
+  const reel = $('#heroReel');
+  reel.innerHTML = heroStills
+    .map((n, i) => `<img class="hero__still${i === 0 ? ' is-on' : ''}" src="${n}" alt=""
+      ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`)
     .join('');
-  // stagger loop phases so the strip never cuts in sync
-  $$('#heroReel video').forEach((v, i) => {
-    v.addEventListener('loadedmetadata', () => { v.currentTime = (i * 1.3) % (v.duration || 6); }, { once: true });
-  });
+  clearInterval(stillTimer);
+  if (reduceMotion || heroStills.length < 2) return;
+  let i = 0;
+  stillTimer = setInterval(() => {
+    const imgs = $$('.hero__still', reel);
+    imgs[i].classList.remove('is-on');
+    i = (i + 1) % imgs.length;
+    imgs[i].classList.add('is-on');
+  }, 5200);
 }
 
 let heroMode = '';
 function fitHero() {
   const stage = $('.hero__stage');
   const mask = $('#heroMask');
+  const edge = $('#heroEdge');
   // portrait phones stack the name in syllables so it can fill the screen
   const mode = window.innerWidth < 768 && window.innerHeight > window.innerWidth * 1.1 ? 'stack' : 'wide';
   if (mode !== heroMode) {
     const words = mode === 'stack' ? ['AN', 'DRÉS', 'AR', 'B|I|T'] : ['ANDRÉS', 'ARB|I|T'];
-    mask.innerHTML = words
+    const html = words
       .map((w) => `<span class="hero__line">${w.replace('|I|', '<span class="hero__i">I</span>')}</span>`)
       .join('');
+    mask.innerHTML = html;
+    edge.innerHTML = html;
     heroMode = mode;
   }
   const lines = $$('.hero__line', mask);
   const target = stage.clientWidth - 2 * gutterPx();
-  const fill = mode === 'stack' ? 0.74 : 0.74;
-  const maxSize = (stage.clientHeight * fill) / (lines.length * 0.84);
+  const maxSize = (stage.clientHeight * 0.74) / (lines.length * 0.84);
   justifyByWidth(lines, target, maxSize);
+  // the outline layer traces the same letters, so the name reads over any image
+  $$('.hero__line', edge).forEach((el, i) => {
+    el.style.fontSize = lines[i].style.fontSize;
+    el.style.fontStretch = lines[i].style.fontStretch;
+  });
   return mode;
 }
 
@@ -190,16 +201,18 @@ function heroMotion() {
   heroTl && heroTl.scrollTrigger && heroTl.scrollTrigger.kill();
   heroTl && heroTl.kill();
   const mask = $('#heroMask');
+  const edge = $('#heroEdge');
+  const layers = [mask, edge];
   // centre of the I's stem, in the mask's own (untransformed) space
   const point = () => {
-    gsap.set(mask, { clearProps: 'transform' });
-    const i = $('.hero__i').getBoundingClientRect();
+    gsap.set(layers, { clearProps: 'transform' });
+    const i = $('#heroMask .hero__i').getBoundingClientRect();
     const m = mask.getBoundingClientRect();
     return { x: i.left + i.width / 2 - m.left, y: i.top + i.height * 0.55 - m.top, w: m.width, h: m.height };
   };
   let pt = point();
   const origin = () => `${pt.x}px ${pt.y}px`;
-  gsap.set(mask, { transformOrigin: origin(), scale: 1 });
+  gsap.set(layers, { transformOrigin: origin(), scale: 1 });
   heroTl = gsap.timeline({
     defaults: { ease: 'none' },
     scrollTrigger: {
@@ -209,16 +222,16 @@ function heroMotion() {
       pin: '.hero__stage',
       scrub: 0.6,
       invalidateOnRefresh: true,
-      onRefreshInit: () => { pt = point(); gsap.set(mask, { transformOrigin: origin() }); },
+      onRefreshInit: () => { pt = point(); gsap.set(layers, { transformOrigin: origin() }); },
     },
   });
   heroTl
     .fromTo('.hero__role, .hero__line-small', { opacity: 1, y: 0 }, { opacity: 0, y: -10, duration: 0.15, immediateRender: false }, 0)
-    .to(mask, { scale: 60, duration: 1, ease: 'power2.in' }, 0)
+    .to(layers, { scale: 60, duration: 1, ease: 'power2.in' }, 0)
     // carry the I to the centre of the frame while we fly into it
-    .to(mask, { x: () => pt.w / 2 - pt.x, y: () => pt.h / 2 - pt.y, duration: 0.7, ease: 'power1.inOut' }, 0)
+    .to(layers, { x: () => pt.w / 2 - pt.x, y: () => pt.h / 2 - pt.y, duration: 0.7, ease: 'power1.inOut' }, 0)
     .fromTo('#heroReel', { scale: 1.1 }, { scale: 1, duration: 1 }, 0)
-    .to(mask, { opacity: 0, duration: 0.12 }, 0.88);
+    .to(layers, { opacity: 0, duration: 0.12 }, 0.88);
 }
 
 /* ── Statement: lines that justify by stretching ── */
@@ -345,9 +358,20 @@ function setLang(next) {
 }
 
 /* ── Boot ─────────────────────────────────── */
+// A reload restoring a mid-hero scroll used to show a letter blown up instead of
+// the name, so the page starts at the top unless the visitor takes over first.
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+let userScrolled = false;
+['wheel', 'touchstart', 'keydown'].forEach((e) =>
+  window.addEventListener(e, () => { userScrolled = true; }, { once: true, passive: true })
+);
+const goTop = () => { if (!location.hash && !userScrolled && window.scrollY) window.scrollTo(0, 0); };
+goTop();
+window.addEventListener('load', () => { goTop(); requestAnimationFrame(goTop); });
+
 renderGrid();
 renderText();
-renderHeroReel();
+renderHeroStills();
 wireTiles();
 wireNav();
 wireCopy();
@@ -367,6 +391,7 @@ fontsReady.then(() => {
   statementMotion();
   approachSheen();
   wireReveals();
+  goTop();
   requestAnimationFrame(() => document.body.classList.add('is-ready'));
   ScrollTrigger.refresh();
   theater.route();

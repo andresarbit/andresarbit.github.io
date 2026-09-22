@@ -19,6 +19,7 @@ LIST=(
 "colgate|$R/Colgate MF/Exports/Colgate_MartinFierro_V05_Logo.mp4|45"
 "vikingo-urquiza|$R/Vikingo Urquiza/Exports/Vikingo Urquiza E01.mp4|3"
 "f1-test|$P/F1 Test/Test01.mp4|8"
+"ugc-crime-life|$R/BoomBit/Crime Life/Exports/Crime Life_UGC_04_01_ok.mp4|4"
 )
 for row in "${LIST[@]}"; do
   IFS='|' read -r slug src ss <<< "$row"

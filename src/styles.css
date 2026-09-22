@@ -177,24 +177,28 @@ ul, ol { padding: 0; list-style: none; }
   isolation: isolate;
   background: var(--void);
 }
-.hero__reel {
-  position: absolute; inset: 0;
-  display: grid; grid-template-columns: repeat(5, 1fr);
-  will-change: transform;
-}
-.hero__reel > div { position: relative; overflow: hidden; background: var(--raise); }
-.hero__reel video, .hero__reel img {
+.hero__reel { position: absolute; inset: 0; }
+.hero__still {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-  filter: brightness(1.12) contrast(1.04);
+  opacity: 0; transform: scale(1.005);
+  transition: opacity 1500ms ease, transform 9000ms linear;
+  filter: brightness(1.06) contrast(1.03);
 }
-.hero__mask {
-  position: absolute; inset: 0;
+.hero__still.is-on { opacity: 1; transform: scale(1.055); }
+
+/* No transform/filter here: it would cut the mask's blend with the photo below */
+.hero__zoom { position: absolute; inset: 0; }
+.hero__mask, .hero__edge {
+  position: absolute; inset: 0; will-change: transform;
   display: flex; flex-direction: column; justify-content: center; align-items: center;
-  background: var(--void);
-  color: #fff;
-  mix-blend-mode: multiply;
-  will-change: transform;
   padding-bottom: 4vh;
+}
+.hero__mask { background: #1f1f1f; color: #fff; mix-blend-mode: multiply; }
+.hero__edge { pointer-events: none; }
+.hero__edge .hero__line {
+  color: transparent;
+  -webkit-text-stroke: 1.1px rgba(236, 235, 231, 0.42);
+  text-stroke: 1.1px rgba(236, 235, 231, 0.42);
 }
 .hero__line {
   display: block; width: max-content;
@@ -224,8 +228,6 @@ ul, ol { padding: 0; list-style: none; }
 .is-ready .hero__role, .is-ready .hero__line-small { opacity: 1; transform: none; }
 
 @media (max-width: 767px) {
-  .hero__reel { grid-template-columns: repeat(3, 1fr); }
-  .hero__reel > div:nth-child(n + 4) { display: none; }
   .hero__line-small { display: none; }
 }
 
@@ -398,7 +400,7 @@ ul, ol { padding: 0; list-style: none; }
   align-items: start;
 }
 .bio__photo { grid-column: 1 / span 5; }
-.bio__frame { position: relative; aspect-ratio: 1 / 1; overflow: hidden; background: var(--raise); }
+.bio__frame { position: relative; aspect-ratio: 2 / 3; overflow: hidden; background: var(--raise); }
 .bio__img { width: 100%; height: 100%; object-fit: cover; }
 
 .bio__text { grid-column: 7 / span 6; }
@@ -559,6 +561,8 @@ ul, ol { padding: 0; list-style: none; }
 /* Reduced motion: keep everything visible and still */
 @media (prefers-reduced-motion: reduce) {
   .hero__line, .is-ready .hero__line { clip-path: none; transition: none; }
+  .hero__still { transition: none; transform: none; }
+  .hero__still.is-on { transform: none; }
   .hero__role, .hero__line-small { opacity: 1; transform: none; transition: none; }
   .rv .ap__head span, .rv .reveal-line, .rv .ap__body, .rv .reveal-soft { clip-path: none; opacity: 1; transform: none; transition: none; }
   .menu, .menu a { transition: none; }
