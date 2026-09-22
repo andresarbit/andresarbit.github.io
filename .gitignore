@@ -2,3 +2,6 @@ node_modules
 dist
 .DS_Store
 .impeccable/config.local.json
+
+# Archivo temporal de la sesion local, no va al repositorio
+.claude/scheduled_tasks.lock
