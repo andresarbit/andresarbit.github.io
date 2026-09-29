@@ -17,6 +17,7 @@ LIST=(
 "como-corre-elisa|$P/CCE 2/Exports/Cc2 Trailer 02 comp.mp4|47"
 "colgate|$R/Colgate MF/Exports/Colgate_MartinFierro_V05_Logo.mp4|10.65"
 "f1-test|$P/F1 Test/Test01.mp4|1.5,12,17"
+"mercado-libre|$P/Mercado Libre/Meli_Hero_Uru_01.mp4|21.6,9.2,11.6"
 "ugc-crime-life|$R/BoomBit/Crime Life/Exports/Crime Life_UGC_04_01_ok.mp4|4"
 )
 for row in "${LIST[@]}"; do

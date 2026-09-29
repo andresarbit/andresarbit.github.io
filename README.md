@@ -32,6 +32,13 @@ Todo el texto visible (español e inglés) está en `src/content.js`:
 Tamaños de la grilla: `v` vertical (3 por fila), `vs` vertical chico (4 por fila), `w` film 16:9 a ancho completo.
 `offset: 1` baja la pieza para romper la fila.
 
+## Proyecto con varias piezas
+
+Cuando un proyecto tiene más de un video (por ejemplo Mercado Libre, con los dos comerciales,
+los social, la vía pública y los bumpers), los archivos van a `public/media/<slug>/clips/` con
+`scripts/encode-clips.sh`, y en `src/content.js` se listan en `clips: [{ file, label }]`.
+La vista de proyecto muestra el primero y abajo las miniaturas para cambiar de pieza.
+
 ## Agregar una serie de fotos
 
 `scripts/stills.sh` toma carpetas enteras; `scripts/stills2.sh` toma una selección por número de orden

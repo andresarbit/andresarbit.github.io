@@ -589,7 +589,7 @@ ul, ol { padding: 0; list-style: none; }
 .pj__meta { margin-top: 4vh; display: grid; gap: 18px; align-content: start; }
 .pj__meta dt { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mute); }
 .pj__meta dd { margin: 4px 0 0; font-size: 16px; color: var(--paper); }
-.pj__text { margin-top: 4vh; max-width: 44ch; font-size: clamp(18px, 1.45vw, 25px); line-height: 1.4; color: var(--paper); text-wrap: pretty; }
+.pj__text { margin-top: 4vh; max-width: 62ch; white-space: pre-line; font-size: clamp(18px, 1.45vw, 25px); line-height: 1.4; color: var(--paper); text-wrap: pretty; }
 
 .player { position: relative; background: #000; }
 .player video {
@@ -634,6 +634,29 @@ ul, ol { padding: 0; list-style: none; }
 @keyframes hint-bob { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 6px); } }
 @media (max-width: 767px) { .theater__hint { left: 50%; } }
 @media (prefers-reduced-motion: reduce) { .theater__hint { animation: none; } }
+
+.clips {
+  margin-top: 6vh;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(12px, 1.4vw, 22px);
+}
+.clip { display: grid; gap: 10px; width: 100%; text-align: left; color: var(--paper-2); transition: color 250ms ease; }
+.clip__thumb { display: block; position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--raise); }
+.clip__thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 900ms var(--ease-out), opacity 300ms ease; opacity: 0.62; }
+.clip__label { font-size: 12.5px; letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.3; }
+.clip.is-on { color: var(--paper); }
+.clip.is-on .clip__thumb img { opacity: 1; }
+.clip.is-on .clip__thumb::after {
+  content: ''; position: absolute; inset: auto 0 0 0; height: 2px; background: var(--red);
+}
+@media (hover: hover) and (pointer: fine) {
+  .clip:hover { color: var(--paper); }
+  .clip:hover .clip__thumb img { opacity: 1; transform: scale(1.04); }
+}
+.clip:active .clip__thumb { transform: scale(0.99); }
+@media (max-width: 767px) {
+  .clips { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 5vh; }
+  .clip__label { font-size: 11px; }
+}
 
 .stills { columns: 3; column-gap: clamp(10px, 1.4vw, 22px); margin-top: 10vh; }
 .stills img { width: 100%; height: auto; margin-bottom: clamp(10px, 1.4vw, 22px); break-inside: avoid; background: var(--raise); }

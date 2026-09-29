@@ -30,9 +30,14 @@ export function createTheater({ projects, copy, lang: initialLang, media }) {
     // the project view always shows the piece at its own ratio, never cropped
     const [vw, vh] = (p.video || '9 / 16').split('/').map(Number);
     const layout = p.kind === 'stills' ? 'pj--s' : vw / vh >= 1 ? 'pj--w' : 'pj--v';
+    // a project may hold several pieces: the player opens on the first one
+    const clip = (c) => media(p.slug, `clips/${c.file}.mp4`);
+    const clipPoster = (c) => media(p.slug, `clips/${c.file}.webp`);
+    const first = p.clips ? clip(p.clips[0]) : media(p.slug, 'full.mp4');
+    const firstPoster = p.clips ? clipPoster(p.clips[0]) : media(p.slug, 'poster.webp');
     const mediaHtml = p.kind === 'video'
       ? `<div class="player" data-player style="--vr:${vw} / ${vh}">
-           <video src="${media(p.slug, 'full.mp4')}" poster="${media(p.slug, 'poster.webp')}" playsinline preload="metadata"></video>
+           <video src="${first}" poster="${firstPoster}" playsinline preload="metadata"></video>
            <div class="player__ui">
              <button type="button" data-act="play">${L('play')}</button>
              <input class="player__bar" type="range" min="0" max="1000" value="0" step="1" aria-label="${L('progress')}">
@@ -49,6 +54,16 @@ export function createTheater({ projects, copy, lang: initialLang, media }) {
       [L('year'), p.year],
       [L('roles'), p.roles[lang]],
     ].filter(Boolean).map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('');
+
+    const clips = p.clips
+      ? `<ul class="clips" role="list">${p.clips
+          .map((c, i) => `<li><button class="clip${i === 0 ? ' is-on' : ''}" type="button" data-clip="${i}"
+              data-src="${clip(c)}" data-poster="${clipPoster(c)}">
+              <span class="clip__thumb"><img src="${clipPoster(c)}" alt="" loading="lazy" decoding="async"></span>
+              <span class="clip__label">${c.label[lang]}</span>
+            </button></li>`)
+          .join('')}</ul>`
+      : '';
 
     const stillStart = p.kind === 'stills' ? 2 : 1;
     const stills = p.stills
@@ -70,6 +85,7 @@ export function createTheater({ projects, copy, lang: initialLang, media }) {
           <dl class="pj__meta">${meta}</dl>
         </div>
       </div>
+      ${clips}
       ${stills}
     </article>`;
   }
@@ -118,6 +134,17 @@ export function createTheater({ projects, copy, lang: initialLang, media }) {
     wrap.addEventListener('pointermove', wake);
     wrap.addEventListener('focusin', wake);
     sync();
+
+    // switching between the pieces of one project
+    body.querySelectorAll('[data-clip]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        body.querySelectorAll('[data-clip]').forEach((b) => b.classList.toggle('is-on', b === btn));
+        v.src = btn.dataset.src;
+        v.poster = btn.dataset.poster;
+        v.play().catch(() => { v.muted = true; sync(); v.play().catch(() => {}); });
+        wrap.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
+      });
+    });
 
     if (autoplay) {
       v.play().catch(() => { v.muted = true; sync(); v.play().catch(() => {}); });
