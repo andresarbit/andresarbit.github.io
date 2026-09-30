@@ -147,26 +147,6 @@ const R = { es: 'Concepto, dirección de arte, generación con IA y edición', e
 
 export const projects = [
   {
-    slug: 'mercado-libre', video: '1280 / 720', row: 1, ratio: '1 / 1', pos: '50% 42%', kind: 'video', year: 2026,
-    title: 'MERCADO LIBRE',
-    client: 'Mercado Libre',
-    type: { es: 'Cliente · Chile y Uruguay', en: 'Client · Chile and Uruguay' },
-    text: {
-      es: 'Black Week en Chile y CyberFest en Uruguay, resueltas de forma híbrida.\nMaterial filmado integrado a entornos generados con IA, y tomas enteramente generadas: el personaje hablando, los animales, los props y todo lo que rodea la escena.\nEl audio también se trabajó: cambiamos textos y ajustamos actuaciones sin volver a grabar.',
-      en: 'Black Week in Chile and CyberFest in Uruguay, both solved as hybrids.\nFilmed material integrated into AI-generated environments, plus shots generated end to end: the character speaking, the animals, the props and everything around the scene.\nThe audio was worked on too: we changed lines and adjusted performances without recording again.',
-    },
-    roles: { es: 'Integración de filmación con IA, generación de entornos y personajes, edición y audio', en: 'Live action and AI integration, environment and character generation, edit and audio' },
-    clips: [
-      { file: 'hero-uy', label: { es: 'CyberFest Uruguay · Comercial', en: 'CyberFest Uruguay · Commercial' } },
-      { file: 'hero-cl', label: { es: 'Black Week Chile · Comercial', en: 'Black Week Chile · Commercial' } },
-      { file: 'social-uy', label: { es: 'CyberFest · Social', en: 'CyberFest · Social' } },
-      { file: 'social-cl', label: { es: 'Black Week · Social', en: 'Black Week · Social' } },
-      { file: 'dooh-uy', label: { es: 'CyberFest · Vía pública', en: 'CyberFest · Out of home' } },
-      { file: 'bumper-uy', label: { es: 'CyberFest · Bumper envíos', en: 'CyberFest · Shipping bumper' } },
-      { file: 'bumper-cl', label: { es: 'Black Week · Bumper envíos', en: 'Black Week · Shipping bumper' } },
-    ],
-  },
-  {
     slug: 'fuga', video: '720 / 1290', row: 1, ratio: '2 / 3', pos: '50% 88%', kind: 'video', year: 2026, stills: 14,
     title: 'FUGA',
     type: { es: 'Campaña spec · Moda', en: 'Spec campaign · Fashion' },
@@ -195,6 +175,26 @@ export const projects = [
       en: 'It’s not fashion. It’s movement. Rhythm and friction until the body asks for a pause. Rest arrives; the shoes stay.',
     },
     roles: R,
+  },
+  {
+    slug: 'mercado-libre', video: '1280 / 720', row: 1, ratio: '1 / 1', pos: '50% 42%', kind: 'video', year: 2026,
+    title: 'MERCADO LIBRE',
+    client: 'Mercado Libre',
+    type: { es: 'Cliente · Chile y Uruguay', en: 'Client · Chile and Uruguay' },
+    text: {
+      es: 'Black Week en Chile y CyberFest en Uruguay, resueltas de forma híbrida.\nMaterial filmado integrado a entornos generados con IA, y tomas enteramente generadas: el personaje hablando, los animales, los props y todo lo que rodea la escena.\nEl audio también se trabajó: cambiamos textos y ajustamos actuaciones sin volver a grabar.',
+      en: 'Black Week in Chile and CyberFest in Uruguay, both solved as hybrids.\nFilmed material integrated into AI-generated environments, plus shots generated end to end: the character speaking, the animals, the props and everything around the scene.\nThe audio was worked on too: we changed lines and adjusted performances without recording again.',
+    },
+    roles: { es: 'Integración de filmación con IA, generación de entornos y personajes, edición y audio', en: 'Live action and AI integration, environment and character generation, edit and audio' },
+    clips: [
+      { file: 'hero-uy', label: { es: 'CyberFest Uruguay · Comercial', en: 'CyberFest Uruguay · Commercial' } },
+      { file: 'hero-cl', label: { es: 'Black Week Chile · Comercial', en: 'Black Week Chile · Commercial' } },
+      { file: 'social-uy', label: { es: 'CyberFest · Social', en: 'CyberFest · Social' } },
+      { file: 'social-cl', label: { es: 'Black Week · Social', en: 'Black Week · Social' } },
+      { file: 'dooh-uy', label: { es: 'CyberFest · Vía pública', en: 'CyberFest · Out of home' } },
+      { file: 'bumper-uy', label: { es: 'CyberFest · Bumper envíos', en: 'CyberFest · Shipping bumper' } },
+      { file: 'bumper-cl', label: { es: 'Black Week · Bumper envíos', en: 'Black Week · Shipping bumper' } },
+    ],
   },
   {
     slug: 'labor-camperas', row: 1, ratio: '4 / 5', kind: 'stills', year: 2026, stills: 14,
