@@ -34,7 +34,7 @@ export const copy = {
       servicesTitle: 'Qué hago',
       services: ['Films, spots y trailers', 'Contenido para redes', 'Personajes e influencers virtuales', 'E-commerce y lookbooks'],
       brandsTitle: 'Marcas con las que trabajé',
-      brands: ['DirecTV', 'Fox', 'Danone', 'Hellmann’s', 'Dog Chow', 'Samsung', 'Arcor', 'Nikon'],
+      brands: ['Mercado Libre', 'Colgate', 'DirecTV', 'Fox', 'Danone', 'Hellmann’s', 'Dog Chow', 'Samsung', 'Arcor', 'Nikon'],
       photoAltAi: 'Retrato de Andrés Arbit generado con IA',
     },
     contact: {
@@ -97,7 +97,7 @@ export const copy = {
       servicesTitle: 'What I do',
       services: ['Films, spots and trailers', 'Social content', 'Virtual characters and influencers', 'E-commerce and lookbooks'],
       brandsTitle: 'Brands I have worked with',
-      brands: ['DirecTV', 'Fox', 'Danone', 'Hellmann’s', 'Dog Chow', 'Samsung', 'Arcor', 'Nikon'],
+      brands: ['Mercado Libre', 'Colgate', 'DirecTV', 'Fox', 'Danone', 'Hellmann’s', 'Dog Chow', 'Samsung', 'Arcor', 'Nikon'],
       photoAltAi: 'Portrait of Andrés Arbit generated with AI',
     },
     contact: {

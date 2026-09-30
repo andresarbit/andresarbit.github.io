@@ -471,10 +471,11 @@ ul, ol { padding: 0; list-style: none; }
   font-size: clamp(20px, 1.85vw, 31px); line-height: 1.3; color: var(--paper);
   font-weight: 450; margin-bottom: 3vh;
 }
-.bio__lists { margin-top: 7vh; display: grid; grid-template-columns: 1.2fr 1fr; gap: 5vh clamp(20px, 3vw, 50px); }
+.bio__lists { margin-top: 7vh; display: grid; grid-template-columns: 1fr auto; gap: 5vh clamp(20px, 3vw, 50px); }
 .bio__sub { font-size: 12.5px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mute); }
 .bio__services, .bio__brands { margin-top: 14px; display: grid; gap: 8px; font-size: clamp(16px, 1.05vw, 18px); color: var(--paper); }
 .bio__brands { grid-template-columns: repeat(2, minmax(0, max-content)); gap: 7px 26px; }
+.bio__brands li { white-space: nowrap; }
 
 @media (max-width: 1099px) {
   .bio__photo { grid-column: 1 / span 8; }
