@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>How We Listened 2000-2010</title>
+<style>
+@font-face{font-family:Anton;src:url(fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Archivo;src:url(fonts/archivo-black-latin-400-normal.woff2)}
+@font-face{font-family:Bebas;src:url(fonts/bebas-neue-latin-400-normal.woff2)}
+@font-face{font-family:Elite;src:url(fonts/special-elite-latin-400-normal.woff2)}
+@font-face{font-family:Marker;src:url(fonts/permanent-marker-latin-400-normal.woff2)}
+@font-face{font-family:Plex;src:url(fonts/ibm-plex-mono-latin-500-normal.woff2);font-weight:500}
+@font-face{font-family:Plex;src:url(fonts/ibm-plex-mono-latin-700-normal.woff2);font-weight:700}
+html,body{margin:0;padding:0;background:#000;overflow:hidden}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;background:#2a2826}
+#cam{position:absolute;inset:0}
+#persp{position:absolute;inset:0;perspective:1500px;perspective-origin:960px 540px}
+#world{position:absolute;left:960px;top:540px;width:0;height:0;transform-style:preserve-3d}
+#floor{position:absolute;left:-4000px;top:-3000px;width:8000px;height:6000px;
+  background:radial-gradient(ellipse at center,#3b3b3d 0%,#303032 45%,#1c1c1d 100%)}
+#lid{position:absolute;left:-1789px;top:-998px;width:3578px;height:1997px}
+.piv{position:absolute;left:0;top:0;width:0;height:0}
+.piv.p3{transform-style:preserve-3d}
+.inn{position:absolute;left:0;top:0;transform:translate(-50%,-50%);white-space:nowrap}
+.inn img{display:block}
+/* paper chips */
+.chip{display:inline-block;padding:.08em .28em .02em;background:#f4efe3 url(assets/paper.jpg);color:#121110;font-family:Anton;line-height:1.05;letter-spacing:.01em;text-transform:uppercase}
+.chip.red{background:#c8262c;color:#fff7ea;background-blend-mode:multiply;background-image:url(assets/paper.jpg)}
+.chip.blk{background:#151413;color:#f4efe3;box-shadow:0 0 0 5px #efe9dc}
+.chip.yel{background:#f2c230 url(assets/paper.jpg);background-blend-mode:multiply;color:#141312}
+.chip.grn{background:#1db954 url(assets/paper.jpg);background-blend-mode:multiply;color:#0b0b0b}
+.tape{display:inline-block;font-family:Archivo;color:#fff;letter-spacing:.14em;padding:.18em .5em .14em;border-radius:3px;text-transform:uppercase;
+  text-shadow:0 1px 0 rgba(255,255,255,.35),0 -1px 0 rgba(0,0,0,.45);box-shadow:inset 0 2px 0 rgba(255,255,255,.15),inset 0 -2px 0 rgba(0,0,0,.3)}
+.tape.k{background:linear-gradient(#3a3836,#232120);box-shadow:inset 0 2px 0 rgba(255,255,255,.18),inset 0 -2px 0 rgba(0,0,0,.4),0 0 0 3px #efe9dc}
+.tape.r{background:linear-gradient(#d2272e,#a51b20)}
+.tape.b{background:linear-gradient(#2a54c9,#1c3a96)}
+.date{font-family:Plex;font-weight:700;color:#ff444b;border:5px solid #ff444b;padding:.12em .45em;letter-spacing:.06em;background:rgba(244,239,227,.0);
+  -webkit-mask-image:url(assets/grain.png);mask-image:url(assets/grain.png);mask-size:300px}
+.stamp{font-family:Archivo;color:#ff3a41;border:12px solid #ff3a41;padding:.05em .35em;letter-spacing:.04em;text-transform:uppercase;
+  -webkit-mask-image:url(assets/grain.png);mask-image:url(assets/grain.png);mask-size:260px}
+.marker{font-family:Marker;color:#f1ebdd}
+.mono{font-family:Plex;font-weight:500;color:#ece6d8}
+.rl{display:inline-block;margin:0 .02em;vertical-align:middle}
+.note{background:#f7d94c url(assets/paper.jpg);background-blend-mode:multiply;font-family:Marker;color:#151413;padding:28px 30px;width:380px;white-space:normal;line-height:1.15}
+#gl{position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none}
+#hud{position:absolute;inset:0;pointer-events:none}
+#sub{position:absolute;left:50%;bottom:44px;transform:translateX(-50%);font-family:Plex;font-weight:500;font-size:30px;color:#f4efe3;white-space:nowrap}
+#sub span{display:inline-block;background:#121110;padding:6px 9px 4px;margin:0 -1px;opacity:0}
+#grain{position:absolute;inset:-200px;background:url(assets/grain.png);opacity:.10;mix-blend-mode:overlay;pointer-events:none}
+#vig{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,0,0,0) 55%,rgba(0,0,0,.42) 100%);pointer-events:none}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+</style>
+<script type="importmap">{"imports":{"three":"./lib/three.module.js","three/addons/":"./lib/addons/"}}</script>
+</head>
+<body>
+<div id="stage">
+  <div id="cam"><div id="persp"><div id="world"><div id="floor"></div><img id="lid" src="assets/bg.jpg"></div></div></div>
+  <canvas id="gl" width="1920" height="1080"></canvas>
+  <div id="hud"><div id="sub"></div></div>
+  <div id="grain"></div><div id="vig"></div><div id="flash"></div>
+</div>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <filter id="mblur" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur id="mblurG" stdDeviation="0 0"/></filter>
+  </defs>
+</svg>
+<script type="module" src="main.js"></script>
+</body>
+</html>
